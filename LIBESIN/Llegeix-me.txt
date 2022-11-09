@@ -1,0 +1,130 @@
+INSTAL·LACIÓ DE LA BIBLIOTECA LIBESIN
+=====================================
+
+
+--- COMPTE!! ---
+----------------------------------------------------------------
+  ** Suposarem que els dos arxius s'han descarregat en el directori 
+     personal (/home/USUARI).
+
+  ** Cal que en les diferents comandes substituiu la paraula USUARI 
+     per el vostre que teniu.
+
+  ** A l'escola el directori personal d'inici és: /home/est/USUARI.
+
+  ** En qualsevol cas podeu usar la següent comanda per saber quin
+     és el vostre directori personal:
+       ~$ cd ; pwd; cd -
+----------------------------------------------------------------
+
+
+1.) Descarregar els fitxers capçalera (libesin-includes.tgz) i la biblioteca 
+libesin_X.XX.XX_ARQ.so que convingui. 
+
+Com que hi ha diverses versions de compilador, la biblioteca s'ha generat
+per vàries versions de compilador (X.XX.XX) i per dues arquitectures
+(i386/i686 i AMD64).
+Per saber la versió del compilador g++ que disposem, i per tant la que hem
+de descarregar, cal fer:
+
+  ~$ g++ -v
+
+El número de la versió apareix en l'última línia.
+
+
+----------------------------------------------------------------------
+
+
+2.) Obrir un terminal i fer: 
+  ~$ cd
+  ~$ mkdir lib
+  ~$ mv libesin_X.XX.XX_ARQ.so lib/libesin.so
+  ~$ tar xvzf libesin-includes.tgz 
+  ~$ rm libesin-includes.tgz
+
+
+----------------------------------------------------------------------
+
+
+3.) Afegir depenent de l'intèrpret de comandes que s'està usant les següents 
+línies al fitxer corresponent que pots trobar en el directori /home/usuari. 
+Si useu BASH seguiu els passos marcats com A).
+Si useu TC shell seguiu els passos marcats com B).
+
+--> GENERALMENT L'INTÈRPRET QUE S'USA ÉS BASH. 
+
+	A) BASH : 
+
+	A.1) Editar el fitxer .bashrc. Per fer això escriure en el terminal
+	  ~$ gedit ~/.bashrc
+
+	A.2) Afegir aquestes tres línies al final del fitxer:
+		export CPLUS_INCLUDE_PATH=/home/USUARI/incl
+		export LIBRARY_PATH=/home/USUARI/lib
+		export LD_LIBRARY_PATH=/home/USUARI/lib:"$LD_LIBRARY_PATH"
+
+	A.3) Recarregar la configuració abans de començar a compilar i linkar.
+	  ~$ source ~/.bashrc
+
+
+	B) TC shell
+
+	B.1) Editar el fitxer .tcshrc. Per fer això escriure en el terminal
+	  ~$ gedit ~/.tcshrc
+
+	B.2) Afegir aquestes tres línies al final del fitxer:
+		setenv CPLUS_INCLUDE_PATH /home/USUARI/incl
+		setenv LIBRARY_PATH /home/USUARI/lib
+		setenv LD_LIBRARY_PATH /home/USUARI/lib:"$LD_LIBRARY_PATH"
+
+	B.3) Recarregar la configuració abans de començar a compilar i linkar.
+	  ~$ source ~/.tcshrc
+
+
+----------------------------------------------------------------------
+
+
+4.) Compilar i montar de manera normal incloent la biblioteca:
+
+compilar: g++ -c -Wall arxiu.cpp
+
+montar: g++ -o nom_executable.e arxiu1.o arxiu2.o -lesin
+
+
+======================================================================
+======================================================================
+
+
+APÈNDIX. Com fer la instal·lació de la biblioteca com a root
+
+--- COMPTE!! ---
+----------------------------------------------------------------
+  ** Aquests passos indiquen una manera alternativa d'instal·lar la
+     biblioteca com a usuari root. 
+
+  ** Si ja heu seguit els passos anteriors no cal que feu res més.
+
+  ** Només els haurien de seguir aquells usuaris que són experts en
+     Linux.
+----------------------------------------------------------------
+
+
+1.) IMPORTANT: per fer aquest procediment cal tenir accés al compte 'root' 
+de la màquina.
+
+
+2.) Obrir un terminal, entrar com a 'root' i fer:
+
+~$ mv /home/usuari/libesin_X.XX.XX_ARQ.so /usr/lib/libesin.so
+~$ mv /home/usuari/libesin-includes.tgz /tmp
+~$ cd /tmp ; tar xvzf libesin-includes.tgz
+~$ mv incl/esin /usr/include
+~$ rmdir incl ; rm libesin-includes.tgz
+
+
+3.) Compilar i montar de manera normal incloent la biblioteca:
+
+compilar: g++ -c -Wall arxiu.cpp
+
+montar: g++ -o nom_executable.e arxiu1.o arxiu2.o -lesin
+
