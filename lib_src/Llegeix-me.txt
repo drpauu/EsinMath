@@ -1,0 +1,74 @@
+INSTAL·LACIÓ DE LA BIBLIOTECA LIBESIN
+=====================================
+
+1. Descarregar els fitxers capçalera (libesin-includes.tgz) i la biblioteca 
+libesin_X.XX.XX_ARQ.so que convingui. 
+
+Com que hi ha diverses versions de compilador, la biblioteca s'ha generat
+per vàries versions de compilador (X.XX.XX) i per dues arquitectures
+(i386 i AMD64).
+Per saber la versió del compilador g++ que disposem, i per tant la que hem
+de descarregar, cal fer:
+
+~$ g++ -v
+
+El número de la versió apareix en l'última línia.
+Suposarem que els dos arxius s'han descarregat en el directori personal (/home/usuari).
+A l'escola el directori personal d'inici és: /home/est/usuari.
+
+----------------------------------------------------------------------
+
+2. Si tenim accés al compte 'root' de la màquina, anar a la secció A) 
+sinó (només tenim accés a la compte usuari) anar a la secció B).
+En cas de dubte és millor seguir el mètode B).
+
+
+A) Obrir un terminal, entrar com a 'root' i fer:
+
+~$ mv /home/usuari/libesin_X.XX.XX_ARQ.so /usr/lib/libesin.so
+~$ mv /home/usuari/libesin-includes.tgz /tmp
+~$ cd /tmp ; tar xvzf libesin-includes.tgz
+~$ mv incl/esin /usr/include
+~$ rmdir incl ; rm libesin-includes.tgz
+
+
+B) Obrir un terminal i fer:
+
+B1) 
+~$ cd
+~$ mkdir lib
+~$ mv libesin_X.XX.XX_ARQ.so lib/libesin.so
+~$ tar xvzf libesin-includes.tgz 
+~$ rm libesin-includes.tgz
+
+
+B2) Afegir depenent de l'intèrpret de comandes que s'està usant les 
+següents línies al fitxer corresponent que pots trobar en el 
+directori /home/usuari. Generalment l'intèrpret que s'usa és BASH. 
+
+TC shell : editar el fitxer ~/.tcshrc 
+
+setenv CPLUS_INCLUDE_PATH /home/usuari/incl
+setenv LIBRARY_PATH /home/usuari/lib
+setenv LD_LIBRARY_PATH /home/usuari/lib:"$LD_LIBRARY_PATH"
+
+BASH : editar el fitxer ~/.bashrc
+
+export CPLUS_INCLUDE_PATH=/home/usuari/incl
+export LIBRARY_PATH=/home/usuari/lib
+export LD_LIBRARY_PATH=/home/usuari/lib:"$LD_LIBRARY_PATH"
+
+
+B3) Recarregar la configuració abans de començar a compilar i linkar:
+
+tcsh: ~$ source ~/.tcshrc
+bash: ~$ source ~/.bashrc
+
+----------------------------------------------------------------------
+
+3. Compilar i montar de manera normal incloent la biblioteca:
+
+compilar: g++ -c -Wall -ansi arxiu.cpp
+
+montar: g++ -o nom_executable arxiu1.o arxiu2.o -lesin
+
