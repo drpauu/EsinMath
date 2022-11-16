@@ -29,6 +29,7 @@ racional::racional(const racional &r) throw(error)
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
+    return *this;
 }
 racional::~racional() throw()
 {
@@ -38,12 +39,15 @@ racional::~racional() throw()
 // positiva o negativa. El residu SEMPRE és un racional positiu.
 int racional::num() const throw()
 {
+    return _n;
 }
 int racional::denom() const throw()
 {
+    return _d;
 }
 int racional::part_entera() const throw()
 {
+    return 
 }
 racional racional::residu() const throw()
 {

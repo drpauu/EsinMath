@@ -1,6 +1,5 @@
 #include <iostream> 
-
-
+#include "racional.hpp"
 
 int main(){
     int a, int b;
