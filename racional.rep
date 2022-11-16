@@ -1,0 +1,5 @@
+#include "racional.hpp"
+
+explicit;
+int _n;
+int _d;

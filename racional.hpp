@@ -43,6 +43,8 @@ public:
   bool operator>(const racional & r) const throw();
   bool operator>=(const racional & r) const throw();
 
+  // fa el mcd de dos nombres per poder simplificar
+  int mcd(int a, int b); 
   // Gestió d'errors.
   static const int DenominadorZero = 21;
 
