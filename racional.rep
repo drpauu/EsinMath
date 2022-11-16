@@ -4,6 +4,8 @@ int _n;
 int _d;
 
 void simplificar();
+int mcd(int a, int b);
+int mcm(int a, int b);
 
 // fa el mcd de dos nombres per poder simplificar
 int mcd(int a, int b); 

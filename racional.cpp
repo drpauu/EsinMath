@@ -106,7 +106,8 @@ bool racional::operator<(const racional &r) const throw()
 }
 bool racional::operator<=(const racional &r) const throw()
 {
-    if(r.part_entera() <= *this.part_entera()){
+    int p_entera = part_entera();
+    if(r.part_entera() <= p_entera){
         return true;
     } else {
         return false;
@@ -114,7 +115,8 @@ bool racional::operator<=(const racional &r) const throw()
 }
 bool racional::operator>(const racional &r) const throw()
 {
-    if(r.part_entera() >= *this.part_entera()){
+    int p_entera = part_entera();
+    if(r.part_entera() >= p_entera){
         return true;
     } else {
         return false;
@@ -122,7 +124,8 @@ bool racional::operator>(const racional &r) const throw()
 }
 bool racional::operator>=(const racional &r) const throw()
 {
-    if(r.part_entera() >= *this.part_entera()){
+    int p_entera = part_entera();
+    if(r.part_entera() >= p_entera){
         return true;
     } else {
         return false;
