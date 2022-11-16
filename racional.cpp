@@ -90,7 +90,7 @@ bool racional::operator>=(const racional &r) const throw()
 
 int racional::mcd(int a, int b)
 {
-    if (a == 0 || b == 0)
+    if (a == 0 or b == 0)
         return 0;
     else if (a == b)
         return a;
