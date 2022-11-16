@@ -26,15 +26,19 @@ racional & racional::operator=(const racional &r) throw(error)
 }
 racional::~racional() throw()
 {
+    _n = 0;
+    _d = 1;
 }
 
 // Consultores. La part_entera d'un racional pot ser
 // positiva o negativa. El residu SEMPRE és un racional positiu.
 int racional::num() const throw()
 {
+    return _n;
 }
 int racional::denom() const throw()
 {
+    return _d;
 }
 int racional::part_entera() const throw()
 {
