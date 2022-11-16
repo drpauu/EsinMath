@@ -26,10 +26,16 @@ racional::racional(int n = 0, int d = 1) throw(error)
 // Constructora per còpia, assignació i destructora.
 racional::racional(const racional &r) throw(error)
 {
+    r._d = _d;
+    r._n = _n;
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
-    return *this;
+    if(r._d ==_d && r._n == _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 racional::~racional() throw()
 {
@@ -39,15 +45,12 @@ racional::~racional() throw()
 // positiva o negativa. El residu SEMPRE és un racional positiu.
 int racional::num() const throw()
 {
-    return _n;
 }
 int racional::denom() const throw()
 {
-    return _d;
 }
 int racional::part_entera() const throw()
 {
-    return 
 }
 racional racional::residu() const throw()
 {
@@ -75,12 +78,25 @@ racional racional::operator/(const racional &r) const throw(error)
    que el racional r.*/
 bool racional::operator==(const racional &r) const throw()
 {
+    if(r._d == _d && r._n == _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator!=(const racional &r) const throw()
 {
+    if(r._d != _d && r._n != _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator<(const racional &r) const throw()
 {
+    if(r._d){
+        
+    }
 }
 bool racional::operator<=(const racional &r) const throw()
 {
