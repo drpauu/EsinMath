@@ -15,13 +15,13 @@ racional::racional(int n = 0, int d = 1) throw(error){
 // Constructora per còpia, assignació i destructora.
 racional::racional(const racional &r) throw(error)
 {
-    r._d = _d;
-    r._n = _n;
+    _d = r._d;
+    _n = r._d;
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
-    r._d = _d;
-    r._n = _n;
+    _d = r._d;
+    _n = r._d;
     return r; 
 }
 racional::~racional() throw()
@@ -93,7 +93,8 @@ bool racional::operator!=(const racional &r) const throw()
 }
 bool racional::operator<(const racional &r) const throw()
 {
-    if(r.part_entera() < *this.part_entera()){
+    int p_entera = part_entera();
+    if(r.part_entera() < p_entera)){
         return true;
     } else {
         return false;
