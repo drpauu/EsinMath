@@ -98,7 +98,7 @@ bool racional::operator!=(const racional &r) const throw()
 bool racional::operator<(const racional &r) const throw()
 {
     int p_entera = part_entera();
-    if(r.part_entera() < p_entera)){
+    if(r.part_entera() < p_entera){
         return true;
     } else {
         return false;
