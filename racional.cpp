@@ -55,7 +55,11 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
-    return *this;
+    int min; 
+    min = mcm(r._d, _d);
+    _n = (_n*min) + (r._n);
+    _d = min;
+    // funciona
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
