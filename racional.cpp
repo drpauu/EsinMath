@@ -1,4 +1,5 @@
 #include "racional.hpp"
+#include <cmath>
 
 using namespace std;
 
@@ -173,7 +174,7 @@ void racional::simplificar(){
     if (_d < 0) {
     _d = _d * -1;
     negatiu = true;
-  } else {
+  } else if(_n < 0 ){
     _n = _n * -1;
     negatiu = true;
   }
