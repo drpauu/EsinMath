@@ -47,7 +47,20 @@ int racional::part_entera() const throw()
 }
 racional racional::residu() const throw()
 {
-    return *this;
+    float c;
+    aux = _n % _d;
+    int c = 0;
+    while ((int)x != x) {  
+        x *= 10; 
+        c++; 
+    }
+    int deno = 1;
+    for(int i = 0; i < c-1; i++){
+        deno = deno*10;
+    }
+    _n = (int)x;
+    _d = deno;
+    simplificar();
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
@@ -156,17 +169,20 @@ int racional::mcd(int a, int b)
 }
 
 void racional::simplificar(){
-    int gcd = mcd(_n, _d);
-    if (gcd != 0)
-    {
-        _n = _n / gcd;
-        _d = _d / gcd;
-    }
-    if (_d < 0)
-    {
-        _n = _n * -1;
-        _d = _d * -1;
-    }
+    bool negatiu = false;
+    if (_d < 0) {
+    _d = _d * -1;
+    negatiu = true;
+  } else {
+    _n = _n * -1;
+    negatiu = true;
+  }
+  int gcd = mcd(_n, _d);
+  if (gcd != 0) {
+    _n = _n / gcd;
+    _d = _d / gcd;
+  }
+    if(negatiu) _n = _n * -1;
 }
 
 int racional::mcm(int a, int b){
