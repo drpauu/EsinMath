@@ -95,7 +95,7 @@ int racional::mcd(int a, int b)
     else if (a == b)
         return a;
     else if (a > b)
-        return gcd(a - b, b);
+        return mcd(a - b, b);
     else
-        return gcd(a, b - a);
+        return mcd(a, b - a);
 }
