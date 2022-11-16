@@ -27,7 +27,7 @@ explicit racional::racional(int n = 0, int d = 1) throw(error)
 racional::racional(const racional &r) throw(error)
 {
 }
-racional::racional &operator=(const racional &r) throw(error)
+racional & racional::operator=(const racional &r) throw(error)
 {
 }
 racional::~racional() throw()
