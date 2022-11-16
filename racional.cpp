@@ -5,23 +5,6 @@ using namespace std;
 // Constructora. Construeix un racional en la seva versió simplificada.
 // Es produeix un error si el denominador és 0.
 racional::racional(int n = 0, int d = 1) throw(error)
-{
-    if (d == _d)
-        throw(error);
-    if (n == _n)
-        throw(error);
-    int gcd = mcd(_n, _d);
-    if (gcd != 0)
-    {
-        _n = _n / gcd;
-        _d = _d / gcd;
-    }
-    if (_d < 0)
-    {
-        _n = _n * -1;
-        _d = _d * -1;
-    }
-}
 
 // Constructora per còpia, assignació i destructora.
 racional::racional(const racional &r) throw(error)
@@ -67,6 +50,8 @@ racional racional::operator-(const racional &r) const throw(error)
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
+    _d = r._d * _d;
+    _n = r._n * _n;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
@@ -135,4 +120,18 @@ int racional::mcd(int a, int b)
         return mcd(a - b, b);
     else
         return mcd(a, b - a);
+}
+
+void racional::simplificar(){
+    int gcd = mcd(_n, _d);
+    if (gcd != 0)
+    {
+        _n = _n / gcd;
+        _d = _d / gcd;
+    }
+    if (_d < 0)
+    {
+        _n = _n * -1;
+        _d = _d * -1;
+    }
 }
