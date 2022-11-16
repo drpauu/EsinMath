@@ -59,20 +59,27 @@ racional racional::operator+(const racional &r) const throw(error)
     min = mcm(r._d, _d);
     _n = (_n*min) + (r._n);
     _d = min;
-    // funciona
+    simplificar();
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
-    return *this;
+    int min; 
+    min = mcm(r._d, _d);
+    _n = (_n*min) - (r._n);
+    _d = min;
+    simplificar();
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
     _d = r._d * _d;
     _n = r._n * _n;
+    simplificar();
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
-    return *this;
+    _d = _d * r._n;
+    _n = _n * r._d;
+    simplificar();
 }
 
 /* Sobrecàrrega de operadors de comparació. Retornen cert, si i només si
