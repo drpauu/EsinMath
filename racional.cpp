@@ -59,6 +59,7 @@ racional racional::operator+(const racional &r) const throw(error)
     min = mcm(r._d, _d);
     _n = (_n*min) + (r._n);
     _d = min;
+    // funciona
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
