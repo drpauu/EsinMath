@@ -20,11 +20,9 @@ racional::racional(const racional &r) throw(error)
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
-    if(r._d ==_d && r._n == _n){
-        return true;
-    } else {
-        return false;
-    }
+    r._d = _d;
+    r._n = _n;
+    return r; 
 }
 racional::~racional() throw()
 {
