@@ -94,18 +94,35 @@ bool racional::operator!=(const racional &r) const throw()
 }
 bool racional::operator<(const racional &r) const throw()
 {
-    if(r._d){
-        
+    if(r.part_entera() < *this.part_entera()){
+        return true;
+    } else {
+        return false;
     }
 }
 bool racional::operator<=(const racional &r) const throw()
 {
+    if(r.part_entera() <= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator>(const racional &r) const throw()
 {
+    if(r.part_entera() >= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator>=(const racional &r) const throw()
 {
+    if(r.part_entera() >= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 int racional::mcd(int a, int b)
