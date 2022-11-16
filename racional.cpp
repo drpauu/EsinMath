@@ -47,10 +47,12 @@ int racional::denom() const throw()
 }
 int racional::part_entera() const throw()
 {
-    return 
+    return _n / _d;
+    
 }
 racional racional::residu() const throw()
 {
+    return *this;
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
@@ -58,15 +60,19 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
+    return *this;
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
+    return *this;
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
+    return *this;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
+    return *this;
 }
 
 /* Sobrecàrrega de operadors de comparació. Retornen cert, si i només si
@@ -75,9 +81,11 @@ racional racional::operator/(const racional &r) const throw(error)
    que el racional r.*/
 bool racional::operator==(const racional &r) const throw()
 {
+    return true;
 }
 bool racional::operator!=(const racional &r) const throw()
 {
+    return true;
 }
 bool racional::operator<(const racional &r) const throw()
 {
