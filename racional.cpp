@@ -149,3 +149,7 @@ void racional::simplificar(){
         _d = _d * -1;
     }
 }
+
+int racional::mcm(int a, int b){
+    return (a*b)/mcd(a, b);
+}
