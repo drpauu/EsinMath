@@ -2,3 +2,8 @@
 
 int _n;
 int _d;
+
+void simplificar();
+
+// fa el mcd de dos nombres per poder simplificar
+int mcd(int a, int b); 

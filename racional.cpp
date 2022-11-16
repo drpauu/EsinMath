@@ -5,31 +5,20 @@ using namespace std;
 // Constructora. Construeix un racional en la seva versió simplificada.
 // Es produeix un error si el denominador és 0.
 racional::racional(int n = 0, int d = 1) throw(error)
-{
-    if (d == _d)
-        throw(error);
-    if (n == _n)
-        throw(error);
-    int gcd = mcd(_n, _d);
-    if (gcd != 0)
-    {
-        _n = _n / gcd;
-        _d = _d / gcd;
-    }
-    if (_d < 0)
-    {
-        _n = _n * -1;
-        _d = _d * -1;
-    }
-}
 
 // Constructora per còpia, assignació i destructora.
 racional::racional(const racional &r) throw(error)
 {
+    r._d = _d;
+    r._n = _n;
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
-    return *this;
+    if(r._d ==_d && r._n == _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 racional::~racional() throw()
 {
@@ -39,11 +28,9 @@ racional::~racional() throw()
 // positiva o negativa. El residu SEMPRE és un racional positiu.
 int racional::num() const throw()
 {
-    return _n;
 }
 int racional::denom() const throw()
 {
-    return _d;
 }
 int racional::part_entera() const throw()
 {
@@ -68,7 +55,8 @@ racional racional::operator-(const racional &r) const throw(error)
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
-    return *this;
+    _d = r._d * _d;
+    _n = r._n * _n;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
@@ -81,23 +69,51 @@ racional racional::operator/(const racional &r) const throw(error)
    que el racional r.*/
 bool racional::operator==(const racional &r) const throw()
 {
-    return true;
+    if(r._d == _d && r._n == _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator!=(const racional &r) const throw()
 {
-    return true;
+    if(r._d != _d && r._n != _n){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator<(const racional &r) const throw()
 {
+    if(r.part_entera() < *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator<=(const racional &r) const throw()
 {
+    if(r.part_entera() <= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator>(const racional &r) const throw()
 {
+    if(r.part_entera() >= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 bool racional::operator>=(const racional &r) const throw()
 {
+    if(r.part_entera() >= *this.part_entera()){
+        return true;
+    } else {
+        return false;
+    }
 }
 
 int racional::mcd(int a, int b)
@@ -110,4 +126,18 @@ int racional::mcd(int a, int b)
         return mcd(a - b, b);
     else
         return mcd(a, b - a);
+}
+
+void racional::simplificar(){
+    int gcd = mcd(_n, _d);
+    if (gcd != 0)
+    {
+        _n = _n / gcd;
+        _d = _d / gcd;
+    }
+    if (_d < 0)
+    {
+        _n = _n * -1;
+        _d = _d * -1;
+    }
 }
