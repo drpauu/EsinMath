@@ -159,14 +159,24 @@ bool racional::operator>=(const racional &r) const throw()
 
 int racional::mcd(int a, int b)
 {
-    if (a == 0 or b == 0)
-        return 0;
-    else if (a == b)
-        return a;
-    else if (a > b)
-        return mcd(a - b, b);
-    else
-        return mcd(a, b - a);
+int mcd(int n1, int n2) {
+  int hcf;
+  if (n2 > n1) {
+    int temp = n2;
+    n2 = n1;
+    n1 = temp;
+  }
+
+  for (int i = 1; i <= n2; ++i) {
+    if (n1 % i == 0 && n2 % i == 0) {
+      hcf = i;
+    }
+  }
+  if (hcf == 0) {
+    hcf = n1 * n2;
+  }
+  return hcf;
+}
 }
 
 void racional::simplificar(){
