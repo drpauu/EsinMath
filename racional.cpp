@@ -159,7 +159,7 @@ bool racional::operator>=(const racional &r) const throw()
 
 int racional::mcd(int a, int b)
 {
-int mcd(int n1, int n2) {
+    int mcd(int n1, int n2) {
   int hcf;
   if (n2 > n1) {
     int temp = n2;
