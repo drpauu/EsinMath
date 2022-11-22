@@ -30,8 +30,6 @@ racional & racional::operator=(const racional &r) throw(error)
 }
 racional::~racional() throw()
 {
-    _n = 0;
-    _d = 1;
 }
 
 // Consultores. La part_entera d'un racional pot ser
