@@ -82,29 +82,30 @@ racional racional::operator+(const racional &r) const throw(error)
 {
     //PAU AQUESTES FUNCIONS NO MODIFIQUEN EL RACIONAL; RETORNEN LA OPERACIÓ DEL RACIONAL(this) AMB EL RACIONAL r
     racional aux;
-    int min, den = this->denom(), num = this->num();
-    int a = 0, b = 1;
-    min = mcm(a, b);
-    aux._n = (num * min) - (r.num());
+    int min = 1;
+    //min = mcm(r._d, _d);
+    aux._n = (_n * min) + (r._n);
     aux._d = min;
-    aux = simplificar(aux);
+    //aux = simplificar(aux);
     return aux;
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
-    int min;
-    min = mcm(r.denom(), _d);
-    _n = (_n * min) - (r.num());
-    _d = min;
-    simplificar();
-    return *this;
+    racional aux;
+    int min = 1;
+    //min = mcm(r._d, _d);
+    aux._n = (_n * min) - (r._n);
+    aux._d = min;
+    //aux = simplificar(aux);
+    return aux;
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
-    _d = r.denom() * _d;
-    _n = r.num() * _n;
-    simplificar();
-    return *this;
+    racional aux;
+    aux._d = r._d * _d;
+    aux._n = r._n * _n;
+    //simplificar();
+    return aux;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
@@ -112,10 +113,11 @@ racional racional::operator/(const racional &r) const throw(error)
     {
         throw(21);
     }
-    _d = _d * r.num();
-    _n = _n * r.denom();
-    simplificar();
-    return *this;
+    racional aux;
+    aux._d = r._d / _d;
+    aux._n = r._n / _n;
+    //simplificar();
+    return aux;
 }
 
 /* Sobrecàrrega de operadors de comparació. Retornen cert, si i només si
