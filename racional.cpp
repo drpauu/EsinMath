@@ -51,7 +51,7 @@ int racional::part_entera() const throw()
 }
 racional racional::residu() const throw()
 {
-    float c;
+    /*float c;
     racional r;
     aux = _n % _d;
     int c = 0;
@@ -68,6 +68,10 @@ racional racional::residu() const throw()
     r._n = (int)x;
     r._d = deno;
     r.simplificar();
+    return r;*/
+    racional r;
+    r._d = 1;
+    r._d = 1;
     return r;
 }
 
@@ -76,8 +80,8 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
-    int min;
-    min = mcm(r._d, _d);
+    int min, r_den = r._d;
+    min = mcm(r_den, _d);
     _n = (_n * min) + (r._n);
     _d = min;
     simplificar();
