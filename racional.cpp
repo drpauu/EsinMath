@@ -7,7 +7,7 @@ using namespace std;
 // Es produeix un error si el denominador és 0.
 racional::racional(int n, int d) throw(error)
 {
-    if (r._d == 0)
+    if (d == 0)
     {
         throw(21);
     }
