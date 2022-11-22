@@ -157,7 +157,7 @@ bool racional::operator>=(const racional &r) const throw()
     }
 }
 
-int racional::mcd(int a, int b)
+int racional::mcd(int n1, int n1)
 {
     int mcd(int n1, int n2) {
   int hcf;
