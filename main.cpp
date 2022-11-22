@@ -18,4 +18,5 @@ int main(){
     cin >> b;
     racional r = racional(a, b);
     cout << r.num() << "/" << r.denom() << endl;
+    cout << r.part_entera() << endl;
 }
