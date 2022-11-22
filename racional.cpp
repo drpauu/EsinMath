@@ -215,6 +215,8 @@ int racional::mcd(int n1, int n2)
 
 racional racional::simplificar(racional &r)
 {
+//He canviat aquesta classe perquè retorni el racional que li passen per paràmetre modificat i no canviï directament
+//la classe els paràmetres _n i _d;
     bool negatiu = false;
     if (r._d < 0)
     {
