@@ -8,6 +8,8 @@
 #include <esin/error>
 #include <esin/util>
 
+#include "racional.hpp"
+
 using namespace std;
 
 int main(){
