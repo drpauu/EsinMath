@@ -108,6 +108,10 @@ racional racional::operator*(const racional &r) const throw(error)
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
+    if (r._d == 0)
+    {
+        throw(21);
+    }
     _d = _d * r.num();
     _n = _n * r.denom();
     simplificar();
