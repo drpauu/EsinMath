@@ -3,7 +3,7 @@
 int _n;
 int _d;
 
-void simplificar();
+racional simplificar(racional r);
     //simplifica al màxim un nombre racional
 int mcd(int a, int b);
     //fa el mcd de a i b

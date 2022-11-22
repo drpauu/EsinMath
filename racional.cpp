@@ -213,27 +213,28 @@ int racional::mcd(int n1, int n1)
     }
 }
 
-void racional::simplificar()
+racional racional::simplificar(racional r)
 {
     bool negatiu = false;
-    if (_d < 0)
+    if (r._d < 0)
     {
-        _d = _d * -1;
+        r._d = r._d * -1;
         negatiu = true;
     }
-    else if (_n < 0)
+    else if (r._n < 0)
     {
-        _n = _n * -1;
+        r._n = r._n * -1;
         negatiu = true;
     }
-    int gcd = mcd(_n, _d);
+    int gcd = mcd(r._n, r._d);
     if (gcd != 0)
     {
-        _n = _n / gcd;
-        _d = _d / gcd;
+        r._n = r._n / gcd;
+        r._d = r._d / gcd;
     }
     if (negatiu)
-        _n = _n * -1;
+        r._n = r._n * -1;
+    return r;
 }
 
 int racional::mcm(int a, int b)
