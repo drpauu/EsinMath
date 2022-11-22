@@ -27,13 +27,14 @@ racional::racional(const racional &r) throw(error)
 }
 racional &racional::operator=(const racional &r) throw(error)
 {
+    racional aux;
     if (r._d == 0)
     {
         throw(21);
     }
-    _d = r._d;
-    _n = r._d;
-    return *this;
+    aux._d = r._d;
+    aux._n = r._d;
+    return aux;
 }
 racional::~racional() throw()
 {
