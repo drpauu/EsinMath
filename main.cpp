@@ -13,9 +13,9 @@
 using namespace std;
 
 int main(){
-    int a, b;
+    int a = 0, b = 0;
     cin >> a;
     cin >> b;
-    racional r(a, b);
+    racional r = racional(a, b);
     //cout << r.num() << "/" << r.denom() << endl;
 }
