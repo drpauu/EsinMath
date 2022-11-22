@@ -78,10 +78,10 @@ racional racional::residu() const throw()
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
    versió simplificada amb el resultat de l'operació. Es produeix un
    error al dividir dos racionals si el segon és 0.*/
-racional racional::operator+(const racional &r) const throw(error)
+racional racional::operator+(const racional &r) throw(error)
 {
     int min, den = _d, r_d = r.denom();
-    min = mcm(r_d, _d);
+    min = mcm(r_d, den);
     _n = (_n * min) + (r.num());
     _d = min;
     simplificar();

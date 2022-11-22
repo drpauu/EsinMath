@@ -27,7 +27,7 @@ public:
   /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
      versió simplificada amb el resultat de l'operació. Es produeix un
      error al dividir dos racionals si el segon és 0.*/
-  racional operator+(const racional & r) const throw(error);
+  racional operator+(const racional & r) throw(error);
   racional operator-(const racional & r) const throw(error);
   racional operator*(const racional & r) const throw(error);
   racional operator/(const racional & r) const throw(error);
