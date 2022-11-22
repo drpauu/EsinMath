@@ -1,4 +1,5 @@
 #include "racional.hpp"
+#include <cmath>
 
 using namespace std;
 
@@ -47,7 +48,22 @@ int racional::part_entera() const throw()
 }
 racional racional::residu() const throw()
 {
-    return *this;
+    float c;
+    racional r;
+    aux = _n % _d;
+    int c = 0;
+    while ((int)x != x) {  
+        x *= 10; 
+        c++; 
+    }
+    int deno = 1;
+    for(int i = 0; i < c-1; i++){
+        deno = deno*10;
+    }
+    r._n = (int)x;
+    r._d = deno;
+    r.simplificar();
+    return r;
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
@@ -143,30 +159,43 @@ bool racional::operator>=(const racional &r) const throw()
     }
 }
 
-int racional::mcd(int a, int b)
+int racional::mcd(int n1, int n1)
 {
-    if (a == 0 or b == 0)
-        return 0;
-    else if (a == b)
-        return a;
-    else if (a > b)
-        return mcd(a - b, b);
-    else
-        return mcd(a, b - a);
+    int mcd(int n1, int n2) {
+  int hcf;
+  if (n2 > n1) {
+    int temp = n2;
+    n2 = n1;
+    n1 = temp;
+  }
+
+  for (int i = 1; i <= n2; ++i) {
+    if (n1 % i == 0 && n2 % i == 0) {
+      hcf = i;
+    }
+  }
+  if (hcf == 0) {
+    hcf = n1 * n2;
+  }
+  return hcf;
+}
 }
 
 void racional::simplificar(){
-    int gcd = mcd(_n, _d);
-    if (gcd != 0)
-    {
-        _n = _n / gcd;
-        _d = _d / gcd;
-    }
-    if (_d < 0)
-    {
-        _n = _n * -1;
-        _d = _d * -1;
-    }
+    bool negatiu = false;
+    if (_d < 0) {
+    _d = _d * -1;
+    negatiu = true;
+  } else if(_n < 0 ){
+    _n = _n * -1;
+    negatiu = true;
+  }
+  int gcd = mcd(_n, _d);
+  if (gcd != 0) {
+    _n = _n / gcd;
+    _d = _d / gcd;
+  }
+    if(negatiu) _n = _n * -1;
 }
 
 int racional::mcm(int a, int b){
