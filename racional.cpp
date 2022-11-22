@@ -80,10 +80,12 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
+    //PAU AQUESTES FUNCIONS NO MODIFIQUEN EL RACIONAL; RETORNEN LA OPERACIÓ DEL RACIONAL(this) AMB EL RACIONAL r
     racional aux;
-    int min;
-    min = mcm(r.denom(), _d);
-    aux._n = (aux._n * min) - (r.num());
+    int min, den = this->denom(), num = this->num();
+    int a = 0, b = 1;
+    min = mcm(a, b);
+    aux._n = (num * min) - (r.num());
     aux._d = min;
     aux = simplificar(aux);
     return aux;
@@ -187,34 +189,31 @@ bool racional::operator>=(const racional &r) const throw()
     }
 }
 
-int racional::mcd(int n1, int n1)
+int racional::mcd(int n1, int n2)
 {
-    int mcd(int n1, int n2)
+    int hcf;
+    if (n2 > n1)
     {
-        int hcf;
-        if (n2 > n1)
-        {
-            int temp = n2;
-            n2 = n1;
-            n1 = temp;
-        }
-
-        for (int i = 1; i <= n2; ++i)
-        {
-            if (n1 % i == 0 && n2 % i == 0)
-            {
-                hcf = i;
-            }
-        }
-        if (hcf == 0)
-        {
-            hcf = n1 * n2;
-        }
-        return hcf;
+        int temp = n2;
+        n2 = n1;
+        n1 = temp;
     }
+
+    for (int i = 1; i <= n2; ++i)
+    {
+        if (n1 % i == 0 && n2 % i == 0)
+        {
+            hcf = i;
+        }
+    }
+    if (hcf == 0)
+    {
+        hcf = n1 * n2;
+    }
+    return hcf;
 }
 
-racional racional::simplificar(const racional &r)
+racional racional::simplificar(racional &r)
 {
     bool negatiu = false;
     if (r._d < 0)
