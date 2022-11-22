@@ -6,9 +6,6 @@ using namespace std;
 // Constructora. Construeix un racional en la seva versió simplificada.
 // Es produeix un error si el denominador és 0.
 racional::racional(int n, int d) throw(error){
-    if(d == 0){
-        throw(error);
-    }
     _d = d;
     _n = n;
 }
@@ -23,7 +20,7 @@ racional & racional::operator=(const racional &r) throw(error)
 {
     _d = r._d;
     _n = r._d;
-    return r; 
+    return this; 
 }
 racional::~racional() throw()
 {
