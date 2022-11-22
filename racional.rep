@@ -3,9 +3,9 @@
 int _n;
 int _d;
 
-racional simplificar(racional r);
+racional simplificar(const racional &r) throw(error);
     //simplifica al màxim un nombre racional
-int mcd(int a, int b);
+int mcd(int a, int b)throw(error);
     //fa el mcd de a i b
-int mcm(int a, int b);
+int mcm(int a, int b)throw(error);
     //fa el mcm de a i b

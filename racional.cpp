@@ -80,12 +80,13 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
-    int min, den = _d, r_d = r.denom(), nu = _n;
-    min = mcm(r_d, den);
-    nu = (nu * min) + (r.num());
-    racional(nu, min);
-    simplificar();
-    return *this;
+    racional aux;
+    int min;
+    min = mcm(r.denom(), _d);
+    aux._n = (aux._n * min) - (r.num());
+    aux._d = min;
+    aux = simplificar(aux);
+    return aux;
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
@@ -213,7 +214,7 @@ int racional::mcd(int n1, int n1)
     }
 }
 
-racional racional::simplificar(racional r)
+racional racional::simplificar(const racional &r)
 {
     bool negatiu = false;
     if (r._d < 0)
