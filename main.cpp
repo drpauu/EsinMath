@@ -17,5 +17,5 @@ int main(){
     cin >> a;
     cin >> b;
     racional r(a, b);
-    cout << r.num() << "/" << r.denom() << endl;
+    //cout << r.num() << "/" << r.denom() << endl;
 }

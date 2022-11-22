@@ -1,7 +1,7 @@
 OPCIONS = -g -O0 -ansi -Wall -Wextra -Werror -lesin -Wno-deprecated
 
 programa_racional.exe: main.o racional.o
-	g++ -o programa_racional.exe main.o  -lesin
+	g++ -o programa_racional.exe main.o -lesin
 	rm *.o
 
 main.o: main.cpp racional.o
