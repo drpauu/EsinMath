@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.json": "jsonc",
-        "error": "cpp"
+        "error": "cpp",
+        "*.rep": "cpp"
     }
 }

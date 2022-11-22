@@ -70,7 +70,7 @@ racional racional::residu() const throw()
     r.simplificar();
     return r;*/
     racional r;
-    r._d = 1;
+    r._n = 1;
     r._d = 1;
     return r;
 }
@@ -80,9 +80,9 @@ racional racional::residu() const throw()
    error al dividir dos racionals si el segon és 0.*/
 racional racional::operator+(const racional &r) const throw(error)
 {
-    int min, r_den = r._d;
-    min = mcm(r_den, _d);
-    _n = (_n * min) + (r._n);
+    int min, den = _d, r_d = r.denom();
+    min = mcm(r_d, _d);
+    _n = (_n * min) + (r.num());
     _d = min;
     simplificar();
     return *this;
@@ -90,23 +90,23 @@ racional racional::operator+(const racional &r) const throw(error)
 racional racional::operator-(const racional &r) const throw(error)
 {
     int min;
-    min = mcm(r._d, _d);
-    _n = (_n * min) - (r._n);
+    min = mcm(r.denom(), _d);
+    _n = (_n * min) - (r.num());
     _d = min;
     simplificar();
     return *this;
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
-    _d = r._d * _d;
-    _n = r._n * _n;
+    _d = r.denom() * _d;
+    _n = r.num() * _n;
     simplificar();
     return *this;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
-    _d = _d * r._n;
-    _n = _n * r._d;
+    _d = _d * r.num();
+    _n = _n * r.denom();
     simplificar();
     return *this;
 }
@@ -117,7 +117,7 @@ racional racional::operator/(const racional &r) const throw(error)
    que el racional r.*/
 bool racional::operator==(const racional &r) const throw()
 {
-    if (r._d == _d && r._n == _n)
+    if (r.denom() == _d && r.num() == _n)
     {
         return true;
     }
@@ -128,7 +128,7 @@ bool racional::operator==(const racional &r) const throw()
 }
 bool racional::operator!=(const racional &r) const throw()
 {
-    if (r._d != _d && r._n != _n)
+    if (r.denom() != _d && r.num() != _n)
     {
         return true;
     }
