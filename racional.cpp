@@ -219,7 +219,7 @@ int racional::mcd(int n1, int n2)
     return hcf;
 }
 
-racional racional::simplificar(racional &r)
+racional racional::simplificar(racional &r) throw(error)
 {
 //He canviat aquesta classe perquè retorni el racional que li passen per paràmetre modificat i no canviï directament
 //la classe els paràmetres _n i _d;
@@ -242,6 +242,10 @@ racional racional::simplificar(racional &r)
     }
     if (negatiu)
         r._n = r._n * -1;
+    if (r._d == 0)
+    {
+        throw(21);
+    }
     return r;
 }
 

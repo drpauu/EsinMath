@@ -1,21 +1,19 @@
-#include <iostream> 
-#include "racional.hpp"
-
+#include <iostream>
 #include <string>
 #include <vector>
 #include <list>
 #include <utility>
-
-#include <iostream>
 #include <iomanip>
 #include <cstdio>
 #include <esin/error>
 #include <esin/util>
 
+using namespace std;
+
 int main(){
-    int a, int b;
+    int a, b;
     cin >> a;
     cin >> b;
     racional r(a, b);
-    cout << racional._n << "/" << racional._d << endl;
+    cout << r.num() << "/" << r.denom() << endl;
 }
