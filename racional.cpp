@@ -13,14 +13,20 @@ racional::racional(int n, int d) throw(error){
 // Constructora per còpia, assignació i destructora.
 racional::racional(const racional &r) throw(error)
 {
+    if(r._d == 0){
+        throw(21);
+    }
     _d = r._d;
     _n = r._d;
 }
 racional & racional::operator=(const racional &r) throw(error)
 {
+    if(r._d == 0){
+        throw(21);
+    }
     _d = r._d;
     _n = r._d;
-    return this; 
+    return *this; 
 }
 racional::~racional() throw()
 {
