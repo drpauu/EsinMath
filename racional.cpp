@@ -49,6 +49,7 @@ int racional::part_entera() const throw()
 racional racional::residu() const throw()
 {
     float c;
+    racional r;
     aux = _n % _d;
     int c = 0;
     while ((int)x != x) {  
@@ -59,9 +60,10 @@ racional racional::residu() const throw()
     for(int i = 0; i < c-1; i++){
         deno = deno*10;
     }
-    _n = (int)x;
-    _d = deno;
-    simplificar();
+    r._n = (int)x;
+    r._d = deno;
+    r.simplificar();
+    return r;
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
