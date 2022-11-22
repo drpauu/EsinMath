@@ -1,6 +1,17 @@
 #include <iostream> 
 #include "racional.hpp"
 
+#include <string>
+#include <vector>
+#include <list>
+#include <utility>
+
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <esin/error>
+#include <esin/util>
+
 int main(){
     int a, int b;
     cin >> a;
