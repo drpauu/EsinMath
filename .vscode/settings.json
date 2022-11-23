@@ -2,6 +2,7 @@
     "files.associations": {
         "*.json": "jsonc",
         "error": "cpp",
-        "*.rep": "cpp"
+        "*.rep": "cpp",
+        "iostream": "cpp"
     }
 }
