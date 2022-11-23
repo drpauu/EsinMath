@@ -51,31 +51,17 @@ int racional::denom() const throw()
 }
 int racional::part_entera() const throw()
 {
-    return _n / _d;
+    float divisio = _n / _d;
+    int div_entera = divisio;
+    if (divisio < 0 and divisio != div_entera) divisio--;
+    return divisio;
 }
 racional racional::residu() const throw()
 {
-    /*float c;
     racional r;
-    aux = _n % _d;
-    int c = 0;
-    while ((int)x != x)
-    {
-        x *= 10;
-        c++;
-    }
-    int deno = 1;
-    for (int i = 0; i < c - 1; i++)
-    {
-        deno = deno * 10;
-    }
-    r._n = (int)x;
-    r._d = deno;
+    r._n = _n - (this->part_entera() * _d);
+    r._d = _d;
     r.simplificar();
-    return r;*/
-    racional r;
-    r._n = 1;
-    r._d = 1;
     return r;
 }
 
@@ -222,10 +208,13 @@ int racional::mcd(int n1, int n2)
     return hcf;
 }
 
-racional racional::simplificar(racional &r) throw(error)
+racional racional::simplificar() throw(error)
 {
 //He canviat aquesta classe perquè retorni el racional que li passen per paràmetre modificat i no canviï directament
 //la classe els paràmetres _n i _d;
+    racional r;
+    r._n = _n;
+    r._d = _d;
     bool negatiu = false;
     if (r._d < 0)
     {
@@ -237,6 +226,10 @@ racional racional::simplificar(racional &r) throw(error)
         r._n = r._n * -1;
         negatiu = true;
     }
+    if (r._d == 0)
+    {
+        throw(21);
+    }
     int gcd = mcd(r._n, r._d);
     if (gcd != 0)
     {
@@ -245,10 +238,6 @@ racional racional::simplificar(racional &r) throw(error)
     }
     if (negatiu)
         r._n = r._n * -1;
-    if (r._d == 0)
-    {
-        throw(21);
-    }
     return r;
 }
 

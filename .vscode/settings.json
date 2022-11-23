@@ -3,6 +3,7 @@
         "*.json": "jsonc",
         "error": "cpp",
         "*.rep": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "vector": "cpp"
     }
 }

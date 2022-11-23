@@ -1,7 +1,7 @@
 int _n;
 int _d;
 
-racional simplificar(racional &r) throw(error);
+racional simplificar() throw(error);
     //simplifica al màxim un nombre racional
 int mcd(int a, int b);
     //fa el mcd de a i b
