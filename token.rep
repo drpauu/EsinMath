@@ -1,8 +1,1 @@
-
-int ent_;
-racional rac_;
-double real_;
-float e_;
-string var_;
-char signe_;
-string commanda_;
+token::codi id_;

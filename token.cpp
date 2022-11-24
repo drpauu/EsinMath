@@ -17,30 +17,44 @@
   coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
 token::token(codi cod = NULLTOK) throw(error)
 {
-  if(cod < 6){ //aixo de enum tinc entes que es com una llista en python
-    throw(12);
-  } // si el que ens passa esta en la posicio 5 o menys, es un numero o varibale
+  if(cod == CT_ENTERA){
+    throw(11);
+  } else if(cod = CT_RACIONAL){
+    throw(11);
+  } else if(cod == CT_REAL){
+    throw(11);
+  } else if (cod = VARIABLE){
+    throw(11);
+  } else {
+    id_ = cod;
+  }
 }
 token::token(int n) throw(error)
 {
-  ent_ = n;
+  id_ = CT_ENTERA;
 }
 token::token(const racional &r) throw(error)
 {
-  rac_ = r;
+  id_ = CT_RACIONAL;
 }
 token::token(double x) throw(error)
 {
-  real_ = x;
+  id_ = CT_REAL;
 }
 token::token(const string &var_name) throw(error)
 {
-  commanda_ = var_name; // el final de tot 
+  if (var_name == "unassign" or var_name == "e" or var_name == "log" or
+      var_name == "exp" or var_name == "sqrt" or var_name == "evalf")
+  {
+    throw(11);
+  }
+  id_ = VARIABLE;
 }
 
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
+  id_ = t.id_;
 }
 token &token::operator=(const token &t) throw(error)
 {
@@ -56,17 +70,16 @@ token::~token() throw()
   una CT_ENTERA.*/
 token::codi token::tipus() const throw()
 {
+  return id_;
 }
 int token::valor_enter() const throw(error)
 {
 }
 racional token::valor_racional() const throw(error)
 {
-  return rac_;
 }
 double token::valor_real() const throw(error)
 {
-  return real_;
 }
 string token::identificador_variable() const throw(error)
 {
