@@ -28,24 +28,24 @@ token::token(codi cod = NULLTOK) throw(error)
   } else {
     id_ = cod;
   }
+  ptrv = nullptr;
+
 }
 token::token(int n) throw(error)
 {
   id_ = CT_ENTERA;
-  ptrv = new int;
-  *ptrv = n;
+  *(int *)ptrv = n;
 }
 token::token(const racional &r) throw(error)
 {
   id_ = CT_RACIONAL;
-  ptrv = new racional;
-  *ptrv = r;
+  *(racional *)ptrv = r;
 }
 token::token(double x) throw(error)
 {
   id_ = CT_REAL;
   ptrv = new double;
-  *ptrv = x;
+  *(double  *)ptrv = x;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -55,23 +55,25 @@ token::token(const string &var_name) throw(error)
     throw(11);
   }
   id_ = VARIABLE;
-  ptrv = new string;
-  *ptrv = var_name;
+  *(string *)ptrv = var_name;
 }
 
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
   id_ = t.id_;
+  ptrv = t.ptrv;
 }
 token &token::operator=(const token &t) throw(error)
 {
-
+  id_ = t.id_;
+  ptrv = t.ptrv;
+  return *this;
 }
 token::~token() throw()
 {
-  ptrv = new void;
-  _id = NULLTOK;
+  ptrv = nullptr;
+  id_ = NULLTOK;
 }
 
 /*Consultores: Retornen respectivament el codi i el valor (en el cas de
@@ -85,15 +87,19 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
+  return *(int *)ptrv;
 }
 racional token::valor_racional() const throw(error)
 {
+  return *(racional *)ptrv;
 }
 double token::valor_real() const throw(error)
 {
+  return *(double *)ptrv;
 }
 string token::identificador_variable() const throw(error)
 {
+  return *(string *)ptrv;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -102,9 +108,19 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
+  if(id_ == t.id_ and ptrv == t.ptrv){
+    return true;
+  } else{
+    return false;
+  }
 }
 bool token::operator!=(const token &t) const throw()
 {
+  if(id_ != t.id_ and ptrv != t.ptrv){
+    return true;
+  } else{
+    return false;
+  }
 }
 
 /*Precedència entre tokens. L'operador > retorna cert si i només si el token
@@ -112,7 +128,25 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
+  if(tipus() == t.tipus()){
+    if(ptrv > t.ptrv){
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    throw(13);
+  }
 }
 bool token::operator<(const token &t) const throw(error)
 {
+  if(tipus() == t.tipus()){
+    if(ptrv < t.ptrv){
+      return true;
+    } else {
+      return false;
+    }
+  } else {
+    throw(13);
+  }
 }

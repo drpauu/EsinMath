@@ -1,6 +1,6 @@
 token::codi id_;
 
-void *ptr; // punter void, el qual podem modificar el tipus;
+void *ptrv; // punter void, el qual podem modificar el tipus;
 // per poder guardar els valors que siguin necessaris, 
 
 /*
