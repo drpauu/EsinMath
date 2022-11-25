@@ -1,1 +1,15 @@
 token::codi id_;
+
+void *ptr; // punter void, el qual podem modificar el tipus;
+// per poder guardar els valors que siguin necessaris, 
+
+/*
+union data {
+    int enter_;
+    racional racional_;
+    double real_;
+    string variable_;
+};
+
+union data valor;
+*/

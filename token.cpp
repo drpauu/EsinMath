@@ -32,14 +32,20 @@ token::token(codi cod = NULLTOK) throw(error)
 token::token(int n) throw(error)
 {
   id_ = CT_ENTERA;
+  ptrv = new int;
+  *ptrv = n;
 }
 token::token(const racional &r) throw(error)
 {
   id_ = CT_RACIONAL;
+  ptrv = new racional;
+  *ptrv = r;
 }
 token::token(double x) throw(error)
 {
   id_ = CT_REAL;
+  ptrv = new double;
+  *ptrv = x;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -49,6 +55,8 @@ token::token(const string &var_name) throw(error)
     throw(11);
   }
   id_ = VARIABLE;
+  ptrv = new string;
+  *ptrv = var_name;
 }
 
 // Constructora por còpia, assignació i destructora.
@@ -58,9 +66,12 @@ token::token(const token &t) throw(error)
 }
 token &token::operator=(const token &t) throw(error)
 {
+
 }
 token::~token() throw()
 {
+  ptrv = new void;
+  _id = NULLTOK;
 }
 
 /*Consultores: Retornen respectivament el codi i el valor (en el cas de
