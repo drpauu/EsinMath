@@ -17,35 +17,41 @@
   coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
 token::token(codi cod = NULLTOK) throw(error)
 {
-  if(cod == CT_ENTERA){
+  if (cod == CT_ENTERA)
+  {
     throw(11);
-  } else if(cod = CT_RACIONAL){
+  }
+  else if (cod = CT_RACIONAL)
+  {
     throw(11);
-  } else if(cod == CT_REAL){
+  }
+  else if (cod == CT_REAL)
+  {
     throw(11);
-  } else if (cod = VARIABLE){
+  }
+  else if (cod = VARIABLE)
+  {
     throw(11);
-  } else {
+  }
+  else
+  {
     id_ = cod;
   }
-  ptrv = nullptr;
-
 }
 token::token(int n) throw(error)
 {
   id_ = CT_ENTERA;
-  *(int *)ptrv = n;
+  valor.enter_ = n;
 }
 token::token(const racional &r) throw(error)
 {
   id_ = CT_RACIONAL;
-  *(racional *)ptrv = r;
+  valor.racional_;
 }
 token::token(double x) throw(error)
 {
   id_ = CT_REAL;
-  ptrv = new double;
-  *(double  *)ptrv = x;
+  valor.real_;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -55,24 +61,38 @@ token::token(const string &var_name) throw(error)
     throw(11);
   }
   id_ = VARIABLE;
-  *(string *)ptrv = var_name;
+  valor.variable_ = var_name;
 }
 
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
   id_ = t.id_;
-  ptrv = t.ptrv;
+  v
 }
 token &token::operator=(const token &t) throw(error)
 {
   id_ = t.id_;
-  ptrv = t.ptrv;
+  if (id_ == CT_ENTERA)
+  { // igualar els dos valors.
+    throw(11);
+  }
+  else if (id_ = CT_RACIONAL)
+  {
+    throw(11);
+  }
+  else if (id_ == CT_REAL)
+  {
+    throw(11);
+  }
+  else if (id_ = VARIABLE)
+  {
+    throw(11);
+  }
   return *this;
 }
 token::~token() throw()
 {
-  ptrv = nullptr;
   id_ = NULLTOK;
 }
 
@@ -87,19 +107,19 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  return *(int *)ptrv;
+  return valor.enter_;
 }
 racional token::valor_racional() const throw(error)
 {
-  return *(racional *)ptrv;
+  return valor.racional_;
 }
 double token::valor_real() const throw(error)
 {
-  return *(double *)ptrv;
+  return valor.real_;
 }
 string token::identificador_variable() const throw(error)
 {
-  return *(string *)ptrv;
+  return valor.variable_;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -108,18 +128,38 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  if(id_ == t.id_ and ptrv == t.ptrv){
-    return true;
-  } else{
-    return false;
+  if (id_ != id_)
+  {
+    throw(13);
+  }
+  if (id_ == CT_ENTERA)
+  {
+    if (id_ == t.id_ and valor.enter_ == t.valor.enter_)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }
 bool token::operator!=(const token &t) const throw()
 {
-  if(id_ != t.id_ and ptrv != t.ptrv){
-    return true;
-  } else{
-    return false;
+  if (id_ != id_)
+  {
+    throw(13);
+  }
+  if (id_ == CT_ENTERA)
+  {
+    if (id_ == t.id_ and valor.enter_ != t.valor.enter_)
+    {
+      return true;
+    }
+    else
+    {
+      return false;
+    }
   }
 }
 
@@ -128,25 +168,37 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if(tipus() == t.tipus()){
-    if(ptrv > t.ptrv){
+  if (id_ != id_)
+  {
+    throw(13);
+  }
+  if (id_ == CT_ENTERA)
+  {
+    if (valor.enter_ > t.valor.enter_)
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
-  } else {
-    throw(13);
   }
 }
 bool token::operator<(const token &t) const throw(error)
 {
-  if(tipus() == t.tipus()){
-    if(ptrv < t.ptrv){
+  if (id_ != id_)
+  {
+    throw(13);
+  }
+  if (id_ == CT_ENTERA)
+  {
+    if (valor.enter_ < t.valor.enter_)
+    {
       return true;
-    } else {
+    }
+    else
+    {
       return false;
     }
-  } else {
-    throw(13);
   }
 }
