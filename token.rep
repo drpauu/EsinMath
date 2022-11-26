@@ -1,0 +1,15 @@
+token::codi id_;
+
+//void *ptrv; // punter void, el qual podem modificar el tipus;
+// per poder guardar els valors que siguin necessaris, 
+
+
+struct data { // per fer-ho eficient es millor amb el punter o amb l union 
+// pero em dona un monton d errors, si ho acabem tot ja ho mirem de cambiar
+    int enter_;
+    racional racional_;
+    double real_;
+    string variable_;
+};
+
+data valor;
