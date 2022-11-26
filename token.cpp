@@ -15,13 +15,14 @@
   forma, només conté caràcters els codis ASCII dels quals estan entre 65
   ('A') i 90('Z'), entre 97 ('a') i 122 ('z') o el 95 ('_') i no pot
   coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
+
 token::token(codi cod = NULLTOK) throw(error)
 {
   if (cod == CT_ENTERA)
   {
     throw(11);
   }
-  else if (cod = CT_RACIONAL)
+  else if (cod == CT_RACIONAL)
   {
     throw(11);
   }
@@ -29,7 +30,7 @@ token::token(codi cod = NULLTOK) throw(error)
   {
     throw(11);
   }
-  else if (cod = VARIABLE)
+  else if (cod == VARIABLE)
   {
     throw(11);
   }
@@ -37,7 +38,7 @@ token::token(codi cod = NULLTOK) throw(error)
   {
     id_ = cod;
   }
-}
+} 
 token::token(int n) throw(error)
 {
   id_ = CT_ENTERA;
@@ -46,12 +47,12 @@ token::token(int n) throw(error)
 token::token(const racional &r) throw(error)
 {
   id_ = CT_RACIONAL;
-  valor.racional_;
+  valor.racional_ = r;
 }
 token::token(double x) throw(error)
 {
   id_ = CT_REAL;
-  valor.real_;
+  valor.real_ = x;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -72,7 +73,7 @@ token::token(const token &t) throw(error)
   { // igualar els dos valors.
     throw(11);
   }
-  else if (id_ = CT_RACIONAL)
+  else if (id_ == CT_RACIONAL)
   {
     throw(11);
   }
@@ -80,7 +81,7 @@ token::token(const token &t) throw(error)
   {
     throw(11);
   }
-  else if (id_ = VARIABLE)
+  else if (id_ == VARIABLE)
   {
     throw(11);
   }
@@ -92,7 +93,7 @@ token &token::operator=(const token &t) throw(error)
   { // igualar els dos valors.
     throw(11);
   }
-  else if (id_ = CT_RACIONAL)
+  else if (id_ == CT_RACIONAL)
   {
     throw(11);
   }
@@ -100,7 +101,7 @@ token &token::operator=(const token &t) throw(error)
   {
     throw(11);
   }
-  else if (id_ = VARIABLE)
+  else if (id_ == VARIABLE)
   {
     throw(11);
   }
@@ -143,7 +144,8 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  if (id_ != id_)
+  bool ret = false;
+  if (id_ != t.id_)
   {
     throw(13);
   }
@@ -151,17 +153,19 @@ bool token::operator==(const token &t) const throw()
   {
     if (id_ == t.id_ and valor.enter_ == t.valor.enter_)
     {
-      return true;
+      ret = true;
     }
     else
     {
-      return false;
+      ret = false;
     }
   }
+  return ret;
 }
 bool token::operator!=(const token &t) const throw()
 {
-  if (id_ != id_)
+  bool ret = false;
+  if (id_ != t.id_)
   {
     throw(13);
   }
@@ -169,13 +173,14 @@ bool token::operator!=(const token &t) const throw()
   {
     if (id_ == t.id_ and valor.enter_ != t.valor.enter_)
     {
-      return true;
+      ret = true;
     }
     else
     {
-      return false;
+      ret = false;
     }
   }
+  return ret;
 }
 
 /*Precedència entre tokens. L'operador > retorna cert si i només si el token
@@ -183,7 +188,8 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if (id_ != id_)
+  bool ret = false;
+  if (id_ != t.id_)
   {
     throw(13);
   }
@@ -191,17 +197,19 @@ bool token::operator>(const token &t) const throw(error)
   {
     if (valor.enter_ > t.valor.enter_)
     {
-      return true;
+      ret =  true;
     }
     else
     {
-      return false;
+      ret = false;
     }
   }
+  return ret;
 }
 bool token::operator<(const token &t) const throw(error)
 {
-  if (id_ != id_)
+  bool ret = false;
+  if (id_ != t.id_)
   {
     throw(13);
   }
@@ -209,11 +217,12 @@ bool token::operator<(const token &t) const throw(error)
   {
     if (valor.enter_ < t.valor.enter_)
     {
-      return true;
+      ret = true;
     }
     else
     {
-      return false;
+      ret = false;
     }
   }
+  return ret;
 }

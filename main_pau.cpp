@@ -9,6 +9,7 @@
 #include <esin/util>
 
 #include "racional.cpp"
+#include "token.hpp"
 
 using namespace std;
 
