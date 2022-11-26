@@ -1,5 +1,7 @@
 #include "token.hpp"
 
+//funciona
+
 /*Constructores: Construeixen tokens pels operadors, les constants enteres,
   les constants racionals, les constants reals i les variables(el seu
   identificador), respectivament.
