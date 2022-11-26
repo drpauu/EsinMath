@@ -1,9 +1,16 @@
 int _n;
 int _d;
+int _part_entera;
+std::pair<int, int> _residu;
 
-racional simplificar() throw(error);
+
+std::pair<int, int> simplificar(int n, int d) throw(error);
     //simplifica al màxim un nombre racional
 int mcd(int a, int b);
     //fa el mcd de a i b
 int mcm(int a, int b);
     //fa el mcm de a i b
+int calcula_part_entera();
+    //calcula la part entera del racional
+std::pair<int, int> calcula_residu();
+    //calcula el residu del racional

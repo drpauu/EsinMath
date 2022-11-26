@@ -13,6 +13,9 @@ racional::racional(int n, int d) throw(error)
     }
     _d = d;
     _n = n;
+    _part_entera = calcula_part_entera();
+    _residu = calcula_residu();
+    this->simplificar(_n, _d);
 }
 
 // Constructora per còpia, assignació i destructora.
@@ -24,15 +27,17 @@ racional::racional(const racional &r) throw(error)
     }
     _d = r._d;
     _n = r._d;
+    _part_entera = r.part_entera();
+    _residu.first = r._residu.first;
+    _residu.second = r._residu.second;
 }
 racional &racional::operator=(const racional &r) throw(error)
 {
-    if (r._d == 0)
-    {
-        throw(21);
-    }
     _d = r._d;
-    _n = r._d;
+    _n = r._n;
+    _part_entera = r.part_entera();
+    _residu.first = r._residu.first;
+    _residu.second = r._residu.second;
     return *this;
 }
 racional::~racional() throw()
@@ -51,18 +56,11 @@ int racional::denom() const throw()
 }
 int racional::part_entera() const throw()
 {
-    float divisio = _n / _d;
-    int div_entera = divisio;
-    if (divisio < 0 and divisio != div_entera) divisio--;
-    return divisio;
+    return _part_entera;
 }
 racional racional::residu() const throw()
 {
-    racional r;
-    r._n = _n - (this->part_entera() * _d);
-    r._d = _d;
-    r.simplificar();
-    return r;
+    return racional(_residu.first, _residu.second);
 }
 
 /* Sobrecàrrega d'operadors aritmètics. Retorna un racional en la seva
@@ -71,41 +69,45 @@ racional racional::residu() const throw()
 racional racional::operator+(const racional &r) const throw(error)
 {
     racional aux;
-    int min = 1;
-    //min = mcm(r._d, _d);
-    aux._n = (_n * min) + (r._n);
-    aux._d = min;
-    //aux = simplificar(aux);
+    pair<int, int> simplificat;
+    aux._n = _n * r._d - r._n * _d;
+    aux._d = _d * r._d;
+    simplificat = aux.simplificar(aux._n, aux._d);
+    aux._n = simplificat.first;
+    aux._d = simplificat.second;
     return aux;
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
     racional aux;
-    int min = 1;
-    //min = mcm(r._d, _d);
-    aux._n = (_n * min) - (r._n);
-    aux._d = min;
-    //aux = simplificar(aux);
+    pair<int, int> simplificat;
+    aux._n = _n * r._d + r._n * _d;
+    aux._d = _d * r._d;
+    simplificat = aux.simplificar(aux._n, aux._d);
+    aux._n = simplificat.first;
+    aux._d = simplificat.second;
     return aux;
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
     racional aux;
+    pair<int, int> simplificat;
     aux._d = r._d * _d;
     aux._n = r._n * _n;
-    //simplificar();
+    simplificat = aux.simplificar(aux._n, aux._d);
+    aux._n = simplificat.first;
+    aux._d = simplificat.second;
     return aux;
 }
 racional racional::operator/(const racional &r) const throw(error)
 {
-    if (r._d == 0)
-    {
-        throw(21);
-    }
     racional aux;
-    aux._d = r._d / _d;
-    aux._n = r._n / _n;
-    //simplificar();
+    pair<int, int> simplificat;
+    aux._n = _n * r._d;
+    aux._d = _d * r._n;
+    simplificat = aux.simplificar(aux._n, aux._d);
+    aux._n = simplificat.first;
+    aux._d = simplificat.second;
     return aux;
 }
 
@@ -208,40 +210,83 @@ int racional::mcd(int n1, int n2)
     return hcf;
 }
 
-racional racional::simplificar() throw(error)
+pair<int, int> racional::simplificar(int n, int d) throw(error)
 {
-//He canviat aquesta classe perquè retorni el racional que li passen per paràmetre modificat i no canviï directament
-//la classe els paràmetres _n i _d;
-    racional r;
-    r._n = _n;
-    r._d = _d;
     bool negatiu = false;
-    if (r._d < 0)
+    if (d < 0)
     {
-        r._d = r._d * -1;
+        d = d * -1;
         negatiu = true;
     }
-    else if (r._n < 0)
+    if (n < 0)// && !negatiu)
     {
-        r._n = r._n * -1;
-        negatiu = true;
+        n = n * -1;
+        if(negatiu)
+            negatiu = false;
+        else negatiu = true;
     }
-    if (r._d == 0)
-    {
-        throw(21);
-    }
-    int gcd = mcd(r._n, r._d);
+    int gcd = mcd(n, d);
     if (gcd != 0)
     {
-        r._n = r._n / gcd;
-        r._d = r._d / gcd;
+        n = n / gcd;
+        d = d / gcd;
     }
     if (negatiu)
-        r._n = r._n * -1;
-    return r;
+    {
+        n = n * -1;
+    }
+    if (n == 0)
+    {
+        d = d / d;
+    }
+    pair<int, int> retorn;
+    retorn.first = n;
+    retorn.second = d;
+    return retorn;
 }
 
 int racional::mcm(int a, int b)
 {
     return (a * b) / mcd(a, b);
+}
+
+int racional::calcula_part_entera()
+{
+    int divisio = floor(float(_n) / float(_d));
+    return divisio;
+}
+
+pair<int, int> racional::calcula_residu()
+{
+    //Numerador_residu = (part_entera(floor) * _d) + _n
+    /*pair<int, int> residu;
+    bool es_negatiu = false;
+    int p_ent_pos = this->part_entera(), num_pos = this->num();
+    if(_n < 0)
+    {
+        if(p_ent_pos < 0)
+        {
+            p_ent_pos *= -1;
+            p_ent_pos--;
+        }
+        num_pos *= -1;
+        es_negatiu = true;
+    }
+    num_pos = num_pos - (p_ent_pos * this->denom());
+    if(es_negatiu)
+    {
+        num_pos *= -1;
+        num_pos += this->denom();
+    }
+    residu.first = num_pos;
+    residu.second = this->denom();
+    residu = this->simplificar(residu.first, residu.second);*/
+    pair<int, int> residu;
+    int num_residu, aux;
+    aux = _part_entera * _d;
+    aux *= - 1;
+    num_residu = aux + _n;
+    residu.first = num_residu;
+    residu.second = _d;
+    return residu;
 }

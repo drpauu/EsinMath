@@ -17,8 +17,9 @@ int main()
     int a = 0, b = 0;
     cin >> a;
     cin >> b;
-    racional r = racional(a, b);
-    cout << r.num() << "/" << r.denom() << endl;
-    r = r.residu();
-    cout << "residu: " << r.part_entera() << r.num() << '/' << r.denom() << endl;
+    racional r = racional(a, b), residu;
+    cout << "racional: " << r.num() << "/" << r.denom() << endl;
+    residu = r.residu();
+    cout << "part entera: " << r.part_entera() << endl; 
+    cout << "residu: " << residu.num() << '/' << residu.denom() << endl;
 }

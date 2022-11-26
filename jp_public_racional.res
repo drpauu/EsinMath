@@ -255,7 +255,7 @@ Error::racional:21:El denominador es zero.
 2
 ##2
 #residu
-1/3
+	1/3
 ##1/3
 ###!
 #init gn racional 14 -6
@@ -335,7 +335,7 @@ Error::racional:21:El denominador es zero.
 -25493017
 ##-25493017
 #denom
-3078397
+3078397	
 ##3078397
 #part_entera
 -9

@@ -4,6 +4,9 @@
         "error": "cpp",
         "*.rep": "cpp",
         "iostream": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "cmath": "cpp",
+        "*.tcc": "cpp",
+        "type_traits": "cpp"
     }
 }
