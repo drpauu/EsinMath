@@ -16,7 +16,7 @@
   ('A') i 90('Z'), entre 97 ('a') i 122 ('z') o el 95 ('_') i no pot
   coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
 
-token::token(codi cod = NULLTOK) throw(error)
+token::token(codi cod /* = NULLTOK */) throw(error)
 {
   if (cod == CT_ENTERA)
   {
