@@ -15,5 +15,11 @@ using namespace std;
 
 int main()
 {
+    int n1, n2;
+    token a(n1);
+    token b(n2);
+    if(a == b){
+        cout << "funciona" << endl;
+    }
     exit(0);
 }

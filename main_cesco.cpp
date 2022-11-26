@@ -9,17 +9,15 @@
 #include <esin/util>
 
 #include "racional.cpp"
+#include "token.hpp"
 
 using namespace std;
 
 int main()
 {
-    int a = 0, b = 0;
-    cin >> a;
-    cin >> b;
-    racional r = racional(a, b), residu;
-    cout << "racional: " << r.num() << "/" << r.denom() << endl;
-    residu = r.residu();
-    cout << "part entera: " << r.part_entera() << endl; 
-    cout << "residu: " << residu.num() << '/' << residu.denom() << endl;
+    int n1;
+    cin>>n1;
+    token a(n1);
+    cout << a.valor_enter() << endl;
+    exit(0);
 }
