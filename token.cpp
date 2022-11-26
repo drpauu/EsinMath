@@ -68,7 +68,22 @@ token::token(const string &var_name) throw(error)
 token::token(const token &t) throw(error)
 {
   id_ = t.id_;
-  v
+  if (id_ == CT_ENTERA)
+  { // igualar els dos valors.
+    throw(11);
+  }
+  else if (id_ = CT_RACIONAL)
+  {
+    throw(11);
+  }
+  else if (id_ == CT_REAL)
+  {
+    throw(11);
+  }
+  else if (id_ = VARIABLE)
+  {
+    throw(11);
+  }
 }
 token &token::operator=(const token &t) throw(error)
 {
