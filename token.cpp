@@ -1,6 +1,8 @@
 #include "token.hpp"
 
-//funciona
+using namespace std;
+
+// funciona
 
 /*Constructores: Construeixen tokens pels operadors, les constants enteres,
   les constants racionals, les constants reals i les variables(el seu
@@ -20,27 +22,8 @@
 
 token::token(codi cod /*= NULLTOK*/) throw(error)
 {
-  if (cod == CT_ENTERA)
-  {
-    throw(11);
-  }
-  else if (cod == CT_RACIONAL)
-  {
-    throw(11);
-  }
-  else if (cod == CT_REAL)
-  {
-    throw(11);
-  }
-  else if (cod == VARIABLE)
-  {
-    throw(11);
-  }
-  else
-  {
-    id_ = cod;
-  }
-} 
+  id_ = cod;
+}
 token::token(int n) throw(error)
 {
   id_ = CT_ENTERA;
@@ -57,14 +40,39 @@ token::token(double x) throw(error)
   valor.real_ = x;
 }
 token::token(const string &var_name) throw(error)
-{
-  if (var_name == "unassign" or var_name == "e" or var_name == "log" or
-      var_name == "exp" or var_name == "sqrt" or var_name == "evalf")
-  {
+{ // modifcar aquesta funcio
+  if(check_variables(var_name)){
     throw(11);
   }
-  id_ = VARIABLE;
-  valor.variable_ = var_name;
+  if (var_name == "unassign")
+  {
+    id_ = DESASSIGNACIO;
+  }
+  else if (var_name == "e")
+  {
+    id_ = CT_E;
+  }
+  else if (var_name == "log")
+  {
+    id_ = LOG;
+  }
+  else if (var_name == "exp")
+  {
+    id_ = EXP;
+  }
+  else if (var_name == "sqrt")
+  {
+    id_ = SQRT;
+  }
+  else if (var_name == "evalf")
+  {
+    id_ = EVALF;
+  }
+  else
+  {
+    id_ = VARIABLE;
+    valor.variable_ = var_name;
+  }
 }
 
 // Constructora por còpia, assignació i destructora.
@@ -72,40 +80,40 @@ token::token(const token &t) throw(error)
 {
   id_ = t.id_;
   if (id_ == CT_ENTERA)
-  { // igualar els dos valors.
-    throw(11);
+  {
+    valor.enter_ = t.valor.enter_;
   }
   else if (id_ == CT_RACIONAL)
   {
-    throw(11);
+    valor.racional_ = t.valor.racional_;
   }
   else if (id_ == CT_REAL)
   {
-    throw(11);
+    valor.real_ = t.valor.real_;
   }
   else if (id_ == VARIABLE)
   {
-    throw(11);
+    valor.variable_ = t.valor.variable_;
   }
 }
 token &token::operator=(const token &t) throw(error)
 {
   id_ = t.id_;
   if (id_ == CT_ENTERA)
-  { // igualar els dos valors.
-    throw(11);
+  {
+    valor.enter_ = t.valor.enter_;
   }
   else if (id_ == CT_RACIONAL)
   {
-    throw(11);
+    valor.racional_ = t.valor.racional_;
   }
   else if (id_ == CT_REAL)
   {
-    throw(11);
+    valor.real_ = t.valor.real_;
   }
   else if (id_ == VARIABLE)
   {
-    throw(11);
+    valor.variable_ = t.valor.variable_;
   }
   return *this;
 }
@@ -199,7 +207,7 @@ bool token::operator>(const token &t) const throw(error)
   {
     if (valor.enter_ > t.valor.enter_)
     {
-      ret =  true;
+      ret = true;
     }
     else
     {
@@ -227,4 +235,16 @@ bool token::operator<(const token &t) const throw(error)
     }
   }
   return ret;
+}
+
+bool token::check_variables(string var){
+    char lletra; 
+    bool incorrecte = false;
+    for(unsigned int i = 0; i < var.length(); i++){
+        lletra = var[i];
+        if(!isalpha(lletra) and int(lletra) != 95){
+                incorrecte = true;
+        }
+    }
+    return incorrecte;
 }

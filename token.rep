@@ -13,3 +13,5 @@ struct data { // per fer-ho eficient es millor amb el punter o amb l union
 };
 
 data valor;
+
+bool check_variables(string var);
