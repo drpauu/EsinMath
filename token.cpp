@@ -114,7 +114,8 @@ token &token::operator=(const token &t) throw(error)
   else if (id_ == VARIABLE)
   {
     valor.variable_ = t.valor.variable_;
-  }
+  } // s'ha d'eliminar el valor que te, en el cas que en tingui 
+  
   return *this;
 }
 token::~token() throw()
