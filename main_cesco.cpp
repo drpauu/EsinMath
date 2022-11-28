@@ -9,15 +9,15 @@
 #include <esin/util>
 
 #include "racional.cpp"
-#include "token.hpp"
+#include "token.cpp"
 
 using namespace std;
 
 int main()
 {
-    int n1;
-    cin>>n1;
-    token a(n1);
-    cout << a.valor_enter() << endl;
+    string com;
+    cin >> com;
+    token a(com);
+    cout << a.tipus() << endl;
     exit(0);
 }
