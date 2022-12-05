@@ -8,9 +8,11 @@
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    if(t != NULLTOK)
-    _exp = {t};
-    //t.
+    if(t.tipus() != (NULLTOK and CT_ENTERA and CT_RACIONAL and CT_REAL and CT_E and VARIABLE and VAR_PERCENTAtGE))
+        throw(31);
+    else
+        _exp = {t};
+        //t.
 }
 
 /* Constructora a partir d'una seqüència de tokens. Es produeix un error si
