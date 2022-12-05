@@ -1,5 +1,4 @@
 #include "expressio.hpp"
-#include "racional.hpp"
 #include "token.hpp"
 #include <list>
 
@@ -12,18 +11,12 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    if(t.tipus() != (token::codi::NULLTOK and
-                     token::codi::CT_ENTERA and
-                     token::codi::CT_RACIONAL and
-                     token::codi::CT_REAL and
-                     token::codi::CT_E and
-                     token::codi::VARIABLE and
-                     token::codi::VAR_PERCENTATGE))
-    {
+    if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
         throw(31);
-    }
     else
-        _exp = {t};
+    {
+        _exp.push_back(t);
+    }
 }
 
 /* Constructora a partir d'una seqüència de tokens. Es produeix un error si
@@ -46,13 +39,14 @@ expressio &expressio::operator=(const expressio &e) throw(error)
 }
 expressio::~expressio() throw(error)
 {
-    _exp = {};
+    list<token> buida;
+    _exp = buida;
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
-    list<token> buida = {};
+    list<token> buida;
     if (_exp == buida)
     {
         return true;
@@ -91,12 +85,13 @@ void expressio::vars(list<string> &l) const throw(error)
         //it = find(l.begin(), l.end(), elem.)
     } */
     list<token> elem;
-    elem = _exp; 
+    elem = _exp;
     list<token>::iterator it;
     for (it = elem.begin(); it != elem.end(); ++it)
     {
         token t;
-        if(it->tipus() == t.VARIABLE){
+        if (it->tipus() == t.VARIABLE)
+        {
             l.push_back(it->identificador_variable());
         }
     }
@@ -109,6 +104,21 @@ void expressio::vars(list<string> &l) const throw(error)
    que apliquem aquest mètode l'expressió no es modifica. */
 void expressio::apply_substitution(const string &v, const expressio &e) throw(error)
 {
+    list<token> elem;
+    elem = _exp;
+    list<token>::iterator it;
+    for (it = elem.begin(); it != elem.end(); ++it)
+    {
+        token t;
+        if (it->tipus() == t.VARIABLE)
+        {
+            if (it->identificador_variable() == v)
+            {
+                // s ha de posar un fragment de llista aqui
+                //
+            }
+        }
+    }
 }
 
 /* Aplica un pas de simplificació a l'expressió. La subexpressió a

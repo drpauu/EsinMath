@@ -3,7 +3,7 @@ char _resta;
 char _multiplicacio;
 char _divisio;
 
-list<token> _exp = {};
+list<token> _exp;
 
 bool repeticio(list<string> &l);
 //es una fucnio auxiliar per fer la funcio vars.
