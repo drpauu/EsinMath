@@ -27,17 +27,17 @@ token::token(codi cod /*= NULLTOK*/) throw(error)
 token::token(int n) throw(error)
 {
   _id = CT_ENTERA;
-  valor._enter = n;
+  _valor._enter = n;
 }
 token::token(const racional &r) throw(error)
 {
   _id = CT_RACIONAL;
-  valor._racional = r;
+  _valor._racional = r;
 }
 token::token(double x) throw(error)
 {
   _id = CT_REAL;
-  valor._real = x;
+  _valor._real = x;
 }
 token::token(const string &var_name) throw(error)
 { // modifcar aquesta funcio
@@ -71,7 +71,7 @@ token::token(const string &var_name) throw(error)
   else
   {
     _id = VARIABLE;
-    valor._variable = var_name;
+    _valor._variable = var_name;
   }
 }
 
@@ -81,19 +81,19 @@ token::token(const token &t) throw(error)
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    valor._enter = t.valor._enter;
+    _valor._enter = t._valor._enter;
   }
   else if (_id == CT_RACIONAL)
   {
-    valor._racional = t.valor._racional;
+    _valor._racional = t._valor._racional;
   }
   else if (_id == CT_REAL)
   {
-    valor._real = t.valor._real;
+    _valor._real = t._valor._real;
   }
   else if (_id == VARIABLE)
   {
-    valor._variable = t.valor._variable;
+    _valor._variable = t._valor._variable;
   }
 }
 token &token::operator=(const token &t) throw(error)
@@ -101,20 +101,20 @@ token &token::operator=(const token &t) throw(error)
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    valor._enter = t.valor._enter;
+    _valor._enter = t._valor._enter;
   }
   else if (_id == CT_RACIONAL)
   {
-    valor._racional = t.valor._racional;
+    _valor._racional = t._valor._racional;
   }
   else if (_id == CT_REAL)
   {
-    valor._real = t.valor._real;
+    _valor._real = t._valor._real;
   }
   else if (_id == VARIABLE)
   {
-    valor._variable = t.valor._variable;
-  } // s'ha d'eliminar el valor que te, en el cas que en tingui 
+    _valor._variable = t._valor._variable;
+  } // s'ha d'eliminar el _valor que te, en el cas que en tingui 
   
   return *this;
 }
@@ -123,10 +123,10 @@ token::~token() throw()
   _id = NULLTOK;
 }
 
-/*Consultores: Retornen respectivament el codi i el valor (en el cas de
+/*Consultores: Retornen respectivament el codi i el _valor (en el cas de
   constants enteres, racionals o reals) o l'identificador (en el cas de
   variables). Es produeix un error si apliquem una consultora inadequada
-  sobre un token, p.e. si apliquem valor_enter sobre un token que no sigui
+  sobre un token, p.e. si apliquem _valor_enter sobre un token que no sigui
   una CT_ENTERA.*/
 token::codi token::tipus() const throw()
 {
@@ -134,24 +134,24 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  return valor._enter;
+  return _valor._enter;
 }
 racional token::valor_racional() const throw(error)
 {
-  return valor._racional;
+  return _valor._racional;
 }
 double token::valor_real() const throw(error)
 {
-  return valor._real;
+  return _valor._real;
 }
 string token::identificador_variable() const throw(error)
 {
-  return valor._variable;
+  return _valor._variable;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
   seus codis ho són i si 1) en cas de ser CT_ENTERA, CT_RACIONAL o CT_REAL,
-  els seus valors són iguals i 2) en cas de ser VARIABLE, tenen el mateix
+  els seus _valors són iguals i 2) en cas de ser VARIABLE, tenen el mateix
   nom. */
 bool token::operator==(const token &t) const throw()
 {
@@ -162,7 +162,7 @@ bool token::operator==(const token &t) const throw()
   }
   if (_id == CT_ENTERA)
   {
-    if (_id == t._id and valor._enter == t.valor._enter)
+    if (_id == t._id and _valor._enter == t._valor._enter)
     {
       ret = true;
     }
@@ -182,7 +182,7 @@ bool token::operator!=(const token &t) const throw()
   }
   if (_id == CT_ENTERA)
   {
-    if (_id == t._id and valor._enter != t.valor._enter)
+    if (_id == t._id and _valor._enter != t._valor._enter)
     {
       ret = true;
     }
@@ -206,7 +206,7 @@ bool token::operator>(const token &t) const throw(error)
   }
   if (_id == CT_ENTERA)
   {
-    if (valor._enter > t.valor._enter)
+    if (_valor._enter > t._valor._enter)
     {
       ret = true;
     }
@@ -226,7 +226,7 @@ bool token::operator<(const token &t) const throw(error)
   }
   if (_id == CT_ENTERA)
   {
-    if (valor._enter < t.valor._enter)
+    if (_valor._enter < t._valor._enter)
     {
       ret = true;
     }
