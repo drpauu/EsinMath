@@ -1,9 +1,9 @@
-char suma_; 
-char resta_;
-char multiplicacio_;
-char divisio_;
+char _suma; 
+char _resta;
+char _multiplicacio;
+char _divisio;
 
-list<token> exp_ = {};
+list<token> _exp = {};
 
 bool repeticio(list<string> &l);
 //es una fucnio auxiliar per fer la funcio vars.

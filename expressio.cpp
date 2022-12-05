@@ -9,7 +9,7 @@
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    exp_ = {t};
+    _exp = {t};
     //t.
 }
 
@@ -18,29 +18,29 @@ expressio::expressio(const token t = token()) throw(error)
    corresponent(és a dir, si és sintàcticament incorrecta). */
 expressio::expressio(const list<token> &l) throw(error)
 {
-    exp_ = l;
+    _exp = l;
 }
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
 {
-    exp_ = e.exp_;
+    _exp = e._exp;
 }
 expressio &expressio::operator=(const expressio &e) throw(error)
 {
-    exp_ = e.exp_;
+    _exp = e._exp;
     return *this;
 }
 expressio::~expressio() throw(error)
 {
-    exp_ = {};
+    _exp = {};
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
     list<token> buida = {};
-    if (exp_ == buida)
+    if (_exp == buida)
     {
         return true;
     }
@@ -52,7 +52,7 @@ expressio::operator bool() const throw()
    iguals si i només si els seus arbres d'expressió són idèntics. */
 bool expressio::operator==(const expressio &e) const throw()
 {
-    if (exp_ == e.exp_)
+    if (_exp == e._exp)
     {
         return true;
     }
@@ -61,7 +61,7 @@ bool expressio::operator==(const expressio &e) const throw()
 }
 bool expressio::operator!=(const expressio &e) const throw()
 {
-    if (exp_ != e.exp_)
+    if (_exp != e._exp)
     {
         return true;
     }
