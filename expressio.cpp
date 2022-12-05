@@ -1,4 +1,5 @@
 #include "expressio.hpp"
+#include "racional.hpp"
 #include "token.hpp"
 
 /* Constructora d'una expressió formada per un sol token: un operand. Si
@@ -8,8 +9,16 @@
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    if(t.tipus() != (NULLTOK and CT_ENTERA and CT_RACIONAL and CT_REAL and CT_E and VARIABLE and VAR_PERCENTAtGE))
+    if(t.tipus() != (token::codi::NULLTOK and
+                     token::codi::CT_ENTERA and
+                     token::codi::CT_RACIONAL and
+                     token::codi::CT_REAL and
+                     token::codi::CT_E and
+                     token::codi::VARIABLE and
+                     token::codi::VAR_PERCENTATGE))
+    {
         throw(31);
+    }
     else
         _exp = {t};
         //t.
