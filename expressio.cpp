@@ -87,8 +87,8 @@ void expressio::vars(list<string> &l) const throw(error)
     for (it = elem.begin(); it != elem.end(); ++it)
     {
         token t;
-        if(*it->tipus() == t.VARIABLE){
-            l.push_back(*it->identificador_variable());
+        if(it->tipus() == t.VARIABLE){
+            l.push_back(it->identificador_variable());
         }
     }
     l.sort();
