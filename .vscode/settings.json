@@ -7,6 +7,7 @@
         "vector": "cpp",
         "cmath": "cpp",
         "*.tcc": "cpp",
-        "type_traits": "cpp"
+        "type_traits": "cpp",
+        "list": "cpp"
     }
 }

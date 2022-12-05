@@ -1,6 +1,9 @@
 #include "expressio.hpp"
 #include "racional.hpp"
 #include "token.hpp"
+#include <list>
+
+using namespace std;
 
 /* Constructora d'una expressió formada per un sol token: un operand. Si
    s'utiliza el valor del token per defecte es construeix la que
@@ -21,7 +24,6 @@ expressio::expressio(const token t = token()) throw(error)
     }
     else
         _exp = {t};
-        //t.
 }
 
 /* Constructora a partir d'una seqüència de tokens. Es produeix un error si
@@ -88,6 +90,18 @@ void expressio::vars(list<string> &l) const throw(error)
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
     } */
+    list<token> elem;
+    elem = _exp; 
+    list<token>::iterator it;
+    for (it = elem.begin(); it != elem.end(); ++it)
+    {
+        token t;
+        if(it->tipus() == t.VARIABLE){
+            l.push_back(it->identificador_variable());
+        }
+    }
+    l.sort();
+    l.unique();
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
