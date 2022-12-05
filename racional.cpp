@@ -258,29 +258,6 @@ int racional::calcula_part_entera()
 
 pair<int, int> racional::calcula_residu()
 {
-    //Numerador_residu = (part_entera(floor) * _d) + _n
-    /*pair<int, int> residu;
-    bool es_negatiu = false;
-    int p_ent_pos = this->part_entera(), num_pos = this->num();
-    if(_n < 0)
-    {
-        if(p_ent_pos < 0)
-        {
-            p_ent_pos *= -1;
-            p_ent_pos--;
-        }
-        num_pos *= -1;
-        es_negatiu = true;
-    }
-    num_pos = num_pos - (p_ent_pos * this->denom());
-    if(es_negatiu)
-    {
-        num_pos *= -1;
-        num_pos += this->denom();
-    }
-    residu.first = num_pos;
-    residu.second = this->denom();
-    residu = this->simplificar(residu.first, residu.second);*/
     pair<int, int> residu;
     int num_residu, aux;
     aux = _part_entera * _d;
