@@ -22,22 +22,22 @@ using namespace std;
 
 token::token(codi cod /*= NULLTOK*/) throw(error)
 {
-  id_ = cod;
+  _id = cod;
 }
 token::token(int n) throw(error)
 {
-  id_ = CT_ENTERA;
-  valor.enter_ = n;
+  _id = CT_ENTERA;
+  valor._enter = n;
 }
 token::token(const racional &r) throw(error)
 {
-  id_ = CT_RACIONAL;
-  valor.racional_ = r;
+  _id = CT_RACIONAL;
+  valor._racional = r;
 }
 token::token(double x) throw(error)
 {
-  id_ = CT_REAL;
-  valor.real_ = x;
+  _id = CT_REAL;
+  valor._real = x;
 }
 token::token(const string &var_name) throw(error)
 { // modifcar aquesta funcio
@@ -46,81 +46,81 @@ token::token(const string &var_name) throw(error)
   }
   if (var_name == "unassign")
   {
-    id_ = DESASSIGNACIO;
+    _id = DESASSIGNACIO;
   }
   else if (var_name == "e")
   {
-    id_ = CT_E;
+    _id = CT_E;
   }
   else if (var_name == "log")
   {
-    id_ = LOG;
+    _id = LOG;
   }
   else if (var_name == "exp")
   {
-    id_ = EXP;
+    _id = EXP;
   }
   else if (var_name == "sqrt")
   {
-    id_ = SQRT;
+    _id = SQRT;
   }
   else if (var_name == "evalf")
   {
-    id_ = EVALF;
+    _id = EVALF;
   }
   else
   {
-    id_ = VARIABLE;
-    valor.variable_ = var_name;
+    _id = VARIABLE;
+    valor._variable = var_name;
   }
 }
 
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
-  id_ = t.id_;
-  if (id_ == CT_ENTERA)
+  _id = t._id;
+  if (_id == CT_ENTERA)
   {
-    valor.enter_ = t.valor.enter_;
+    valor._enter = t.valor._enter;
   }
-  else if (id_ == CT_RACIONAL)
+  else if (_id == CT_RACIONAL)
   {
-    valor.racional_ = t.valor.racional_;
+    valor._racional = t.valor._racional;
   }
-  else if (id_ == CT_REAL)
+  else if (_id == CT_REAL)
   {
-    valor.real_ = t.valor.real_;
+    valor._real = t.valor._real;
   }
-  else if (id_ == VARIABLE)
+  else if (_id == VARIABLE)
   {
-    valor.variable_ = t.valor.variable_;
+    valor._variable = t.valor._variable;
   }
 }
 token &token::operator=(const token &t) throw(error)
 {
-  id_ = t.id_;
-  if (id_ == CT_ENTERA)
+  _id = t._id;
+  if (_id == CT_ENTERA)
   {
-    valor.enter_ = t.valor.enter_;
+    valor._enter = t.valor._enter;
   }
-  else if (id_ == CT_RACIONAL)
+  else if (_id == CT_RACIONAL)
   {
-    valor.racional_ = t.valor.racional_;
+    valor._racional = t.valor._racional;
   }
-  else if (id_ == CT_REAL)
+  else if (_id == CT_REAL)
   {
-    valor.real_ = t.valor.real_;
+    valor._real = t.valor._real;
   }
-  else if (id_ == VARIABLE)
+  else if (_id == VARIABLE)
   {
-    valor.variable_ = t.valor.variable_;
+    valor._variable = t.valor._variable;
   } // s'ha d'eliminar el valor que te, en el cas que en tingui 
   
   return *this;
 }
 token::~token() throw()
 {
-  id_ = NULLTOK;
+  _id = NULLTOK;
 }
 
 /*Consultores: Retornen respectivament el codi i el valor (en el cas de
@@ -130,23 +130,23 @@ token::~token() throw()
   una CT_ENTERA.*/
 token::codi token::tipus() const throw()
 {
-  return id_;
+  return _id;
 }
 int token::valor_enter() const throw(error)
 {
-  return valor.enter_;
+  return valor._enter;
 }
 racional token::valor_racional() const throw(error)
 {
-  return valor.racional_;
+  return valor._racional;
 }
 double token::valor_real() const throw(error)
 {
-  return valor.real_;
+  return valor._real;
 }
 string token::identificador_variable() const throw(error)
 {
-  return valor.variable_;
+  return valor._variable;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -156,13 +156,13 @@ string token::identificador_variable() const throw(error)
 bool token::operator==(const token &t) const throw()
 {
   bool ret = false;
-  if (id_ != t.id_)
+  if (_id != t._id)
   {
     throw(13);
   }
-  if (id_ == CT_ENTERA)
+  if (_id == CT_ENTERA)
   {
-    if (id_ == t.id_ and valor.enter_ == t.valor.enter_)
+    if (_id == t._id and valor._enter == t.valor._enter)
     {
       ret = true;
     }
@@ -176,13 +176,13 @@ bool token::operator==(const token &t) const throw()
 bool token::operator!=(const token &t) const throw()
 {
   bool ret = false;
-  if (id_ != t.id_)
+  if (_id != t._id)
   {
     throw(13);
   }
-  if (id_ == CT_ENTERA)
+  if (_id == CT_ENTERA)
   {
-    if (id_ == t.id_ and valor.enter_ != t.valor.enter_)
+    if (_id == t._id and valor._enter != t.valor._enter)
     {
       ret = true;
     }
@@ -200,13 +200,13 @@ bool token::operator!=(const token &t) const throw()
 bool token::operator>(const token &t) const throw(error)
 {
   bool ret = false;
-  if (id_ != t.id_)
+  if (_id != t._id)
   {
     throw(13);
   }
-  if (id_ == CT_ENTERA)
+  if (_id == CT_ENTERA)
   {
-    if (valor.enter_ > t.valor.enter_)
+    if (valor._enter > t.valor._enter)
     {
       ret = true;
     }
@@ -220,13 +220,13 @@ bool token::operator>(const token &t) const throw(error)
 bool token::operator<(const token &t) const throw(error)
 {
   bool ret = false;
-  if (id_ != t.id_)
+  if (_id != t._id)
   {
     throw(13);
   }
-  if (id_ == CT_ENTERA)
+  if (_id == CT_ENTERA)
   {
-    if (valor.enter_ < t.valor.enter_)
+    if (valor._enter < t.valor._enter)
     {
       ret = true;
     }

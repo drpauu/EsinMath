@@ -1,6 +1,5 @@
 #include "expressio.hpp"
-
-#include "expressio.hpp"
+#include "token.hpp"
 
 /* Constructora d'una expressió formada per un sol token: un operand. Si
    s'utiliza el valor del token per defecte es construeix la que
@@ -9,6 +8,7 @@
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
+    if(t != NULLTOK)
     _exp = {t};
     //t.
 }
