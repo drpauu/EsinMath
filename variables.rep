@@ -1,0 +1,3 @@
+#include <map>
+
+std::map<string, expressio> _var;
