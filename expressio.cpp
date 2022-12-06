@@ -114,8 +114,19 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
         {
             if (it->identificador_variable() == v)
             {
-                // s ha de posar un fragment de llista aqui
-                //
+                list<token> ins;
+                ins = e._exp;
+                list<token>::iterator in;
+                in = ins.begin();
+                *it = *in;
+                it++;
+                in++;
+                while (in != ins.end())
+                {
+                    _exp.insert(it, *in);
+                    in++;
+                }
+                return;
             }
         }
     }
@@ -127,6 +138,7 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
    errors semàntics que apareixen més avall numerats des del 32 al 35. */
 void expressio::simplify_one_step() throw(error)
 {
+    // sha de fer un arbre i tal, sino no entenc
 }
 
 /* Aplica successius passos de simplificació com l'anterior fins que
