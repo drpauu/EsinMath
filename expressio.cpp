@@ -1,5 +1,6 @@
 #include "expressio.hpp"
 #include "token.hpp"
+#include <stack>
 #include <list>
 
 using namespace std;
@@ -25,7 +26,14 @@ expressio::expressio(const token t = token()) throw(error)
 expressio::expressio(const list<token> &l) throw(error)
 {
     //1r faig l'algorisme suposant que l'expressio donada es correcta:
-
+    stack<string> output, operator;
+    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
+    {
+        if(*it.tipus() == (*it.VARIABLE or *it.CT_ENTERA or *it.CT_RACIONAL or *it.CT_REAL or *it.CT_E or *it.COMA))
+        {
+            output.push(*it);
+        }
+    }
 }
 
 // Constructora per còpia, assignació i destructora.
