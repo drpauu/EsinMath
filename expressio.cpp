@@ -37,16 +37,39 @@ expressio::expressio(const list<token> &l) throw(error)
         }
         else
         {
-            bool treure_de_la_pila;
-            treure_de_la_pila = calcular_prioritat(tok, operador.top());
-                                // retorna true si l'operador de la pila té més prioriat
-                                // que el token 
-            if(treure_de_la_pila)
+            if(tok.tipus == TANCAR_PAR)
             {
-                output.push(operador.top());
                 operador.pop();
+                while(tok.tipus != OBRIR_PAR)
+                {
+                    output.push(operador.top());
+                    operador.pop();
+                }
+                operador.pop();
+                if(operador != OBRIR_PAR)
+                {
+                    output.push(operador.top());
+                    operador.pop();
+                }
             }
-            operador.push(tok);
+            else
+            {
+                bool treure_de_la_pila;
+                if(operador.empty())
+                {
+                    treure_de_la_pila = false;
+                }
+                else
+                    treure_de_la_pila = calcular_prioritat(tok, operador.top());
+                                        // retorna true si l'operador de la pila té més prioriat
+                                        // que el token 
+                if(treure_de_la_pila)
+                {
+                    output.push(operador.top());
+                    operador.pop();
+                }
+                operador.push(tok);
+            }
         }
     }
     while(not operador.empty())
