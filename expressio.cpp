@@ -24,7 +24,8 @@ expressio::expressio(const token t = token()) throw(error)
    corresponent(és a dir, si és sintàcticament incorrecta). */
 expressio::expressio(const list<token> &l) throw(error)
 {
-    _exp = l;
+    //1r faig l'algorisme suposant que l'expressio donada es correcta:
+
 }
 
 // Constructora per còpia, assignació i destructora.
@@ -139,6 +140,9 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
 void expressio::simplify_one_step() throw(error)
 {
     // sha de fer un arbre i tal, sino no entenc
+    // L'arbre el fem al constructor, quan ens passen la llista de tokens
+    // Aquí el que hem de fer és simplificar una sola cosa. Crec que el mètode simplify anirà cridant
+    // al mètode simplify_one_step fins que ja no es pugui simplificar més.
 }
 
 /* Aplica successius passos de simplificació com l'anterior fins que
