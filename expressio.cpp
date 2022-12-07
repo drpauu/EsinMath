@@ -26,13 +26,33 @@ expressio::expressio(const token t = token()) throw(error)
 expressio::expressio(const list<token> &l) throw(error)
 {
     //1r faig l'algorisme suposant que l'expressio donada es correcta:
-    stack<string> output, operator;
+    stack<string> output, operador;
+    token tok;
     for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
-        if(*it.tipus() == (*it.VARIABLE or *it.CT_ENTERA or *it.CT_RACIONAL or *it.CT_REAL or *it.CT_E or *it.COMA))
+        tok = *it;
+        if(tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
         {
-            output.push(*it);
+            output.push(tok);
         }
+        else
+        {
+            bool treure_de_la_pila;
+            treure_de_la_pila = calcular_prioritat(tok, operador.top());
+                                // retorna true si l'operador de la pila té més prioriat
+                                // que el token 
+            if(treure_de_la_pila)
+            {
+                output.push(operador.top());
+                operador.pop();
+            }
+            operador.push(tok);
+        }
+    }
+    while(not operador.empty())
+    {
+        output.push(operador.top());
+        operador.pop();
     }
 }
 
