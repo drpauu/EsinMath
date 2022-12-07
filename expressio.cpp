@@ -39,14 +39,13 @@ expressio::expressio(const list<token> &l) throw(error)
         {
             if(tok.tipus == TANCAR_PAR)
             {
-                operador.pop();
                 while(tok.tipus != OBRIR_PAR)
                 {
                     output.push(operador.top());
                     operador.pop();
                 }
                 operador.pop();
-                if(operador != OBRIR_PAR)
+                if(operador.tipus() != OBRIR_PAR)
                 {
                     output.push(operador.top());
                     operador.pop();
