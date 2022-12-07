@@ -23,27 +23,6 @@ using namespace std;
 token::token(codi cod /*= NULLTOK*/) throw(error)
 {
   _id = cod;
-}
-token::token(int n) throw(error)
-{
-  _id = CT_ENTERA;
-  _valor._enter = n;
-}
-token::token(const racional &r) throw(error)
-{
-  _id = CT_RACIONAL;
-  _valor._racional = r;
-}
-token::token(double x) throw(error)
-{
-  _id = CT_REAL;
-  _valor._real = x;
-}
-token::token(const string &var_name) throw(error)
-{ // modifcar aquesta funcio
-  if(check_variables(var_name)){
-    throw(11);
-  }
   if (var_name == "unassign")
   {
     _id = DESASSIGNACIO;
@@ -67,6 +46,73 @@ token::token(const string &var_name) throw(error)
   else if (var_name == "evalf")
   {
     _id = EVALF;
+  }
+  else if(var_name == "%")
+  {
+    _id = VAR_PERCENTATGE;
+  }
+  else if(var_name == "+")
+  {
+    _id = SUMA;
+  }
+  else if(var_name == "-")
+  {
+    _id = RESTA;
+  }
+  else if(var_name == "*")
+  {
+    _id = MULTIPLICACIO;
+  }
+  else if(var_name == "/")
+  {
+    _id = DIVISIO;
+  }
+  else if(var_name == "^")
+  {
+    _id = EXPONENCIACIO;
+  }
+  else if(var_name == "(")
+  {
+    _id = OBRIR_PAR;
+  }
+  else if(var_name == ")")
+  {
+    _id = TANCAR_PAR;
+  }
+  else if(var_name == ".")
+  {
+    _id = COMA;
+  }
+  else if(var_name == ":=")
+  {
+    _id = ASSIGNACIO;
+  }
+  else if(var_name == "byebye")
+  {
+    _id = BYEBYE;
+  }
+  /// Falten els tokens CANVI_DE_SIGNE i SIGNE_POSITIU
+}
+token::token(int n) throw(error)
+{
+  _id = CT_ENTERA;
+  _valor._enter = n;
+}
+token::token(const racional &r) throw(error)
+{
+  _id = CT_RACIONAL;
+  _valor._racional = r;
+}
+token::token(double x) throw(error)
+{
+  _id = CT_REAL;
+  _valor._real = x;
+}
+token::token(const string &var_name) throw(error)
+{ // modifcar aquesta funcio
+  if(check_variables(var_name))
+  {
+    throw(11);
   }
   else
   {
