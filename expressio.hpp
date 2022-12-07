@@ -6,7 +6,6 @@
 #include <esin/util>
 #include "token.hpp"
 #include "racional.hpp"
-#include "arbreBin.hpp"
 
 using std::list;
 using std::string;

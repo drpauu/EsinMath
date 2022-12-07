@@ -1,3 +1,5 @@
+#include "arbreBin.hpp"
+
 char _suma; 
 char _resta;
 char _multiplicacio;
