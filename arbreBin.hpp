@@ -263,7 +263,7 @@ std::istream &operator>>(std::istream &is, arbreBin &x)
    node s'indica el seu valor i el nombre de fills */
 /* Post: x = X */
 {
-	U node;
+	string node;
 	int size, nf;
 	std::stack<arbreBin> p;
 

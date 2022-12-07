@@ -5,5 +5,7 @@ char _divisio;
 
 list<token> _exp;
 
+arbreBin _arbre_expressions;
+
 bool repeticio(list<string> &l);
 //es una fucnio auxiliar per fer la funcio vars.
