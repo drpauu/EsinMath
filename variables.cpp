@@ -49,11 +49,9 @@ void variables::unassign(const string &v) throw() {
 /* Consulta el valor-expressió de la variable v. Si la variable no està en
    el conjunt de variables retorna l'expressió buida. */
 expressio variables::valor(const string &lv) const throw(error) {
-    std::map<string, expressio>::iterator it;
-    //it = _var.find(lv); no entenc pq dona error, nidea, despres ho miro
-    if (it != _var.end())
+    if (_var.find(lv) != _var.end())
     {
-        return it->second;
+        return _var.find(lv)->second;
     } else{
         expressio a;
         return a;
@@ -68,7 +66,7 @@ void variables::dump(list<string> &l) const throw(error) {
         l.push_back(it->first);
         it++;
     }
-    //return l; en el post diu que s ha de retornar una llista,
+    // return l; en el post diu que s ha de retornar una llista,
     // pero es una fucnio void, no ho entenc.
-    //ho poso com a comentari 
+    // ho poso com a comentari 
 }
