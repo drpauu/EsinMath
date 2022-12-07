@@ -40,7 +40,7 @@ token::token(double x) throw(error)
   _valor._real = x;
 }
 token::token(const string &var_name) throw(error)
-{ // modifcar aquesta funcio
+{
   if(check_variables(var_name))
   {
     throw(11);
