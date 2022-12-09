@@ -226,3 +226,16 @@ bool token::check_variables(string var){
     }
     return incorrecte;
 }
+
+int token::prioritat_operacio()
+{
+  if(_id == (SUMA or RESTA))
+    return 1;
+  else if(_id == (MULTIPLICACIO or DIVISIO))
+    return 2;
+  else if(_id == (CANVI_DE_SIGNE or SIGNE_POSITIU))
+    return 3;
+  else if(_id == (EXPONENCIACIO or SQRT or LOG or EXP))
+    return 4;
+  else return 0;
+}
