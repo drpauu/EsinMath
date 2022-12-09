@@ -5,6 +5,6 @@ char _resta;
 char _multiplicacio;
 char _divisio;
 
-//arbreBin<token> _arbre;
+arbreBin<token> _arbre;
 
 list<token> _exp;
