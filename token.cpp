@@ -41,7 +41,7 @@ token::token(double x) throw(error)
 }
 token::token(const string &var_name) throw(error)
 {
-  if(check_variables(var_name))
+  if (check_variables(var_name))
   {
     throw(11);
   }
@@ -91,8 +91,8 @@ token &token::operator=(const token &t) throw(error)
   else if (_id == VARIABLE)
   {
     _valor._variable = t._valor._variable;
-  } // s'ha d'eliminar el _valor que te, en el cas que en tingui 
-  
+  } // s'ha d'eliminar el _valor que te, en el cas que en tingui
+
   return *this;
 }
 token::~token() throw()
@@ -215,27 +215,50 @@ bool token::operator<(const token &t) const throw(error)
   return ret;
 }
 
-bool token::check_variables(string var){
-    char lletra; 
-    bool incorrecte = false;
-    for(unsigned int i = 0; i < var.length(); i++){
-        lletra = var[i];
-        if(!isalpha(lletra) and int(lletra) != 95){
-                incorrecte = true;
-        }
+bool token::check_variables(string var)
+{
+  char lletra;
+  bool incorrecte = false;
+  for (unsigned int i = 0; i < var.length(); i++)
+  {
+    lletra = var[i];
+    if (!isalpha(lletra) and int(lletra) != 95)
+    {
+      incorrecte = true;
     }
-    return incorrecte;
+  }
+  return incorrecte;
 }
 
 int token::prioritat_operacio()
+//Pre: El token ha de ser un operador
+//Post: Retorna del 1 al 4 un enter que representa la prioritat de l'operador.
+//      Si el token no és cap operador retornarà un 0(error). 
 {
-  if(_id == (SUMA or RESTA))
+  if (_id == (SUMA or RESTA))
     return 1;
-  else if(_id == (MULTIPLICACIO or DIVISIO))
+  else if (_id == (MULTIPLICACIO or DIVISIO))
     return 2;
-  else if(_id == (CANVI_DE_SIGNE or SIGNE_POSITIU))
+  else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU))
     return 3;
-  else if(_id == (EXPONENCIACIO or SQRT or LOG or EXP))
+  else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP))
     return 4;
-  else return 0;
+  else
+    return 0;
+}
+
+int token::numero_operadors()
+//Pre: El token ha de ser un operador
+//Post: Retorna un enter que representa el nombre d'operands sobre el que l'operador
+//      actua. Si el token no és cap operador retornarà un 0, per exemple en el cas
+//      de les constants o variables. Si el token no és vàlid en una expressió retorna -1.
+{
+  if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU or SQRT or LOG or EXP))
+    return 1;
+  else if (_id == (SUMA or RESTA or MULTIPLICACIO or DIVISIO or EXPONENCIACIO))
+    return 2;
+  else if(_id == (CT_ENTERA or CT_RACIONAL or CT_REAL or CT_E or VARIABLE))
+    return 0;
+  else
+    return -1;
 }

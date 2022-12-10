@@ -17,3 +17,5 @@ data _valor;
 bool check_variables(string var);
 
 int prioritat_operacio();
+
+int numero_operadors();

@@ -46,7 +46,7 @@ expressio::expressio(const list<token> &l) throw(error)
             {
                 operador.push(tok);
             }
-            else if(operador.top().tipus() != operador.top()OBRIR_PAR)
+            else if(operador.top().tipus() != operador.top().OBRIR_PAR)
             {
                 int prioritat_oper1, prioritat_tok;
                 prioritat_oper1 = operador.top().prioritat_operacio();
@@ -82,6 +82,7 @@ expressio::expressio(const list<token> &l) throw(error)
             output.push(operador.top());
         operador.pop();
     }
+    
     //Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
 }
 
