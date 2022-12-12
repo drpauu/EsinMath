@@ -25,7 +25,6 @@ expressio::expressio(const token t = token()) throw(error)
    corresponent(és a dir, si és sintàcticament incorrecta). */
 expressio::expressio(const list<token> &l) throw(error)
 {
-
     //Recorrer la llista l
     stack<token> operador, output;
     token tok;
