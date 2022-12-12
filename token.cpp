@@ -27,20 +27,24 @@ token::token(codi cod /*= NULLTOK*/) throw(error)
 token::token(int n) throw(error)
 {
   _id = CT_ENTERA;
-  _valor._enter = n;
+  //_valor._enter = n;
+  _valor = &n;
 }
 token::token(const racional &r) throw(error)
 {
   _id = CT_RACIONAL;
-  _valor._racional = r;
+  //_valor._racional = r;\
+  _valor = &r;
 }
 token::token(double x) throw(error)
 {
   _id = CT_REAL;
-  _valor._real = x;
+  //_valor._real = x;
+  _valor = &x;
 }
 token::token(const string &var_name) throw(error)
 {
+  string s = var_name;
   if (check_variables(var_name))
   {
     throw(11);
@@ -48,7 +52,8 @@ token::token(const string &var_name) throw(error)
   else
   {
     _id = VARIABLE;
-    _valor._variable = var_name;
+    //_valor._variable = var_name;
+    _valor = &s;
   }
 }
 
@@ -58,19 +63,23 @@ token::token(const token &t) throw(error)
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    _valor._enter = t._valor._enter;
+    //_valor._enter = t._valor._enter;
+    _valor = t._valor;
   }
   else if (_id == CT_RACIONAL)
   {
-    _valor._racional = t._valor._racional;
+    //_valor._racional = t._valor._racional;
+    _valor = t._valor;
   }
   else if (_id == CT_REAL)
   {
-    _valor._real = t._valor._real;
+    //_valor._real = t._valor._real;
+    _valor = t._valor;
   }
   else if (_id == VARIABLE)
   {
-    _valor._variable = t._valor._variable;
+    //_valor._variable = t._valor._variable;
+    _valor = t._valor;
   }
 }
 token &token::operator=(const token &t) throw(error)
@@ -78,19 +87,23 @@ token &token::operator=(const token &t) throw(error)
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    _valor._enter = t._valor._enter;
+    //_valor._enter = t._valor._enter;
+    _valor = t._valor;
   }
   else if (_id == CT_RACIONAL)
   {
-    _valor._racional = t._valor._racional;
+    //_valor._racional = t._valor._racional;
+    _valor = t._valor;
   }
   else if (_id == CT_REAL)
   {
-    _valor._real = t._valor._real;
+    //_valor._real = t._valor._real;
+    _valor = t._valor;
   }
   else if (_id == VARIABLE)
   {
-    _valor._variable = t._valor._variable;
+    //valor._variable = t._valor._variable;
+    _valor = t._valor;
   } // s'ha d'eliminar el _valor que te, en el cas que en tingui
 
   return *this;
@@ -111,19 +124,23 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  return _valor._enter;
+  //return _valor.enter;
+  return *(int *)_valor;
 }
 racional token::valor_racional() const throw(error)
 {
-  return _valor._racional;
+  //return _valor._racional;
+  return *(racional *)_valor;
 }
 double token::valor_real() const throw(error)
 {
-  return _valor._real;
+  //return _valor._real;
+  return *(double *)_valor;
 }
 string token::identificador_variable() const throw(error)
 {
-  return _valor._variable;
+  //return _valor._variable;
+  return *(string *)_valor;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -131,7 +148,7 @@ string token::identificador_variable() const throw(error)
   els seus _valors són iguals i 2) en cas de ser VARIABLE, tenen el mateix
   nom. */
 bool token::operator==(const token &t) const throw()
-{
+{/*
   bool ret = false;
   if (_id != t._id)
   {
@@ -148,11 +165,11 @@ bool token::operator==(const token &t) const throw()
       ret = false;
     }
   }
-  return ret;
+  return ret;*/
 }
 bool token::operator!=(const token &t) const throw()
 {
-  bool ret = false;
+  /*  bool ret = false;
   if (_id != t._id)
   {
     throw(13);
@@ -168,7 +185,7 @@ bool token::operator!=(const token &t) const throw()
       ret = false;
     }
   }
-  return ret;
+  return ret;*/
 }
 
 /*Precedència entre tokens. L'operador > retorna cert si i només si el token
