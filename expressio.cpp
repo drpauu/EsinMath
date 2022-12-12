@@ -26,22 +26,22 @@ expressio::expressio(const token t = token()) throw(error)
 expressio::expressio(const list<token> &l) throw(error)
 {
 
-//Recorrer la llista l
+    //Recorrer la llista l
     stack<token> operador, output;
     token tok;
     for(list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
         tok = *it;
-    //if (token == var/constant)
+        //if (token == var/constant)
         if(tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
         {
         //Guardar token a l'stack output
             output.push(tok);
         }
-    //else (token == operador)
+        //else (token == operador)
         else
         {
-        //Mirar la prioritat dels operadors i guardar l'operador a l'stack operador 
+            //Mirar la prioritat dels operadors i guardar l'operador a l'stack operador 
             if(operador.empty())
             {
                 operador.push(tok);
@@ -82,8 +82,8 @@ expressio::expressio(const list<token> &l) throw(error)
             output.push(operador.top());
         operador.pop();
     }
-    
     //Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
+    
 }
 
 expressio::expressio(const list<token> &l) throw(error){
