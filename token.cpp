@@ -148,44 +148,20 @@ string token::identificador_variable() const throw(error)
   els seus _valors són iguals i 2) en cas de ser VARIABLE, tenen el mateix
   nom. */
 bool token::operator==(const token &t) const throw()
-{/*
-  bool ret = false;
-  if (_id != t._id)
-  {
-    throw(13);
+{
+  if(_id == t._id){
+    return true;
+  } else{
+    return false;
   }
-  if (_id == CT_ENTERA)
-  {
-    if (_id == t._id and _valor._enter == t._valor._enter)
-    {
-      ret = true;
-    }
-    else
-    {
-      ret = false;
-    }
-  }
-  return ret;*/
 }
 bool token::operator!=(const token &t) const throw()
 {
-  /*  bool ret = false;
-  if (_id != t._id)
-  {
-    throw(13);
+  if(_id != t._id){
+    return true;
+  } else{
+    return false;
   }
-  if (_id == CT_ENTERA)
-  {
-    if (_id == t._id and _valor._enter != t._valor._enter)
-    {
-      ret = true;
-    }
-    else
-    {
-      ret = false;
-    }
-  }
-  return ret;*/
 }
 
 /*Precedència entre tokens. L'operador > retorna cert si i només si el token
