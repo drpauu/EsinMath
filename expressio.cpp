@@ -1,7 +1,7 @@
 #include "expressio.hpp"
 #include "token.hpp"
-#include <stack>
 #include <list>
+#include <stack>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
+    if (t.tipus() != (t.NULLTOK or t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
         throw(31);
     else
     {
@@ -25,65 +25,57 @@ expressio::expressio(const token t = token()) throw(error)
    corresponent(és a dir, si és sintàcticament incorrecta). */
 expressio::expressio(const list<token> &l) throw(error)
 {
-
-//Recorrer la llista l
-    stack<token> operador, output;
+    //1r faig l'algorisme suposant que l'expressio donada es correcta:
+    stack<string> output, operador;
     token tok;
-    for(list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
+    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
         tok = *it;
-    //if (token == var/constant)
         if(tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
         {
-        //Guardar token a l'stack output
             output.push(tok);
         }
-    //else (token == operador)
         else
         {
-        //Mirar la prioritat dels operadors i guardar l'operador a l'stack operador 
-            if(operador.empty())
+            if(tok.tipus() == TANCAR_PAR)
             {
-                operador.push(tok);
-            }
-            else if(operador.top().tipus() != operador.top().OBRIR_PAR)
-            {
-                int prioritat_oper1, prioritat_tok;
-                prioritat_oper1 = operador.top().prioritat_operacio();
-                prioritat_tok = tok.prioritat_operacio();
-                if(tok.tipus() == tok.TANCAR_PAR)
+                while(tok.tipus() != OBRIR_PAR)
                 {
-                    while(operador.top().tipus() != operador.top().OBRIR_PAR)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
+                    output.push(operador.top());
+                    operador.pop();
                 }
-                else
+                operador.pop();
+                if(operador.tipus() != OBRIR_PAR)
                 {
-                    while(prioritat_oper1 <= prioritat_tok)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                        prioritat_oper1 = operador.top().prioritat_operacio();
-                    }
-                    operador.push(tok);
+                    output.push(operador.top());
+                    operador.pop();
                 }
             }
             else
             {
+                bool treure_de_la_pila;
+                if(operador.empty())
+                {
+                    treure_de_la_pila = false;
+                }
+                else
+                    treure_de_la_pila = calcular_prioritat(tok, operador.top());
+                                        // retorna true si l'operador de la pila té més prioriat
+                                        // que el token 
+                if(treure_de_la_pila)
+                {
+                    output.push(operador.top());
+                    operador.pop();
+                }
                 operador.push(tok);
             }
         }
     }
     while(not operador.empty())
     {
-        if(operador.tipus() != (operador.OBRIR_PAR or operador.TANCAR_PAR))
-            output.push(operador.top());
+        output.push(operador.top());
         operador.pop();
     }
-    
-    //Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
 }
 
 expressio::expressio(const list<token> &l) throw(error){
