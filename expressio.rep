@@ -1,5 +1,8 @@
+#include "Abin.hpp"
 #include "arbreBin.hpp"
 
-//arbreBin<token> _arbre;
+//Abin::Abin<token> _exp;
 
-list<token> _exp;
+arbreBin::arbreBin<token> _exp;
+
+// no es pot crear un arbre, no se pq
