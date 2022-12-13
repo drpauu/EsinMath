@@ -1,6 +1,3 @@
-//#include "Abin.hpp"
-//#include "arbreBin.hpp"
-
 #ifndef ARBREBIN_HPP
 #define ARBREBIN_HPP
 
@@ -302,5 +299,7 @@ std::istream& operator>>(std::istream &is, arbreBin<U> &x)
 //Abin::Abin<token> _exp;
 
 arbreBin<token> _exp;
+
+bool coperand(token t); //aquesta funcio es per comprovar si és un operand o no
 
 // no es pot crear un arbre, no se pq

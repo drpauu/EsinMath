@@ -33,8 +33,9 @@ token::token(int n) throw(error)
 token::token(const racional &r) throw(error)
 {
   _id = CT_RACIONAL;
-  //_valor._racional = r;\
-  _valor = &r;
+  racional rac = r;
+  //_valor._racional = r;
+  _valor = &rac;
 }
 token::token(double x) throw(error)
 {
