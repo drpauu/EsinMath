@@ -12,11 +12,12 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
+    token tok = t;
     if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
         throw(31);
     else
     {
-        _exp.push_back(t);
+        arbreBin<token> _exp(tok, arbreBin<token>(), arbreBin<token>());
     }
 }
 
@@ -90,8 +91,8 @@ expressio::expressio(const list<token> &l) throw(error){
     //i despres ho faria mirant quin tipus de prioritat.
     list<token> llista;
     llista = l;
-    stack<token> operadors;
-    stack<token> expressions; // aquesta pila hauria de ser, una pila d 'arbres d'expressions
+    list<token> operadors;
+    list<token> expressions; // aquesta pila hauria de ser, una pila d 'arbres d'expressions
     // pero ns pq, al .rep, no em deixa fer un arbre, dema ho miro
     list<token>::iterator it;
     token t;
