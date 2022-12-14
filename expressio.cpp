@@ -25,6 +25,69 @@ expressio::expressio(const token t = token()) throw(error)
     }
 }
 
+int operators(char op) {
+  if (op == '+' or op == '-')
+    return 1;
+  if (op == '*' or op == '/')
+    return 2;
+  return 0;
+}
+
+bool is_operator(char token) {
+  return token == '+' or token == '-' or token == '*' or token == '/';
+}
+
+bool is_parenthesis(char token) { return token == '(' or token == ')'; }
+
+bool is_open_parenthesis(char token) { return token == '('; }
+
+bool is_close_parenthesis(char token) { return token == ')'; }
+
+arbreBin<char> arbre(string tokens) {
+  stack<arbreBin<char>> expressio;
+  stack<char> oops;
+  for (int i = 0; i < tokens.length(); i++) {
+    if (is_open_parenthesis(tokens[i])) {
+      oops.push(tokens[i]);
+    } else if (is_close_parenthesis(tokens[i])) {
+      while (!oops.empty() and
+             (operators(oops.top()) >= operators(tokens[i])) and
+             !is_open_parenthesis(oops.top())) {
+        arbreBin<char> aux = expressio.top();
+        expressio.pop();
+        arbreBin<char> exp(oops.top(), expressio.top(), aux);
+        expressio.pop();
+        oops.pop();
+        expressio.push(exp);
+      }
+      oops.pop();
+    } else if (is_operator(tokens[i])) {
+      while (!oops.empty() and
+             (operators(tokens[i]) <= operators(oops.top()))) {
+        arbreBin<char> aux = expressio.top();
+        expressio.pop();
+        arbreBin<char> exp(oops.top(), expressio.top(), aux);
+        expressio.pop();
+        oops.pop();
+        expressio.push(exp);
+      }
+      oops.push(tokens[i]);
+    } else if (isdigit(tokens[i])) {
+      arbreBin<char> exp(tokens[i], arbreBin<char>(), arbreBin<char>());
+      expressio.push(exp);
+    }
+  }
+  while (!oops.empty()) {
+    arbreBin<char> aux = expressio.top();
+    expressio.pop();
+    arbreBin<char> exp(oops.top(), expressio.top(), aux);
+    expressio.pop();
+    oops.pop();
+    expressio.push(exp);
+  }
+  return expressio.top();
+}
+
 /* Constructora a partir d'una seqüència de tokens. Es produeix un error si
    la seqüència és buida o si no es pot construir l'arbre d'expressió
    corresponent(és a dir, si és sintàcticament incorrecta). */
