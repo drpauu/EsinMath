@@ -6,11 +6,11 @@ std::pair<int, int> _residu;
 
 std::pair<int, int> simplificar(int n, int d) throw(error);
     //simplifica al màxim un nombre racional
-int mcd(int a, int b);
+int mcd(int a, int b) throw();
     //fa el mcd de a i b
-int mcm(int a, int b);
+int mcm(int a, int b) throw();
     //fa el mcm de a i b
-int calcula_part_entera();
+int calcula_part_entera() throw();
     //calcula la part entera del racional
-std::pair<int, int> calcula_residu();
+std::pair<int, int> calcula_residu() throw(error);
     //calcula el residu del racional
