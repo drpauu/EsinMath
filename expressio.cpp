@@ -19,22 +19,24 @@ expressio::expressio(const token t = token()) throw(error)
     }
     else if (t.tipus() != (t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
         throw(31);
-    if(coperand(t))
+    if (coperand(t))
     {
         arbreBin<token> _exp(tok, arbreBin<token>(), arbreBin<token>());
     }
 }
 
-int operators(char op) {
-  if (op == '+' or op == '-')
-    return 1;
-  if (op == '*' or op == '/')
-    return 2;
-  return 0;
+int operators(char op)
+{
+    if (op == '+' or op == '-')
+        return 1;
+    if (op == '*' or op == '/')
+        return 2;
+    return 0;
 }
 
-bool is_operator(char token) {
-  return token == '+' or token == '-' or token == '*' or token == '/';
+bool is_operator(char token)
+{
+    return token == '+' or token == '-' or token == '*' or token == '/';
 }
 
 bool is_parenthesis(char token) { return token == '(' or token == ')'; }
@@ -43,49 +45,61 @@ bool is_open_parenthesis(char token) { return token == '('; }
 
 bool is_close_parenthesis(char token) { return token == ')'; }
 
-arbreBin<char> arbre(string tokens) {
-  stack<arbreBin<char>> expressio;
-  stack<char> oops;
-  for (int i = 0; i < tokens.length(); i++) {
-    if (is_open_parenthesis(tokens[i])) {
-      oops.push(tokens[i]);
-    } else if (is_close_parenthesis(tokens[i])) {
-      while (!oops.empty() and
-             (operators(oops.top()) >= operators(tokens[i])) and
-             !is_open_parenthesis(oops.top())) {
-        arbreBin<char> aux = expressio.top();
-        expressio.pop();
-        arbreBin<char> exp(oops.top(), expressio.top(), aux);
-        expressio.pop();
-        oops.pop();
-        expressio.push(exp);
-      }
-      oops.pop();
-    } else if (is_operator(tokens[i])) {
-      while (!oops.empty() and
-             (operators(tokens[i]) <= operators(oops.top()))) {
-        arbreBin<char> aux = expressio.top();
-        expressio.pop();
-        arbreBin<char> exp(oops.top(), expressio.top(), aux);
-        expressio.pop();
-        oops.pop();
-        expressio.push(exp);
-      }
-      oops.push(tokens[i]);
-    } else if (isdigit(tokens[i])) {
-      arbreBin<char> exp(tokens[i], arbreBin<char>(), arbreBin<char>());
-      expressio.push(exp);
+expressio::expressio(const list<token> &l) throw(error)
+{
+    stack<arbreBin<char> > expressio;
+    stack<char> oops;
+    for (int i = 0; i < tokens.length(); i++)
+    {
+        if (is_open_parenthesis(tokens[i]))
+        {
+            oops.push(tokens[i]);
+        }
+        else if (is_close_parenthesis(tokens[i]))
+        {
+            while (!oops.empty() and
+                   (operators(oops.top()) >= operators(tokens[i])) and
+                   !is_open_parenthesis(oops.top()))
+            {
+                arbreBin<char> aux = expressio.top();
+                expressio.pop();
+                arbreBin<char> exp(oops.top(), expressio.top(), aux);
+                expressio.pop();
+                oops.pop();
+                expressio.push(exp);
+            }
+            oops.pop();
+        }
+        else if (is_operator(tokens[i]))
+        {
+            while (!oops.empty() and
+                   (operators(tokens[i]) <= operators(oops.top())))
+            {
+                arbreBin<char> aux = expressio.top();
+                expressio.pop();
+                arbreBin<char> exp(oops.top(), expressio.top(), aux);
+                expressio.pop();
+                oops.pop();
+                expressio.push(exp);
+            }
+            oops.push(tokens[i]);
+        }
+        else if (isdigit(tokens[i]))
+        {
+            arbreBin<char> exp(tokens[i], arbreBin<char>(), arbreBin<char>());
+            expressio.push(exp);
+        }
     }
-  }
-  while (!oops.empty()) {
-    arbreBin<char> aux = expressio.top();
-    expressio.pop();
-    arbreBin<char> exp(oops.top(), expressio.top(), aux);
-    expressio.pop();
-    oops.pop();
-    expressio.push(exp);
-  }
-  return expressio.top();
+    while (!oops.empty())
+    {
+        arbreBin<char> aux = expressio.top();
+        expressio.pop();
+        arbreBin<char> exp(oops.top(), expressio.top(), aux);
+        expressio.pop();
+        oops.pop();
+        expressio.push(exp);
+    }
+    _exp = expressio.top();
 }
 
 /* Constructora a partir d'una seqüència de tokens. Es produeix un error si
@@ -152,54 +166,6 @@ expressio::expressio(const list<token> &l) throw(error)
     // Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
 }
 
-expressio::expressio(const list<token> &l) throw(error)
-{
-    // jo primer faria obviant quin tipus de prioritat te,
-    // i despres ho faria mirant quin tipus de prioritat.
-    list<token> llista;
-    llista = l;
-    list<token> operadors;
-    list<token> expressions; // aquesta pila hauria de ser, una pila d 'arbres d'expressions
-    // pero ns pq, al .rep, no em deixa fer un arbre, dema ho miro
-    list<token>::iterator it;
-    token t;
-    for (it = llista.begin(); it != llista.end(); it++)
-    {
-        if (it->tipus() == t.OBRIR_PAR)
-        {
-            operadors.push(*it);
-        }
-        else if (it->tipus() == t.TANCAR_PAR)
-        {
-            while (operadors.top().tipus() != t.OBRIR_PAR)
-            {
-                // crear la expressio amb una o dues expressions, i apilarla a les expressions
-                // expressions.pop();
-                // expressions.pop();
-                // aquestes dos expressions s han de guardar i tal, per poder fer aquest mini arbreBin
-                // expressions.push(operador amb un o dos operands com a fill)
-                operadors.pop();
-            }
-        }
-        else if (it->tipus() == t.VARIABLE or t.CT_ENTERA or t.CT_RACIONAL or t.CT_REAL or t.CT_E or t.COMA)
-        {
-            // s ha de crear l arbre amb aquest operand
-            // expressions.push(aquest arbre);
-        }
-        else if (it->tipus() == t.SUMA or t.RESTA or t.MULTIPLICACIO or t.DIVISIO or t.SQRT or t.CANVI_DE_SIGNE or t.LOG)
-        {
-            // assumim que la prioritat es d esquera a dreta, ja despres modifiquem aixo
-            // o fem una funcio auxiliar, per canviar ho, pero primer que funcioni be;
-            // expressio.pop();
-            // expressio.pop(); s han de guardar aquestes dues expressions, ja que seran els fills de la que crearem ara
-            // operadors.pop(); ja que com que l utilitzem, s ha de desapilar;
-            // aqui no entenc ven be el que s ha de fer; pero en si.
-        }
-        // despres s ha d acabar de desapilar tot, fent expressions mes grans, a partir de les que tenim ja a la pilla
-        // d'expressions. Pero el que no em quadra es quan s ha de fer un push a la pila operadors.
-    }
-}
-
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
 {
@@ -212,7 +178,7 @@ expressio &expressio::operator=(const expressio &e) throw(error)
 }
 expressio::~expressio() throw(error)
 {
-    _exp = arbreBin<token>(); 
+    _exp = arbreBin<token>();
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
@@ -269,7 +235,7 @@ void expressio::vars(list<string> &l) const throw(error)
     }
     l.sort();
     l.unique();
-    */
+    * /
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
@@ -340,11 +306,12 @@ void expressio::list_of_tokens(list<token> &lt) throw(error)
 
 bool operand(token t)
 {
-    if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO 
-                        or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE 
-                        or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP)){
-                            return true;
-                        } else {
-                            return false;
-                        }
+    if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
