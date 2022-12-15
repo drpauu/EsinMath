@@ -34,14 +34,15 @@ expressio::expressio(const token t = token()) throw(error)
 
 int operators(token op)
 {
-    //Recorrer la llista l
-    stack<token> operador;
-    stack<arbreBin<token>> output;
-    token tok;
-    for(list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
-    {
-        tok = *it;
-        //if (token == var/constant)
+    if (op.tipus() == token::SUMA or op.tipus() == token::RESTA)
+        return 1;
+    if (op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO)
+        return 2;
+    return 0;
+}
+
+bool expressio::es_operand(token t)
+{
     if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
     {
         return true;
@@ -128,11 +129,11 @@ expressio::expressio(const list<token> &l) throw(error)
                 expressio exp = constructora_op(oops.top(), expre.top(), aux);
                 expre.pop();
                 oops.pop();
+                expre.push(exp);
     }
     es_buit = false;
     *this = expre.top();
 }
-
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
@@ -153,12 +154,13 @@ expressio::~expressio() throw(error)
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
-    list<token> buida;
-    if (_exp == buida)
-    {
-        return true;
-        //iguals si i només si els seus arbres d'expressió són idèntics.
-    }
+    return es_buit;
+}
+
+/* Operadors d'igualtat i desigualtat. Dues expressions es consideren
+   iguals si i només si els seus arbres d'expressió són idèntics. */
+bool expressio::operator==(const expressio &e) const throw()
+{
     if (*this == e)
     {
         return true;
@@ -180,6 +182,7 @@ bool expressio::operator!=(const expressio &e) const throw()
    els noms de les variables de l'expressió. */
 void expressio::vars(list<string> &l) const throw(error)
 {
+    /*
     /*for(list <token>::iterator elem = exp_.begin(); elem != exp_.end(); elem++){
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
@@ -201,6 +204,7 @@ void expressio::vars(list<string> &l) const throw(error)
    que apliquem aquest mètode l'expressió no es modifica. */
 void expressio::apply_substitution(const string &v, const expressio &e) throw(error)
 {
+    /*
     list<token> elem;
     elem = _exp;
     list<token>::iterator it;
@@ -227,6 +231,7 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
             }
         }
     }
+    */
 }
 
 /* Aplica un pas de simplificació a l'expressió. La subexpressió a
