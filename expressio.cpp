@@ -11,14 +11,6 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-<<<<<<< HEAD
-    if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
-        throw(31);
-    else
-    {
-        _exp.push_back(t);
-        
-=======
     if (t.tipus() == token::NULLTOK)
     {
         _arrel = new node;
@@ -37,13 +29,11 @@ expressio::expressio(const token t = token()) throw(error)
     else
     {
         throw error(ErrorSintactic);
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
     }
 }
 
 int operators(token op)
 {
-<<<<<<< HEAD
     //Recorrer la llista l
     stack<token> operador;
     stack<arbreBin<token>> output;
@@ -52,99 +42,6 @@ int operators(token op)
     {
         tok = *it;
         //if (token == var/constant)
-        if(tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
-        {
-        //Guardar token a l'stack output
-            output.push(tok);
-        }
-        //else (token == operador)
-        else
-        {
-            //Mirar la prioritat dels operadors i guardar l'operador a l'stack operador 
-            if(operador.empty())
-            {
-                operador.push(tok);
-            }
-            else if(operador.top().tipus() != operador.top().OBRIR_PAR)
-            {
-                if(tok.tipus() == tok.TANCAR_PAR)
-                {
-                    while(operador.top().tipus() != operador.top().OBRIR_PAR)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
-                }
-                else
-                {
-                    while(not operador.top() > tok)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
-                    operador.push(tok);
-                }
-            }
-            else
-            {
-                operador.push(tok);
-            }
-        }
-    }
-    while(not operador.empty())
-    {
-        if(operador.tipus() != (operador.OBRIR_PAR or operador.TANCAR_PAR))
-            output.push(operador.top());
-        operador.pop();
-    }
-    //Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
-}
-
-expressio::expressio(const list<token> &l) throw(error){
-    //jo primer faria obviant quin tipus de prioritat te,
-    //i despres ho faria mirant quin tipus de prioritat.
-    list<token> llista;
-    llista = l;
-    stack<token> operadors;
-    stack<token> expressions; // aquesta pila hauria de ser, una pila d 'arbres d'expressions
-    // pero ns pq, al .rep, no em deixa fer un arbre, dema ho miro
-    list<token>::iterator it;
-    token t;
-    for(it = llista.begin(); it != llista.end(); it++){
-        if(it->tipus() == t.OBRIR_PAR){
-            operadors.push(*it);
-        } else if(it->tipus() == t.TANCAR_PAR){
-            while(operadors.top().tipus() != t.OBRIR_PAR){
-                // crear la expressio amb una o dues expressions, i apilarla a les expressions 
-                // expressions.pop();
-                // expressions.pop();
-                // aquestes dos expressions s han de guardar i tal, per poder fer aquest mini arbreBin
-                // expressions.push(operador amb un o dos operands com a fill)
-                operadors.pop();
-            }
-        } else if(it->tipus() == t.VARIABLE or t.CT_ENTERA or t.CT_RACIONAL or t.CT_REAL or t.CT_E or t.COMA){
-            // s ha de crear l arbre amb aquest operand 
-            // expressions.push(aquest arbre);
-        } else if(it->tipus() == t.SUMA or t.RESTA or t.MULTIPLICACIO or t.DIVISIO or t.SQRT or t.CANVI_DE_SIGNE or t.LOG){
-            // assumim que la prioritat es d esquera a dreta, ja despres modifiquem aixo
-            // o fem una funcio auxiliar, per canviar ho, pero primer que funcioni be;
-            // expressio.pop();
-            // expressio.pop(); s han de guardar aquestes dues expressions, ja que seran els fills de la que crearem ara
-            // operadors.pop(); ja que com que l utilitzem, s ha de desapilar;
-            // aqui no entenc ven be el que s ha de fer; pero en si.
-        }
-        // despres s ha d acabar de desapilar tot, fent expressions mes grans, a partir de les que tenim ja a la pilla 
-        // d'expressions. Pero el que no em quadra es quan s ha de fer un push a la pila operadors.
-=======
-    if (op.tipus() == token::SUMA or op.tipus() == token::RESTA)
-        return 1;
-    if (op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO)
-        return 2;
-    return 0;
-}
-
-bool expressio::es_operand(token t)
-{
     if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
     {
         return true;
@@ -223,7 +120,6 @@ expressio::expressio(const list<token> &l) throw(error)
             expressio exp(*it);
             expre.push(exp);
         }
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
     }
     while (!oops.empty())
     {
@@ -232,7 +128,6 @@ expressio::expressio(const list<token> &l) throw(error)
                 expressio exp = constructora_op(oops.top(), expre.top(), aux);
                 expre.pop();
                 oops.pop();
-                expre.push(exp);
     }
     es_buit = false;
     *this = expre.top();
@@ -251,35 +146,19 @@ expressio &expressio::operator=(const expressio &e) throw(error)
 }
 expressio::~expressio() throw(error)
 {
-<<<<<<< HEAD
-    list<token> buida;
-    _exp = buida;
-=======
     esborra_nodes(_arrel);
     es_buit = true;
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
-<<<<<<< HEAD
     list<token> buida;
     if (_exp == buida)
     {
         return true;
+        //iguals si i només si els seus arbres d'expressió són idèntics.
     }
-    else
-        return false;
-=======
-    return es_buit;
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
-}
-
-/* Operadors d'igualtat i desigualtat. Dues expressions es consideren
-   iguals si i només si els seus arbres d'expressió són idèntics. */
-bool expressio::operator==(const expressio &e) const throw()
-{
     if (*this == e)
     {
         return true;
@@ -314,10 +193,7 @@ void expressio::vars(list<string> &l) const throw(error)
     }
     l.sort();
     l.unique();
-<<<<<<< HEAD
-=======
     // return variables;
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
@@ -383,8 +259,6 @@ void expressio::simplify() throw(error)
 void expressio::list_of_tokens(list<token> &lt) throw(error)
 {
 }
-<<<<<<< HEAD
-=======
 
 bool operand(token t)
 {
@@ -397,4 +271,3 @@ bool operand(token t)
         return false;
     }
 }
->>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
