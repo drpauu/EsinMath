@@ -263,6 +263,7 @@ void expressio::simplify() throw(error)
 
 void expressio::list_of_tokens(list<token> &lt) throw(error)
 {
+    lt = _lt;
 }
 
 bool operand(token t)
