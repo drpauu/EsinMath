@@ -1,5 +1,4 @@
 #include "expressio.hpp"
-#include "token.hpp"
 #include <stack>
 #include <list>
 
@@ -12,20 +11,39 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
+<<<<<<< HEAD
     if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
         throw(31);
     else
     {
         _exp.push_back(t);
         
+=======
+    if (t.tipus() == token::NULLTOK)
+    {
+        _arrel = new node;
+        _arrel = NULL;
+        es_buit = true;
+    }
+    else if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    {
+        _arrel = new node;
+        _arrel->f_dret = NULL;
+        _arrel->f_esq = NULL;
+        _arrel->_info = t;
+        _lt.push_back(t);
+        es_buit = false;
+    }
+    else
+    {
+        throw error(ErrorSintactic);
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
     }
 }
 
-/* Constructora a partir d'una seqüència de tokens. Es produeix un error si
-   la seqüència és buida o si no es pot construir l'arbre d'expressió
-   corresponent(és a dir, si és sintàcticament incorrecta). */
-expressio::expressio(const list<token> &l) throw(error)
+int operators(token op)
 {
+<<<<<<< HEAD
     //Recorrer la llista l
     stack<token> operador;
     stack<arbreBin<token>> output;
@@ -117,29 +135,135 @@ expressio::expressio(const list<token> &l) throw(error){
         }
         // despres s ha d acabar de desapilar tot, fent expressions mes grans, a partir de les que tenim ja a la pilla 
         // d'expressions. Pero el que no em quadra es quan s ha de fer un push a la pila operadors.
+=======
+    if (op.tipus() == token::SUMA or op.tipus() == token::RESTA)
+        return 1;
+    if (op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO)
+        return 2;
+    return 0;
+}
+
+bool expressio::es_operand(token t)
+{
+    if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    {
+        return true;
     }
+    else
+    {
+        return false;
+    }
+}
+
+bool is_operator(token op)
+{
+    return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
+}
+
+bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
+
+bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
+
+expressio expressio::constructora_op(token t, expressio a, expressio b)
+{
+    expressio ret;
+    if (es_operador(t))
+    {
+        ret._arrel = new node;
+        ret._arrel->_info = t;
+        ret._arrel->f_dret = a._arrel;
+        ret._arrel->f_esq = b._arrel;
+    }
+    ret.es_buit = false;
+    return ret;
+}
+
+expressio::expressio(const list<token> &l) throw(error)
+{
+    _lt = l;
+    stack<expressio> expre;
+    stack<token> oops;
+    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
+    {
+        if (is_open_parenthesis(*it))
+        {
+            oops.push(*it);
+        }
+        else if (is_close_parenthesis(*it))
+        {
+            while (!oops.empty() and
+                   (operators(oops.top()) >= operators(*it)) and
+                   !is_open_parenthesis(oops.top()))
+            {
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
+            }
+            oops.pop();
+        }
+        else if (is_operator(*it))
+        {
+            while (!oops.empty() and
+                   (operators(*it) <= operators(oops.top())))
+            {
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
+            }
+            oops.push(*it);
+        }
+        else if (es_operand(*it))
+        {
+            expressio exp(*it);
+            expre.push(exp);
+        }
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
+    }
+    while (!oops.empty())
+    {
+        expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
+    }
+    es_buit = false;
+    *this = expre.top();
 }
 
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
 }
 expressio &expressio::operator=(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
     return *this;
 }
 expressio::~expressio() throw(error)
 {
+<<<<<<< HEAD
     list<token> buida;
     _exp = buida;
+=======
+    esborra_nodes(_arrel);
+    es_buit = true;
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
+<<<<<<< HEAD
     list<token> buida;
     if (_exp == buida)
     {
@@ -147,13 +271,16 @@ expressio::operator bool() const throw()
     }
     else
         return false;
+=======
+    return es_buit;
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
 }
 
 /* Operadors d'igualtat i desigualtat. Dues expressions es consideren
    iguals si i només si els seus arbres d'expressió són idèntics. */
 bool expressio::operator==(const expressio &e) const throw()
 {
-    if (_exp == e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -162,7 +289,7 @@ bool expressio::operator==(const expressio &e) const throw()
 }
 bool expressio::operator!=(const expressio &e) const throw()
 {
-    if (_exp != e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -178,19 +305,19 @@ void expressio::vars(list<string> &l) const throw(error)
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
     } */
-    list<token> elem;
-    elem = _exp;
-    list<token>::iterator it;
-    for (it = elem.begin(); it != elem.end(); ++it)
+    for (list<token>::const_iterator it = _lt.begin(); it != _lt.end(); ++it)
     {
-        token t;
-        if (it->tipus() == t.VARIABLE)
+        if (it->tipus() == token::VARIABLE)
         {
             l.push_back(it->identificador_variable());
         }
     }
     l.sort();
     l.unique();
+<<<<<<< HEAD
+=======
+    // return variables;
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
@@ -256,3 +383,18 @@ void expressio::simplify() throw(error)
 void expressio::list_of_tokens(list<token> &lt) throw(error)
 {
 }
+<<<<<<< HEAD
+=======
+
+bool operand(token t)
+{
+    if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+>>>>>>> 92a1d1bbb5e95f2908521044be9609dc1899b547
