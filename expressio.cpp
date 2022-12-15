@@ -17,7 +17,9 @@ expressio::expressio(const token t = token()) throw(error)
         _arrel = NULL;
         es_buit = true;
     }
-    else if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    else if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or
+             t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or
+             t.tipus() == token::VAR_PERCENTATGE)
     {
         _arrel = new node;
         _arrel->f_dret = NULL;
@@ -43,7 +45,9 @@ int operators(token op)
 
 bool expressio::es_operand(token t)
 {
-    if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or
+        t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or
+        t.tipus() == token::VAR_PERCENTATGE)
     {
         return true;
     }
@@ -55,7 +59,8 @@ bool expressio::es_operand(token t)
 
 bool is_operator(token op)
 {
-    return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
+    return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or
+           op.tipus() == token::SUMA or op.tipus() == token::RESTA;
 }
 
 bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
@@ -267,7 +272,11 @@ void expressio::list_of_tokens(list<token> &lt) throw(error)
 
 bool operand(token t)
 {
-    if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP))
+    if (t.tipus() == token::SUMA or t.tipus() == token::RESTA or
+        t.tipus() == token::MULTIPLICACIO or t.tipus() == token::DIVISIO or
+        t.tipus() == token::EXPONENCIACIO or t.tipus() == token::CANVI_DE_SIGNE or
+        t.tipus() == token::SIGNE_POSITIU or t.tipus() == token::SQRT or
+        t.tipus() == token::LOG or t.tipus() == token::EXP)
     {
         return true;
     }
