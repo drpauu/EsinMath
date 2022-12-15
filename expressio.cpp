@@ -1,5 +1,4 @@
 #include "expressio.hpp"
-#include "token.hpp"
 #include <stack>
 #include <list>
 
@@ -12,191 +11,157 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    token tok = t;
-    if (t.NULLTOK == t.tipus())
+    if (t.tipus() == token::NULLTOK)
     {
-        _exp = arbreBin<token>();
+        _arrel = new node;
+        _arrel = NULL;
+        es_buit = true;
     }
-    else if (t.tipus() != (t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
-        throw(31);
-    if (coperand(t))
+    else if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
     {
-        arbreBin<token> _exp(tok, arbreBin<token>(), arbreBin<token>());
+        _arrel = new node;
+        _arrel->f_dret = NULL;
+        _arrel->f_esq = NULL;
+        _arrel->_info = t;
+        _lt.push_back(t);
+        es_buit = false;
+    }
+    else
+    {
+        throw error(ErrorSintactic);
     }
 }
 
-int operators(char op)
+int operators(token op)
 {
-    if (op == '+' or op == '-')
+    if (op.tipus() == token::SUMA or op.tipus() == token::RESTA)
         return 1;
-    if (op == '*' or op == '/')
+    if (op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO)
         return 2;
     return 0;
 }
 
-bool is_operator(char token)
+bool expressio::es_operand(token t)
 {
-    return token == '+' or token == '-' or token == '*' or token == '/';
+    if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
-bool is_parenthesis(char token) { return token == '(' or token == ')'; }
+bool is_operator(token op)
+{
+    return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
+}
 
-bool is_open_parenthesis(char token) { return token == '('; }
+bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
 
-bool is_close_parenthesis(char token) { return token == ')'; }
+bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
+
+expressio expressio::constructora_op(token t, expressio a, expressio b)
+{
+    expressio ret;
+    if (es_operador(t))
+    {
+        ret._arrel = new node;
+        ret._arrel->_info = t;
+        ret._arrel->f_dret = a._arrel;
+        ret._arrel->f_esq = b._arrel;
+    }
+    ret.es_buit = false;
+    return ret;
+}
 
 expressio::expressio(const list<token> &l) throw(error)
 {
-    stack<arbreBin<char> > expressio;
-    stack<char> oops;
-    for (int i = 0; i < tokens.length(); i++)
+    _lt = l;
+    stack<expressio> expre;
+    stack<token> oops;
+    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
-        if (is_open_parenthesis(tokens[i]))
+        if (is_open_parenthesis(*it))
         {
-            oops.push(tokens[i]);
+            oops.push(*it);
         }
-        else if (is_close_parenthesis(tokens[i]))
+        else if (is_close_parenthesis(*it))
         {
             while (!oops.empty() and
-                   (operators(oops.top()) >= operators(tokens[i])) and
+                   (operators(oops.top()) >= operators(*it)) and
                    !is_open_parenthesis(oops.top()))
             {
-                arbreBin<char> aux = expressio.top();
-                expressio.pop();
-                arbreBin<char> exp(oops.top(), expressio.top(), aux);
-                expressio.pop();
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
                 oops.pop();
-                expressio.push(exp);
+                expre.push(exp);
             }
             oops.pop();
         }
-        else if (is_operator(tokens[i]))
+        else if (is_operator(*it))
         {
             while (!oops.empty() and
-                   (operators(tokens[i]) <= operators(oops.top())))
+                   (operators(*it) <= operators(oops.top())))
             {
-                arbreBin<char> aux = expressio.top();
-                expressio.pop();
-                arbreBin<char> exp(oops.top(), expressio.top(), aux);
-                expressio.pop();
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
                 oops.pop();
-                expressio.push(exp);
+                expre.push(exp);
             }
-            oops.push(tokens[i]);
+            oops.push(*it);
         }
-        else if (isdigit(tokens[i]))
+        else if (es_operand(*it))
         {
-            arbreBin<char> exp(tokens[i], arbreBin<char>(), arbreBin<char>());
-            expressio.push(exp);
+            expressio exp(*it);
+            expre.push(exp);
         }
     }
     while (!oops.empty())
     {
-        arbreBin<char> aux = expressio.top();
-        expressio.pop();
-        arbreBin<char> exp(oops.top(), expressio.top(), aux);
-        expressio.pop();
-        oops.pop();
-        expressio.push(exp);
+        expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
     }
-    _exp = expressio.top();
-}
-
-/* Constructora a partir d'una seqüència de tokens. Es produeix un error si
-   la seqüència és buida o si no es pot construir l'arbre d'expressió
-   corresponent(és a dir, si és sintàcticament incorrecta). */
-expressio::expressio(const list<token> &l) throw(error)
-{
-    // Recorrer la llista l
-    stack<token> operador, output;
-    token tok;
-    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
-    {
-        tok = *it;
-        // if (token == var/constant)
-        if (tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
-        {
-            // Guardar token a l'stack output
-            output.push(tok);
-        }
-        // else (token == operador)
-        else
-        {
-            // Mirar la prioritat dels operadors i guardar l'operador a l'stack operador
-            if (operador.empty())
-            {
-                operador.push(tok);
-            }
-            else if (operador.top().tipus() != operador.top().OBRIR_PAR)
-            {
-                int prioritat_oper1, prioritat_tok;
-                prioritat_oper1 = operador.top().prioritat_operacio();
-                prioritat_tok = tok.prioritat_operacio();
-                if (tok.tipus() == tok.TANCAR_PAR)
-                {
-                    while (operador.top().tipus() != operador.top().OBRIR_PAR)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
-                }
-                else
-                {
-                    while (prioritat_oper1 <= prioritat_tok)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                        prioritat_oper1 = operador.top().prioritat_operacio();
-                    }
-                    operador.push(tok);
-                }
-            }
-            else
-            {
-                operador.push(tok);
-            }
-        }
-    }
-    while (not operador.empty())
-    {
-        if (operador.tipus() != (operador.OBRIR_PAR or operador.TANCAR_PAR))
-            output.push(operador.top());
-        operador.pop();
-    }
-    // Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
+    es_buit = false;
+    *this = expre.top();
 }
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
 }
 expressio &expressio::operator=(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
     return *this;
 }
 expressio::~expressio() throw(error)
 {
-    _exp = arbreBin<token>();
+    esborra_nodes(_arrel);
+    es_buit = true;
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
-    if (_exp.es_buit())
-    {
-        return true;
-    }
-    else
-        return false;
+    return es_buit;
 }
 
 /* Operadors d'igualtat i desigualtat. Dues expressions es consideren
    iguals si i només si els seus arbres d'expressió són idèntics. */
 bool expressio::operator==(const expressio &e) const throw()
 {
-    if (_exp == e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -205,7 +170,7 @@ bool expressio::operator==(const expressio &e) const throw()
 }
 bool expressio::operator!=(const expressio &e) const throw()
 {
-    if (_exp != e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -222,20 +187,16 @@ void expressio::vars(list<string> &l) const throw(error)
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
     } */
-    list<token> elem;
-    elem = _exp;
-    list<token>::iterator it;
-    for (it = elem.begin(); it != elem.end(); ++it)
+    for (list<token>::const_iterator it = _lt.begin(); it != _lt.end(); ++it)
     {
-        token t;
-        if (it->tipus() == t.VARIABLE)
+        if (it->tipus() == token::VARIABLE)
         {
             l.push_back(it->identificador_variable());
         }
     }
     l.sort();
     l.unique();
-    * /
+    // return variables;
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
