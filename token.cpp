@@ -48,7 +48,7 @@ token::token(const string &var_name) throw(error)
   string s = var_name;
   if (check_variables(var_name))
   {
-    throw(11);
+    throw error(IdentificadorIncorrecte);
   }
   else
   {
@@ -103,7 +103,7 @@ token &token::operator=(const token &t) throw(error)
   }
   else if (_id == VARIABLE)
   {
-    //valor._variable = t._valor._variable;
+    // valor._variable = t._valor._variable;
     _valor = t._valor;
   } // s'ha d'eliminar el _valor que te, en el cas que en tingui
 
@@ -125,22 +125,22 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  //return _valor.enter;
+  // return _valor.enter;
   return *(int *)_valor;
 }
 racional token::valor_racional() const throw(error)
 {
-  //return _valor._racional;
+  // return _valor._racional;
   return *(racional *)_valor;
 }
 double token::valor_real() const throw(error)
 {
-  //return _valor._real;
+  // return _valor._real;
   return *(double *)_valor;
 }
 string token::identificador_variable() const throw(error)
 {
-  //return _valor._variable;
+  // return _valor._variable;
   return *(string *)_valor;
 }
 
@@ -150,17 +150,23 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  if(_id == t._id){
+  if (_id == t._id)
+  {
     return true;
-  } else{
+  }
+  else
+  {
     return false;
   }
 }
 bool token::operator!=(const token &t) const throw()
 {
-  if(_id != t._id){
+  if (_id != t._id)
+  {
     return true;
-  } else{
+  }
+  else
+  {
     return false;
   }
 }
@@ -170,17 +176,13 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if ((_id and t._id) != (SUMA or
-                          RESTA or
-                          MULTIPLICACIO or
-                          DIVISIO or
-                          CANVI_DE_SIGNE or
-                          SIGNE_POSITIU or
+  if ((_id and t._id) != (SUMA or RESTA or
+                          MULTIPLICACIO or DIVISIO or
+                          CANVI_DE_SIGNE or SIGNE_POSITIU or
                           EXPONENCIACIO or
-                          SQRT or
-                          LOG or
-                          EXP))
-    throw(14);
+                          SQRT or LOG or EXP or
+                          OBRIR_PAR or TANCAR_PAR))
+    throw error(PrecedenciaEntreNoOperadors);
   else
   {
     if (_id == (SUMA or RESTA))
@@ -214,8 +216,8 @@ bool token::operator>(const token &t) const throw(error)
                                                                LOG or
                                                                EXP))
       return false;
-    else if
-      (_id == (EXPONENCIACIO or SQRT or LOG or EXP)) return true;
+    else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP))
+      return true;
   }
 }
 bool token::operator<(const token &t) const throw(error)
