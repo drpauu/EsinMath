@@ -204,34 +204,7 @@ void expressio::vars(list<string> &l) const throw(error)
    que apliquem aquest mètode l'expressió no es modifica. */
 void expressio::apply_substitution(const string &v, const expressio &e) throw(error)
 {
-    /*
-    list<token> elem;
-    elem = _exp;
-    list<token>::iterator it;
-    for (it = elem.begin(); it != elem.end(); ++it)
-    {
-        token t;
-        if (it->tipus() == t.VARIABLE)
-        {
-            if (it->identificador_variable() == v)
-            {
-                list<token> ins;
-                ins = e._exp;
-                list<token>::iterator in;
-                in = ins.begin();
-                *it = *in;
-                it++;
-                in++;
-                while (in != ins.end())
-                {
-                    _exp.insert(it, *in);
-                    in++;
-                }
-                return;
-            }
-        }
-    }
-    */
+    
 }
 
 /* Aplica un pas de simplificació a l'expressió. La subexpressió a
