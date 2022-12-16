@@ -10,6 +10,18 @@ struct node
 };
 node *_arrel;
 
+//totes les operacions que es necessiten:
+
+token operacio_corrent(token op, token a, token b);
+
+// en aquestes operacions s ha de posar error, pq no es por fer l arrel d un nombre negatiu per exemple
+
+token logaritme(token op) throw(error);
+
+token exponencial(token op) throw(error);
+
+token arrel(token op) throw(error);
+
 expressio constructora_op(token t, expressio a, expressio b);
 
 static node *copia_nodes(node *m);

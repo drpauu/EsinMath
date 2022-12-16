@@ -1,8 +1,173 @@
 #include "expressio.hpp"
 #include <stack>
 #include <list>
+#include <cmath>
 
 using namespace std;
+
+// operacions;
+
+token expressio::operacio_corrent(token op, token a, token b){
+    if(op.tipus() == token::SUMA){
+        if(a.tipus() == token::CT_ENTERA){
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c+d);
+            return ret;
+        } else if(a.tipus() == token::CT_RACIONAL){
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c+d);
+        } else if(a.tipus() == token::CT_REAL){
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c+d);
+        } else if(a.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+        // en el cas que no sigui cap d aquestes, hauria de donar un error semantic
+        // pero l hauria de donar quan fessim l expressio, es a dir, que si els dos fills no son dle mateix tipsu,
+        // doni un error semantic que no es es pot fer l operacio.
+    } else if(op.tipus() == token::RESTA){
+        if(a.tipus() == token::CT_ENTERA){
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c-d);
+            return ret;
+        } else if(a.tipus() == token::CT_RACIONAL){
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c-d);
+        } else if(a.tipus() == token::CT_REAL){
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c-d);
+        } else if(a.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    } else if(op.tipus() == token::MULTIPLICACIO){
+        if(a.tipus() == token::CT_ENTERA){
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c*d);
+            return ret;
+        } else if(a.tipus() == token::CT_RACIONAL){
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c*d);
+        } else if(a.tipus() == token::CT_REAL){
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c*d);
+        } else if(a.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    } else if(op.tipus() == token::DIVISIO){
+        if(a.tipus() == token::CT_ENTERA){
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c/d);
+            return ret;
+        } else if(a.tipus() == token::CT_RACIONAL){
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c/d);
+        } else if(a.tipus() == token::CT_REAL){
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c/d);
+        } else if(a.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    } else if(op.tipus() == token::EXPONENCIACIO){
+        if(a.tipus() == token::CT_ENTERA){
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c^d);
+            return ret;
+        } else if(a.tipus() == token::CT_RACIONAL){
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            // token ret(c^d); caldria fer una funcio extra a racional, per poder fer aquesta operacio.
+        } else if(a.tipus() == token::CT_REAL){
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            // token ret(c^d); te sentit, s ha de mirar per internet a veure si es pot fer, i com fer ho.
+        } else if(a.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    }
+    token buit;
+    return buit;
+}
+
+token expressio::logaritme(token op) throw(error){
+    if(op.tipus() == token::CT_ENTERA){
+            token ret(log(op.valor_enter()));
+            return ret;
+        } else if(op.tipus() == token::CT_RACIONAL){
+            // token ret(log(op.valor_racional())); no es pot fer un logaritme d un valor racional
+        } else if(op.tipus() == token::CT_REAL){
+            token ret(log(op.valor_real()));
+        } else if(op.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    token buit;
+    return buit;
+}
+
+token exponencial(token op) throw(error){
+    if(op.tipus() == token::CT_ENTERA){
+            token ret(exp(op.valor_enter()));
+            return ret;
+        } else if(op.tipus() == token::CT_RACIONAL){
+            // token ret(exp(op.valor_racional())); no es pot fer un logaritme d un valor racional
+        } else if(op.tipus() == token::CT_REAL){
+            token ret(exp(op.valor_real()));
+        } else if(op.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    token buit;
+    return buit;
+}
+
+token expressio::arrel(token op) throw(error){
+    if(op.tipus() == token::CT_ENTERA){
+            token ret(sqrt(op.valor_enter()));
+            return ret;
+        } else if(op.tipus() == token::CT_RACIONAL){
+            // token ret(sqrt(op.valor_racional())); no es pot fer un logaritme d un valor racional
+        } else if(op.tipus() == token::CT_REAL){
+            token ret(sqrt(op.valor_real()));
+        } else if(op.tipus() == token::VARIABLE){
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    token buit;
+    return buit;
+}
 
 /* Constructora d'una expressió formada per un sol token: un operand. Si
    s'utiliza el valor del token per defecte es construeix la que
@@ -213,6 +378,8 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
    errors semàntics que apareixen més avall numerats des del 32 al 35. */
 void expressio::simplify_one_step() throw(error)
 {
+    // s ha de baixar fins abaix a la dreta, que es la primera operacio,
+    // i modificar el fill dret, per una expressio amb fills dret i esquerra nullptr;
 }
 
 /* Aplica successius passos de simplificació com l'anterior fins que
