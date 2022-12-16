@@ -16,6 +16,10 @@ union data { // per fer-ho eficient es millor amb el punter o amb l union
     ~data() throw(){};
 }; */
 
+//Escriure les 3 grands
+//contingut();
+
+
 //data _valor;
 
 void* _valor;

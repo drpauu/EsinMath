@@ -61,6 +61,7 @@ token::token(const string &var_name) throw(error)
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
+  //Fer per tots els codis
   _id = t._id;
   if (_id == CT_ENTERA)
   {
@@ -88,6 +89,7 @@ token &token::operator=(const token &t) throw(error)
   _id = t._id;
   if (_id == CT_ENTERA)
   {
+    //Guardar en un int 
     //_valor._enter = t._valor._enter;
     _valor = t._valor;
   }
