@@ -380,6 +380,21 @@ void expressio::simplify_one_step() throw(error)
 {
     // s ha de baixar fins abaix a la dreta, que es la primera operacio,
     // i modificar el fill dret, per una expressio amb fills dret i esquerra nullptr;
+    node *aux = _arrel;
+    node *ant = NULL;
+    while(aux->f_dret != NULL){
+        ant = aux;
+        aux = aux->f_dret;
+    }
+    if(ant->_info.tipus() == token::EXPONENCIACIO){
+        ant->_info = exponencial(ant->f_dret->_info);
+    } else if(ant->_info.tipus() == token::EXPONENCIACIO){
+        ant->_info = exponencial(ant->f_dret->_info);
+    } else if(ant->_info.tipus() == token::EXPONENCIACIO){
+        ant->_info = exponencial(ant->f_dret->_info);
+    } else {
+        ant->_info = operacio_corrent(ant->_info, ant->f_esq->_info, ant->f_dret->_info);
+    }
 }
 
 /* Aplica successius passos de simplificació com l'anterior fins que
