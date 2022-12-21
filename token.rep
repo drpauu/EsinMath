@@ -3,29 +3,21 @@ token::codi _id;
 //void *ptrv; // punter void, el qual podem modificar el tipus;
 // per poder guardar els valors que siguin necessaris, 
 
-/*
-union data { // per fer-ho eficient es millor amb el punter o amb l union 
-// pero em dona un monton d errors, si ho acabem tot ja ho mirem de cambiar
+union data {
     int _enter;
     racional _racional;
     double _real;
     string _variable;
-    data(){};
-    data(const data & d) throw(){};
-    data & operator=(const data & d) throw(){};
-    ~data() throw(){};
-}; */
+    data();
+    data(const data & d) throw();
+    data & operator=(const data & d) throw();
+    ~data() throw();
+};
 
-//Escriure les 3 grands
-//contingut();
+data _valor;
 
-
-//data _valor;
-
-void* _valor;
+//void* _valor;
 
 bool check_variables(string var);
-
-//int prioritat_operacio();
 
 int numero_operadors();

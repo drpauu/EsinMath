@@ -20,28 +20,49 @@ using namespace std;
   ('A') i 90('Z'), entre 97 ('a') i 122 ('z') o el 95 ('_') i no pot
   coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
 
+
+token::data::data()
+{
+}
+
+token::data::data(const data & d) throw()
+{
+}
+
+data & token::data::operator=(const data & d) throw();
+{
+}
+
+token::data::~data() throw();
+{
+}
+
 token::token(codi cod /*= NULLTOK*/) throw(error)
 {
-  _id = cod;
+  if(cod == CT_ENTERA or cod == CT_RACIONAL or cod == CT_REAL or cod == VARIABLE)
+    throw error(ConstructoraInadequada);
+  else
+    _id = cod;
+  
 }
 token::token(int n) throw(error)
 {
   _id = CT_ENTERA;
-  //_valor._enter = n;
-  _valor = &n;
+  _valor._enter = n;
+  //_valor = &n;
 }
 token::token(const racional &r) throw(error)
 {
   _id = CT_RACIONAL;
-  racional rac = r;
-  //_valor._racional = r;
-  _valor = &rac;
+  _valor._racional = r;
+  //racional rac = r;
+  //_valor = &rac;
 }
 token::token(double x) throw(error)
 {
   _id = CT_REAL;
-  //_valor._real = x;
-  _valor = &x;
+  _valor._real = x;
+  //_valor = &x;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -53,8 +74,8 @@ token::token(const string &var_name) throw(error)
   else
   {
     _id = VARIABLE;
-    //_valor._variable = var_name;
-    _valor = &s;
+    _valor._variable = var_name;
+    //_valor = &s;
   }
 }
 
@@ -127,23 +148,23 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  // return _valor.enter;
-  return *(int *)_valor;
+  return _valor._enter;
+  //return *(int *)_valor;
 }
 racional token::valor_racional() const throw(error)
 {
-  // return _valor._racional;
-  return *(racional *)_valor;
+  return _valor._racional;
+  //return *(racional *)_valor;
 }
 double token::valor_real() const throw(error)
 {
-  // return _valor._real;
-  return *(double *)_valor;
+  return _valor._real;
+  //return *(double *)_valor;
 }
 string token::identificador_variable() const throw(error)
 {
-  // return _valor._variable;
-  return *(string *)_valor;
+  return _valor._variable;
+  //return *(string *)_valor;
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -234,7 +255,7 @@ bool token::operator<(const token &t) const throw(error)
                           SQRT or
                           LOG or
                           EXP))
-    throw(14);
+    throw error(PrecedenciaEntreNoOperadors);
   else
   {
     if (_id == (SUMA or RESTA) and (t._id == MULTIPLICACIO or
@@ -281,13 +302,28 @@ bool token::check_variables(string var)
 {
   char lletra;
   bool incorrecte = false;
-  for (unsigned int i = 0; i < var.length(); i++)
+  for (unsigned int i = 0; i < var.length() and not incorrecte; i++)
   {
     lletra = var[i];
     if (!isalpha(lletra) and int(lletra) != 95)
     {
       incorrecte = true;
     }
+  }
+  if(not incorrecte)
+  {
+    if(var == "unassign")
+      incorrecte = true;
+    else if(var == "e")
+      incorrecte = true;
+    else if(var == "sqrt")
+      incorrecte = true;
+    else if(var == "log")
+      incorrecte = true;
+    else if(var == "exp")
+      incorrecte = true;
+    else if(var == "evalf")
+      incorrecte = true;
   }
   return incorrecte;
 }
