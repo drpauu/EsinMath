@@ -43,7 +43,6 @@ token::token(codi cod /*= NULLTOK*/) throw(error)
     throw error(ConstructoraInadequada);
   else
     _id = cod;
-  
 }
 token::token(int n) throw(error)
 {
@@ -199,101 +198,68 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if ((_id and t._id) != (SUMA or RESTA or
-                          MULTIPLICACIO or DIVISIO or
-                          CANVI_DE_SIGNE or SIGNE_POSITIU or
-                          EXPONENCIACIO or
-                          SQRT or LOG or EXP or
-                          OBRIR_PAR or TANCAR_PAR))
+  if ((_id or t._id) != SUMA or (_id or t._id) != RESTA or (_id or t._id) != MULTIPLICACIO or 
+      (_id or t._id) != DIVISIO or (_id or t._id) != CANVI_DE_SIGNE or (_id or t._id) != SIGNE_POSITIU or
+      (_id or t._id) != EXPONENCIACIO or (_id or t._id) != SQRT or (_id or t._id) != LOG or
+      (_id or t._id) != EXP or (_id or t._id) != OBRIR_PAR or (_id or t._id) != TANCAR_PAR)
+  { 
     throw error(PrecedenciaEntreNoOperadors);
+  }
   else
   {
-    if (_id == (SUMA or RESTA))
+    if (_id == SUMA or _id == RESTA)
       return false;
-    else if (_id == (MULTIPLICACIO or DIVISIO) and (t._id == MULTIPLICACIO or
-                                                    DIVISIO or
-                                                    CANVI_DE_SIGNE or
-                                                    SIGNE_POSITIU or
-                                                    EXPONENCIACIO or
-                                                    SQRT or
-                                                    LOG or
-                                                    EXP))
+    else if ((_id == MULTIPLICACIO or _id == DIVISIO) and
+             (t._id == MULTIPLICACIO or t._id == DIVISIO or t._id == CANVI_DE_SIGNE or
+              t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or t._id == SQRT or t._id == LOG or t._id == EXP))
       return false;
-    else if (_id == (MULTIPLICACIO or DIVISIO) and (t._id == SUMA or
-                                                    RESTA))
+    else if ((_id == MULTIPLICACIO or _id == DIVISIO) and (t._id == SUMA or t._id == RESTA))
       return true;
-    else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU) and (t._id == CANVI_DE_SIGNE or
-                                                           SIGNE_POSITIU or
-                                                           EXPONENCIACIO or
-                                                           SQRT or
-                                                           LOG or
-                                                           EXP))
+    else if ((_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU) and
+             (t._id == CANVI_DE_SIGNE or t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or
+              t._id == SQRT or t._id == LOG or t._id == EXP))
       return false;
-    else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU) and (t._id == SUMA or
-                                                           RESTA or
-                                                           MULTIPLICACIO or
-                                                           DIVISIO))
+    else if ((_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU) and
+    (t._id == SUMA or t._id == RESTA or t._id == MULTIPLICACIO or t._id == DIVISIO))
       return true;
-    else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP) and (t._id == EXPONENCIACIO or
-                                                               SQRT or
-                                                               LOG or
-                                                               EXP))
+    else if ((_id == EXPONENCIACIO or _id == SQRT or _id == LOG or _id == EXP) and
+    (t._id == EXPONENCIACIO or t._id == SQRT or t._id == LOG or t._id == EXP))
       return false;
-    else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP))
+    else if (_id == EXPONENCIACIO or _id == SQRT or _id == LOG or _id == EXP)
       return true;
   }
 }
 bool token::operator<(const token &t) const throw(error)
 {
-  if ((_id and t._id) != (SUMA or
-                          RESTA or
-                          MULTIPLICACIO or
-                          DIVISIO or
-                          CANVI_DE_SIGNE or
-                          SIGNE_POSITIU or
-                          EXPONENCIACIO or
-                          SQRT or
-                          LOG or
-                          EXP))
+  if ((_id or t._id) != SUMA or (_id or t._id) != RESTA or (_id or t._id) != MULTIPLICACIO or 
+      (_id or t._id) != DIVISIO or (_id or t._id) != CANVI_DE_SIGNE or (_id or t._id) != SIGNE_POSITIU or
+      (_id or t._id) != EXPONENCIACIO or (_id or t._id) != SQRT or (_id or t._id) != LOG or
+      (_id or t._id) != EXP or (_id or t._id) != OBRIR_PAR or (_id or t._id) != TANCAR_PAR)
+  { 
     throw error(PrecedenciaEntreNoOperadors);
+  }
   else
   {
-    if (_id == (SUMA or RESTA) and (t._id == MULTIPLICACIO or
-                                    DIVISIO or
-                                    CANVI_DE_SIGNE or
-                                    SIGNE_POSITIU or
-                                    EXPONENCIACIO or
-                                    SQRT or
-                                    LOG or
-                                    EXP))
+    if ((_id == SUMA or _id == RESTA) and
+        (t._id == MULTIPLICACIO or t._id == DIVISIO or t._id == CANVI_DE_SIGNE or
+        t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or t._id == SQRT or t._id == LOG or t._id == EXP))
       return true;
-    else if (_id == (SUMA or RESTA) and (t._id == SUMA or
-                                         RESTA))
+    else if ((_id == SUMA or _id == RESTA) and (t._id == SUMA or t._id == RESTA))
       return false;
-    else if (_id == (MULTIPLICACIO or DIVISIO) and (t._id == CANVI_DE_SIGNE or
-                                                    SIGNE_POSITIU or
-                                                    EXPONENCIACIO or
-                                                    SQRT or
-                                                    LOG or
-                                                    EXP))
+    else if ((_id == MULTIPLICACIO or _id == DIVISIO) and
+             (t._id == CANVI_DE_SIGNE or t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or
+              t._id == SQRT or t._id == LOG or t._id == EXP))
       return true;
-    else if (_id == (MULTIPLICACIO or DIVISIO) and (t._id == SUMA or
-                                                    RESTA or
-                                                    MULTIPLICACIO or
-                                                    DIVISIO))
+    else if ((_id == MULTIPLICACIO or _id == DIVISIO) and
+             (t._id == SUMA or t._id == RESTA or t._id == MULTIPLICACIO or t._id == DIVISIO))
       return false;
-    else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU) and (t._id == SQRT or
-                                                           LOG or
-                                                           EXP))
+    else if ((_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU) and
+    (t._id == SQRT or t._id == LOG or t._id == EXP))
       return true;
-    else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU) and (t._id == SUMA or
-                                                           RESTA or
-                                                           MULTIPLICACIO or
-                                                           DIVISIO or
-                                                           CANVI_DE_SIGNE or
-                                                           SIGNE_POSITIU))
+    else if ((_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU) and
+    (t._id == SUMA or RESTA or MULTIPLICACIO or DIVISIO or CANVI_DE_SIGNE or SIGNE_POSITIU))
       return false;
-    else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP))
+    else if (_id == EXPONENCIACIO or _id == SQRT or _id == LOG or _id == EXP)
       return false;
   }
 }

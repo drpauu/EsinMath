@@ -83,6 +83,7 @@ expressio expressio::constructora_op(token t, expressio a, expressio b)
 
 expressio::expressio(const list<token> &l) throw(error)
 {
+    //ES pot fer amb stack<node*>
     _lt = l;
     stack<expressio> expre;
     stack<token> oops;
