@@ -1,17 +1,17 @@
 OPCIONS = -g -O0 -ansi -Wall -Wextra -Werror -lesin -Wno-deprecated
 
-programa_racional1.exe: main_cesco.o racional.o token.o
-	g++ -o programa_racional1.exe main_cesco.o -lesin
+programa_racional1.exe: main_cesco.o token.o racional.o
+	g++ -o programa_racional1.exe main_cesco.o token.o racional.o -lesin
 	rm *.o
 
-programa_racional2.exe: main_pau.o racional.o token.o
-	g++ -o programa_racional2.exe main_pau.o -lesin	
+programa_racional2.exe: main_pau.o token.o racional.o
+	g++ -o programa_racional2.exe main_pau.o token.o racional.o -lesin	
 	rm *.o
 
 main_pau.o: main_pau.cpp token.o racional.o
 	g++ -c main_pau.cpp $(OPCIONS)
 
-main_cesco.o: main_cesco.cpp racional.o
+main_cesco.o: main_cesco.cpp token.o
 	g++ -c main_cesco.cpp $(OPCIONS)
 
 racional.o: racional.cpp racional.hpp racional.rep

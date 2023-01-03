@@ -90,21 +90,25 @@ token::token(const token &t) throw(error)
   if (_id == CT_ENTERA)
   {
     //_valor._enter = t._valor._enter;
+    _valor = new int;
     _valor = t._valor;
   }
   else if (_id == CT_RACIONAL)
   {
     //_valor._racional = t._valor._racional;
+    _valor = new racional;
     _valor = t._valor;
   }
   else if (_id == CT_REAL)
   {
     //_valor._real = t._valor._real;
+    _valor = new double;
     _valor = t._valor;
   }
   else if (_id == VARIABLE)
   {
     //_valor._variable = t._valor._variable;
+    _valor = new string;
     _valor = t._valor;
   }
 }
@@ -151,23 +155,51 @@ token::codi token::tipus() const throw()
 }
 int token::valor_enter() const throw(error)
 {
-  //return _valor._enter;
-  return *(int *)_valor;
+  if(_id != CT_ENTERA)
+  {
+    throw(ConsultoraInadequada);
+  }
+  else
+  {
+    //return _valor._enter;
+    return *(int *)_valor;
+  }
 }
 racional token::valor_racional() const throw(error)
 {
-  //return _valor._racional;
-  return *(racional *)_valor;
+  if(_id != CT_RACIONAL)
+  {
+    throw(ConsultoraInadequada);
+  }
+  else
+  {
+    //return _valor._racional;
+    return *(racional *)_valor;
+  }
 }
 double token::valor_real() const throw(error)
 {
-  //return _valor._real;
-  return *(double *)_valor;
+  if(_id != CT_REAL)
+  {
+    throw(ConsultoraInadequada);
+  }
+  else
+  {
+    //return _valor._real;
+    return *(double *)_valor;
+  }
 }
 string token::identificador_variable() const throw(error)
 {
-  //return _valor._variable;
-  return *(string *)_valor;
+  if(_id != VARIABLE)
+  {
+    throw(ConsultoraInadequada);
+  }
+  else
+  {
+    //return _valor._variable;
+    return *(string *)_valor;
+  }
 }
 
 /*Igualtat i desigualtat entre tokens. Dos tokens es consideren iguals si els
@@ -178,7 +210,14 @@ bool token::operator==(const token &t) const throw()
 {
   if (_id == t._id)
   {
-    return true;
+    if((_id == CT_ENTERA and *(int *)_valor == *(int *)t._valor) or
+      (_id == CT_RACIONAL and *(racional *)_valor == *(racional *)t._valor) or
+      (_id == CT_REAL and *(double *)_valor == *(double *)t._valor) or
+      (_id == VARIABLE and *(string *)_valor == *(string *)t._valor))
+    {
+      return true;
+    }
+    else return false;
   }
   else
   {
@@ -187,14 +226,7 @@ bool token::operator==(const token &t) const throw()
 }
 bool token::operator!=(const token &t) const throw()
 {
-  if (_id != t._id)
-  {
-    return true;
-  }
-  else
-  {
-    return false;
-  }
+  return not(*this == t);
 }
 
 /*Precedència entre tokens. L'operador > retorna cert si i només si el token
@@ -202,10 +234,12 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if ((_id or t._id) != SUMA or (_id or t._id) != RESTA or (_id or t._id) != MULTIPLICACIO or 
-      (_id or t._id) != DIVISIO or (_id or t._id) != CANVI_DE_SIGNE or (_id or t._id) != SIGNE_POSITIU or
-      (_id or t._id) != EXPONENCIACIO or (_id or t._id) != SQRT or (_id or t._id) != LOG or
-      (_id or t._id) != EXP or (_id or t._id) != OBRIR_PAR or (_id or t._id) != TANCAR_PAR)
+  if (_id != SUMA or _id != RESTA or _id != MULTIPLICACIO or _id != DIVISIO or
+     _id != CANVI_DE_SIGNE or _id != SIGNE_POSITIU or _id != EXPONENCIACIO or
+     _id != SQRT or _id != LOG or _id != EXP or _id != OBRIR_PAR or _id != TANCAR_PAR or
+     t._id != SUMA or t._id != RESTA or t._id != MULTIPLICACIO or t._id != DIVISIO or
+     t._id != CANVI_DE_SIGNE or t._id != SIGNE_POSITIU or t._id != EXPONENCIACIO or
+     t._id != SQRT or t._id != LOG or t._id != EXP or t._id != OBRIR_PAR or t._id != TANCAR_PAR)
   { 
     throw error(PrecedenciaEntreNoOperadors);
   }
@@ -236,10 +270,12 @@ bool token::operator>(const token &t) const throw(error)
 }
 bool token::operator<(const token &t) const throw(error)
 {
-  if ((_id or t._id) != SUMA or (_id or t._id) != RESTA or (_id or t._id) != MULTIPLICACIO or 
-      (_id or t._id) != DIVISIO or (_id or t._id) != CANVI_DE_SIGNE or (_id or t._id) != SIGNE_POSITIU or
-      (_id or t._id) != EXPONENCIACIO or (_id or t._id) != SQRT or (_id or t._id) != LOG or
-      (_id or t._id) != EXP or (_id or t._id) != OBRIR_PAR or (_id or t._id) != TANCAR_PAR)
+  if (_id != SUMA or _id != RESTA or _id != MULTIPLICACIO or _id != DIVISIO or
+     _id != CANVI_DE_SIGNE or _id != SIGNE_POSITIU or _id != EXPONENCIACIO or
+     _id != SQRT or _id != LOG or _id != EXP or _id != OBRIR_PAR or _id != TANCAR_PAR or
+     t._id != SUMA or t._id != RESTA or t._id != MULTIPLICACIO or t._id != DIVISIO or
+     t._id != CANVI_DE_SIGNE or t._id != SIGNE_POSITIU or t._id != EXPONENCIACIO or
+     t._id != SQRT or t._id != LOG or t._id != EXP or t._id != OBRIR_PAR or t._id != TANCAR_PAR)
   { 
     throw error(PrecedenciaEntreNoOperadors);
   }
@@ -323,11 +359,11 @@ int token::numero_operadors()
 //       actua. Si el token no és cap operador retornarà un 0, per exemple en el cas
 //       de les constants o variables. Si el token no és vàlid en una expressió retorna -1.
 {
-  if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU or SQRT or LOG or EXP))
+  if (_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU or _id == SQRT or _id == LOG or _id == EXP)
     return 1;
-  else if (_id == (SUMA or RESTA or MULTIPLICACIO or DIVISIO or EXPONENCIACIO))
+  else if (_id == SUMA or _id == RESTA or _id == MULTIPLICACIO or _id == DIVISIO or _id == EXPONENCIACIO)
     return 2;
-  else if (_id == (CT_ENTERA or CT_RACIONAL or CT_REAL or CT_E or VARIABLE))
+  else if (_id == CT_ENTERA or _id == CT_RACIONAL or _id == CT_REAL or _id == CT_E or _id == VARIABLE)
     return 0;
   else
     return -1;

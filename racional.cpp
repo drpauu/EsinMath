@@ -99,14 +99,21 @@ racional racional::operator+(const racional &r) const throw(error)
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
-    racional aux;
-    pair<int, int> simplificat;
-    aux._n = _n * r._d + r._n * _d;
-    aux._d = _d * r._d;
-    simplificat = aux.simplificar(aux._n, aux._d);
-    aux._n = simplificat.first;
-    aux._d = simplificat.second;
-    return aux;
+    if (r._d == 0)
+    {
+        throw error(DenominadorZero);
+    }
+    else
+    {
+        racional aux;
+        pair<int, int> simplificat;
+        aux._n = _n * r._d + r._n * _d;
+        aux._d = _d * r._d;
+        simplificat = aux.simplificar(aux._n, aux._d);
+        aux._n = simplificat.first;
+        aux._d = simplificat.second;
+        return aux;
+    }
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
