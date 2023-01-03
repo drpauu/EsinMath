@@ -1,9 +1,6 @@
 token::codi _id;
 
-//void *ptrv; // punter void, el qual podem modificar el tipus;
-// per poder guardar els valors que siguin necessaris, 
-
-union data {
+/*union data {
     int _enter;
     racional _racional;
     double _real;
@@ -14,9 +11,12 @@ union data {
     ~data() throw();
 };
 
-data _valor;
+//void *ptrv; // punter void, el qual podem modificar el tipus;
+// per poder guardar els valors que siguin necessaris, 
 
-//void* _valor;
+data _valor;*/
+
+void* _valor;
 
 bool check_variables(string var);
 
