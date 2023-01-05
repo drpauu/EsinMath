@@ -303,7 +303,6 @@ pair<int, int> racional::calcula_residu() throw(error)
         pair<int, int> residu;
         int num_residu;
         num_residu = -1 * (_part_entera * _d) + _n;
-        cout << 'n' << num_residu << endl;
         residu = simplificar(num_residu, _d);
         return residu;
     }

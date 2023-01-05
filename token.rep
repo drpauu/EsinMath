@@ -1,5 +1,3 @@
-token::codi _id;
-
 /*union data {
     int _enter;
     racional _racional;
@@ -15,6 +13,8 @@ token::codi _id;
 // per poder guardar els valors que siguin necessaris, 
 
 data _valor;*/
+
+token::codi _id;
 
 void* _valor;
 
