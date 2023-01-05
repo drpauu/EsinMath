@@ -89,7 +89,7 @@ racional racional::operator+(const racional &r) const throw(error)
     {
         racional aux;
         pair<int, int> simplificat;
-        aux._n = _n * r._d - r._n * _d;
+        aux._n = _n * r._d + r._n * _d;
         aux._d = _d * r._d;
         simplificat = aux.simplificar(aux._n, aux._d);
         aux._n = simplificat.first;
@@ -107,7 +107,7 @@ racional racional::operator-(const racional &r) const throw(error)
     {
         racional aux;
         pair<int, int> simplificat;
-        aux._n = _n * r._d + r._n * _d;
+        aux._n = _n * r._d - r._n * _d;
         aux._d = _d * r._d;
         simplificat = aux.simplificar(aux._n, aux._d);
         aux._n = simplificat.first;
@@ -313,10 +313,9 @@ pair<int, int> racional::calcula_residu() throw(error)
     else
     {
         pair<int, int> residu;
-        int num_residu, aux;
-        aux = _part_entera * _d;
-        aux *= - 1;
-        num_residu = aux + _n;
+        int num_residu;
+        num_residu = -1 * (_part_entera * _d) + _n;
+        cout << 'n' << num_residu << endl;
         residu.first = num_residu;
         residu.second = _d;
         return residu;
