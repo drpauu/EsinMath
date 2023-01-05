@@ -29,14 +29,14 @@ using namespace std;
 // TOKEN:
 int main()
 {
-    int r1 = 0, r2 = 1;
+    /*int r1 = 0, r2 = 1;
     cin >> r1;
     cin >> r2;
     racional r = racional(r1, r2), residu;
     cout << "racional: " << r.num() << "/" << r.denom() << endl;
     residu = r.residu();
     cout << "part entera: " << r.part_entera() << endl; 
-    cout << "residu: " << residu.num() << '/' << residu.denom() << endl;
+    cout << "residu: " << residu.num() << '/' << residu.denom() << endl;*/
     int n1 = 1;
     racional n2 = racional(1, 2);
     token t1(n1);

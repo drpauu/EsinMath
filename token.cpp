@@ -46,37 +46,25 @@ token::token(codi cod /*= NULLTOK*/) throw(error)
 }
 token::token(int n) throw(error)
 {
-  if (_id != CT_ENTERA)
-    throw error(ConstructoraInadequada);
-  else
-  {
-    //_valor._enter = n;
-    _valor = new int;
-    _valor = &n;
-  }
+  _id = CT_ENTERA;
+  //_valor._enter = n;
+  _valor = new int;
+  _valor = &n;
 }
 token::token(const racional &r) throw(error)
 {
-  if (_id != CT_RACIONAL)
-    throw error(ConstructoraInadequada);
-  else
-  {
-    //_valor._racional = r;
-    _valor = new racional;
-    racional rac = r;
-    _valor = &rac;
-  }
+  _id = CT_RACIONAL;
+  //_valor._racional = r;
+  _valor = new racional;
+  racional rac = r;
+  _valor = &rac;
 }
 token::token(double x) throw(error)
 {
-  if (_id != CT_REAL)
-    throw error(ConstructoraInadequada);
-  else
-  {
-    //_valor._real = x;
-    _valor = new double;
-    _valor = &x;
-  }
+  _id = CT_REAL;
+  //_valor._real = x;
+  _valor = new double;
+  _valor = &x;
 }
 token::token(const string &var_name) throw(error)
 {
