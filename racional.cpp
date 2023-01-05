@@ -259,32 +259,20 @@ pair<int, int> racional::simplificar(int n, int d) throw(error)
     }
     else
     {
-        bool negatiu = false;
         if (d < 0)
         {
-            d = d * -1;
-            negatiu = true;
-        }
-        if (n < 0)// && !negatiu)
-        {
-            n = n * -1;
-            if(negatiu)
-                negatiu = false;
-            else negatiu = true;
+            n = -n;
+            d = -d;
         }
         int gcd = mcd(n, d);
         if (gcd != 0)
         {
-            n = n / gcd;
-            d = d / gcd;
-        }
-        if (negatiu)
-        {
-            n = n * -1;
+            n /= gcd;
+            d /= gcd;
         }
         if (n == 0)
         {
-            d = d / d;
+            d = 1;
         }
         pair<int, int> retorn;
         retorn.first = n;
@@ -316,8 +304,7 @@ pair<int, int> racional::calcula_residu() throw(error)
         int num_residu;
         num_residu = -1 * (_part_entera * _d) + _n;
         cout << 'n' << num_residu << endl;
-        residu.first = num_residu;
-        residu.second = _d;
+        residu = simplificar(num_residu, _d);
         return residu;
     }
 }
