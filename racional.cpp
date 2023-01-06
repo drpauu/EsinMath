@@ -13,8 +13,8 @@ racional::racional(int n, int d) throw(error)
     }
     else
     {
-        _d = d;
         _n = n;
+        _d = d;
         _part_entera = calcula_part_entera();
         _residu = calcula_residu();
         this->simplificar(_n, _d);
@@ -30,8 +30,8 @@ racional::racional(const racional &r) throw(error)
     }
     else
     {
+        _n = r._n;
         _d = r._d;
-        _n = r._d;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;
@@ -45,8 +45,8 @@ racional &racional::operator=(const racional &r) throw(error)
     }
     else
     {
-        _d = r._d;
         _n = r._n;
+        _d = r._d;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;

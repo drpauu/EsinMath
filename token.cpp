@@ -49,8 +49,7 @@ token::token(int n) throw(error)
   _id = CT_ENTERA;
   //_valor._enter = n;
   _valor = new int;
-  _valor = &n;
-  cout << "valor enter: " << *(int *)_valor << endl;
+  *(int *)_valor = n;
 }
 token::token(const racional &r) throw(error)
 {
@@ -58,14 +57,14 @@ token::token(const racional &r) throw(error)
   //_valor._racional = r;
   _valor = new racional;
   racional rac = r;
-  _valor = &rac;
+  *(racional *)_valor = rac;
 }
 token::token(double x) throw(error)
 {
   _id = CT_REAL;
   //_valor._real = x;
   _valor = new double;
-  _valor = &x;
+  *(double *)_valor = x;
 }
 token::token(const string &var_name) throw(error)
 {
@@ -79,7 +78,7 @@ token::token(const string &var_name) throw(error)
     _id = VARIABLE;
     //_valor._variable = var_name;
     _valor = new string;
-    _valor = &s;
+    *(string *)_valor = s;
   }
 }
 
@@ -209,10 +208,11 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  cout << "valor enter1: " << *(int *)_valor << " valor enter2: " << *(int *)_valor << endl;
-  //cout << "valor racional: " << *(racional *)_valor << endl;
-  //cout << "valor float: " << *(double *)_valor << endl;
-  //cout << "valor string: " << *(string *)_valor << endl;
+  racional r = *(racional *)_valor;
+  //cout << "valor enter1: " << *(int *)_valor << " valor enter2: " << *(int *)t._valor << endl;
+  cout << "valor racional: " << r.num() << '/' << r.denom() << endl;
+  //cout << "valor float: " << *(double *)t._valor << endl;
+  //cout << "valor string: " << *(string *)t._valor << endl;
   if (_id != t._id) return false;
   else if(_id != CT_ENTERA and _id != CT_RACIONAL and _id != CT_REAL and _id != VARIABLE) return true;
   if (_id == CT_ENTERA) return *(int *)_valor == *(int *)t._valor;

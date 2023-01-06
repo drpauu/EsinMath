@@ -37,16 +37,16 @@ int main()
     cout << "part entera: " << r.part_entera() << endl; 
     residu = r.residu();
     cout << "residu: " << residu.num() << '/' << residu.denom() << endl;*/
-    int n1 = 1;
-    int n2 = 2;
-    //racional n3 = racional(1, 2);
-    //racional n4 = racional(3, 4);
+    //int n1 = 1;
+    //int n2 = 2;
+    racional n3 = racional(1, 2);
+    racional n4 = racional(3, 4);
     //double n5 = 1.23;
     //double n6 = 4.56;
     //string n7 = "ab";
     //string n8 = "cd";
-    token t1(n1);
-    token t2(n2);
+    token t1(n3);
+    token t2(n4);
     if(t1 == t2)
     {
         cout << "funciona" << endl;
