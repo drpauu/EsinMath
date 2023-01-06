@@ -10,7 +10,7 @@ struct node
 };
 node *_arrel;
 
-//totes les operacions que es necessiten:
+// totes les operacions que es necessiten:
 
 token operacio_corrent(token op, token a, token b);
 
@@ -33,5 +33,11 @@ bool es_operand(token t);
 bool es_operador(token t);
 
 void printl(list<token> l);
+
+// Abin<T> &operator=(const Abin<T> &a);
+
+// es per fer el simbol d igual, i  ue no doni errors
+
+// expressio &operator=(const expressio &a); no se pq no em deixa fer aixo, sha de mirar
 
 bool es_buit;
