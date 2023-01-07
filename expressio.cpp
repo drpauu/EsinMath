@@ -5,6 +5,22 @@
 
 using namespace std;
 
+// oepradors, copies de nodes pels operadors, i elimina nodes
+// per utilitat (aquestes dues ultimes estan escrites al .rep)
+
+expressio &expressio::operator=(const expressio &a)
+{
+    // Make sure we're not self-assigning
+    if (this != &a)
+    {
+        // Copy the list and the tree
+        _lt = a._lt;
+        _arrel = copia_nodes(a._arrel);
+    }
+
+    return *this;
+}
+
 // operacions;
 
 token expressio::operacio_corrent(token op, token a, token b)

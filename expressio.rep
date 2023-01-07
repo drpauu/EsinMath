@@ -24,9 +24,31 @@ token arrel(token op) throw(error);
 
 expressio constructora_op(token t, expressio a, expressio b);
 
-static node *copia_nodes(node *m);
+static node *copia_nodes(node *m)
+{
+  if (m == NULL)
+    return NULL;
 
-static void esborra_nodes(node *m);
+  node *c = new node;
+  c->_info = m->_info;
+  c->f_esq = copia_nodes(m->f_esq);
+  c->f_dret = copia_nodes(m->f_dret);
+
+  return c;
+}
+
+static void esborra_nodes(node *m)
+{
+  if (m == NULL)
+    return;
+
+  // Recursively delete the left and right subtrees
+  esborra_nodes(m->f_esq);
+  esborra_nodes(m->f_dret);
+
+  // Delete the current node
+  delete m;
+}
 
 bool es_operand(token t);
 
@@ -35,9 +57,5 @@ bool es_operador(token t);
 void printl(list<token> l);
 
 // Abin<T> &operator=(const Abin<T> &a);
-
-// es per fer el simbol d igual, i  ue no doni errors
-
-// expressio &operator=(const expressio &a); no se pq no em deixa fer aixo, sha de mirar
 
 bool es_buit;
