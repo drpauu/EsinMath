@@ -2,8 +2,10 @@
 #include <stack>
 #include <list>
 #include <cmath>
+#include <iostream>
 
 using namespace std;
+
 
 // oepradors, copies de nodes pels operadors, i elimina nodes
 // per utilitat (aquestes dues ultimes estan escrites al .rep)
@@ -303,7 +305,7 @@ bool expressio::es_operand(token t)
     }
 }
 
-bool is_operator(token op)
+bool expressio::es_operador(token op)
 {
     return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
 }
@@ -352,7 +354,7 @@ expressio::expressio(const list<token> &l) throw(error)
             }
             oops.pop();
         }
-        else if (is_operator(*it))
+        else if (es_operador(*it))
         {
             while (!oops.empty() and
                    (operators(*it) <= operators(oops.top())))
@@ -509,7 +511,7 @@ void expressio::list_of_tokens(list<token> &lt) throw(error)
     lt = _lt;
 }
 
-bool operand(token t)
+bool operand(token t) // es diferent que la de es_operand(), no borrar
 {
     if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP))
     {
@@ -518,5 +520,26 @@ bool operand(token t)
     else
     {
         return false;
+    }
+}
+
+void printl(list<token> l)
+{
+    list<token>::iterator it = l.begin();
+    while (it != l.end())
+    {
+        // cout << *it;, dona erro ja que ejn la clase de token
+        // no hi ha un operador per poder fer un cout d un token
+        // pero com que aquesta funcio crec que no es del tot necessaria
+        // ho deixo en comentari.
+        it++;
+        if (it != l.end())
+        {
+            cout << " ";
+        }
+        else
+        {
+            cout << endl;
+        }
     }
 }
