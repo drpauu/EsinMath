@@ -41,8 +41,8 @@ int main()
     token t1(n7);
     token t2(n8);
     token t3(t2);
-/*    token t4(SUMA);
-    token t5(RESTA);*/
+    token t4(token::SUMA);
+    token t5(token::RESTA);
     if(t2 == t3)
     {
         cout << "son iguals" << endl;
@@ -50,10 +50,10 @@ int main()
     else
         cout << "son diferents" << endl;
     
-    /*if(t4 < t5)
+    if(t4 < t5)
     {
         cout << "és més petit";
-    }*/
+    }
     
     return 0;
 }
