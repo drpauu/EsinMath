@@ -38,7 +38,7 @@ static node *copia_nodes(node *m)
   c->f_dret = copia_nodes(m->f_dret);
 
   return c;
-}
+};
 
 static void esborra_nodes(node *m)
 {
@@ -51,7 +51,9 @@ static void esborra_nodes(node *m)
 
   // Delete the current node
   delete m;
-}
+};
+
+bool funcio(token t);
 
 bool es_operand(token t); // here
 

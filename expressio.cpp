@@ -6,7 +6,6 @@
 
 using namespace std;
 
-
 // oepradors, copies de nodes pels operadors, i elimina nodes
 // per utilitat (aquestes dues ultimes estan escrites al .rep)
 
@@ -310,13 +309,26 @@ bool expressio::es_operador(token op)
     return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
 }
 
+bool expressio::funcio(token t)
+{
+    return t.tipus() == token::LOG or t.tipus() == token::EXP or t.tipus() == token::SQRT;
+}
+
+bool is_parenthesis(token token){
+    return is_open_parenthesis(token) and is_close_parenthesis(token);
+}
+
+bool es_variable(token t){
+    if (!es_operador(t) and !is_parenthesis(t) and !funcio(t)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
 
 bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
-
-expressio expressio::constructor_especial(token t, expressio e){
-
-}
 
 expressio expressio::constructora_op(token t, expressio a, expressio b)
 {
@@ -339,7 +351,7 @@ expressio::expressio(const list<token> &l) throw(error)
     stack<token> oops;
     for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
-        if (is_open_parenthesis(*it))
+        if (is_open_parenthesis(*it) or funcio(*it))
         {
             oops.push(*it);
         }
@@ -357,8 +369,15 @@ expressio::expressio(const list<token> &l) throw(error)
                 expre.push(exp);
             }
             oops.pop();
+            if(funcio(oops.top())){
+                expressio aux;
+                expressio exp = constructora_op(oops.top(), aux, expre.top());
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
+            }
         }
-        else if (es_operador(*it))
+        else if (es_operador(*it) or es_variable(*it))
         {
             while (!oops.empty() and
                    (operators(*it) <= operators(oops.top())))
