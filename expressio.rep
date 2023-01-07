@@ -13,19 +13,19 @@ node *_arrel;
 
 // totes les operacions que es necessiten:
 
-token operacio_corrent(token op, token a, token b);
+token operacio_corrent(token op, token a, token b); // here
 
 // en aquestes operacions s ha de posar error, pq no es por fer l arrel d un nombre negatiu per exemple
 
-token logaritme(token op) throw(error);
+token logaritme(token op) throw(error); // here
 
 token exponencial(token op) throw(error);
 
-token func_sqrt(token op) throw(error);
+token func_sqrt(token op) throw(error); // here
 
-expressio constructora_op(token t, expressio a, expressio b);
+expressio constructora_op(token t, expressio a, expressio b); // here
 
-expressio constructor_especial(token t, expressio e);
+expressio constructor_especial(token t, expressio e); // here
 
 static node *copia_nodes(node *m)
 {
@@ -53,9 +53,9 @@ static void esborra_nodes(node *m)
   delete m;
 }
 
-bool es_operand(token t);
+bool es_operand(token t); // here
 
-bool es_operador(token t);
+bool es_operador(token t); // here
 
 void printl(list<token> l);
 

@@ -374,7 +374,6 @@ expressio::expressio(const list<token> &l) throw(error)
         }
         else if (es_operand(*it))
         {
-            _lt.push_back(*it);
             expressio exp(*it);
             expre.push(exp);
         }
