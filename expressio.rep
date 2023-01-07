@@ -21,9 +21,11 @@ token logaritme(token op) throw(error);
 
 token exponencial(token op) throw(error);
 
-token arrel(token op) throw(error);
+token func_sqrt(token op) throw(error);
 
 expressio constructora_op(token t, expressio a, expressio b);
+
+expressio constructor_especial(token t, expressio e);
 
 static node *copia_nodes(node *m)
 {

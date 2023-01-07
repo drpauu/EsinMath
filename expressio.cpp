@@ -232,7 +232,7 @@ token exponencial(token op) throw(error)
     return buit;
 }
 
-token expressio::arrel(token op) throw(error)
+token expressio::func_sqrt(token op) throw(error)
 {
     if (op.tipus() == token::CT_ENTERA)
     {
@@ -314,6 +314,10 @@ bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR
 
 bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
 
+expressio expressio::constructor_especial(token t, expressio e){
+
+}
+
 expressio expressio::constructora_op(token t, expressio a, expressio b)
 {
     expressio ret;
@@ -370,6 +374,7 @@ expressio::expressio(const list<token> &l) throw(error)
         }
         else if (es_operand(*it))
         {
+            _lt.push_back(*it);
             expressio exp(*it);
             expre.push(exp);
         }
@@ -439,6 +444,8 @@ void expressio::vars(list<string> &l) const throw(error)
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
     } */
+    l.sort();
+    l.unique();
     for (list<token>::const_iterator it = _lt.begin(); it != _lt.end(); ++it)
     {
         if (it->tipus() == token::VARIABLE)
@@ -446,8 +453,6 @@ void expressio::vars(list<string> &l) const throw(error)
             l.push_back(it->identificador_variable());
         }
     }
-    l.sort();
-    l.unique();
     // return variables;
 }
 
@@ -477,13 +482,13 @@ void expressio::simplify_one_step() throw(error)
     {
         ant->_info = exponencial(ant->f_dret->_info);
     }
-    else if (ant->_info.tipus() == token::EXPONENCIACIO)
+    else if (ant->_info.tipus() == token::LOG)
     {
-        ant->_info = exponencial(ant->f_dret->_info);
+        ant->_info = logaritme(ant->f_dret->_info);
     }
-    else if (ant->_info.tipus() == token::EXPONENCIACIO)
+    else if (ant->_info.tipus() == token::SQRT)
     {
-        ant->_info = exponencial(ant->f_dret->_info);
+        ant->_info = func_sqrt(ant->f_dret->_info);
     }
     else
     {
