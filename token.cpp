@@ -208,11 +208,11 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  racional r = *(racional *)_valor;
   //cout << "valor enter1: " << *(int *)_valor << " valor enter2: " << *(int *)t._valor << endl;
-  cout << "valor racional: " << r.num() << '/' << r.denom() << endl;
-  //cout << "valor float: " << *(double *)t._valor << endl;
-  //cout << "valor string: " << *(string *)t._valor << endl;
+  //racional r = *(racional *)_valor;
+  //cout << "valor racional: " << r.num() << '/' << r.denom() << endl;
+  //cout << "valor float: " << *(double *)_valor << endl;
+  //cout << "valor string: " << *(string *)_valor << endl;
   if (_id != t._id) return false;
   else if(_id != CT_ENTERA and _id != CT_RACIONAL and _id != CT_REAL and _id != VARIABLE) return true;
   if (_id == CT_ENTERA) return *(int *)_valor == *(int *)t._valor;
