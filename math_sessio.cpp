@@ -76,7 +76,7 @@ void math_sessio::execute(const list<token> &lin, list<token> &lout) throw(error
     {
       throw error(SintComandaIncorrecta);
     }
-    it++;
+    std::advance(it, 1);
     if (it->tipus() != token::VARIABLE)
     {
       throw error(SintComandaIncorrecta);
@@ -95,34 +95,38 @@ void math_sessio::execute(const list<token> &lin, list<token> &lout) throw(error
   else if (it->tipus() == token::VARIABLE)
   {
     token var = *it;
-    it++;
+    std::advance(it, 1);
     if ((llista.size() < 2) or (it->tipus() == token::ASSIGNACIO))
     {
       throw error(SintComandaIncorrecta);
     }
-    it++;
+    std::advance(it, 1);
     expressio eavaluar = *it;
     // primer s ha d avaluar evauluar, i despres s ha d assignar la variable.
     list<token> infinit;
     eavaluar.list_of_tokens(infinit);
     list<token>::iterator id;
     id = std::find(infinit.begin(), infinit.end(), *it);
-    if(it == infinit.end()){
+    if (it == infinit.end())
+    {
       throw error(AssigAmbCirculInfinita);
     }
     _sessio.assign(it->identificador_variable(), eavaluar);
   }
   else if (it->tipus() == token::EVALF)
   {
-    it++;
+    std::advance(it, 1);
     // no tinc ni puta idea com collons s avalua;
-  } else {
+  }
+  else
+  {
     throw error(SintComandaIncorrecta);
   }
 }
 
 // Retorna cert si i només si la sessió ha finalitzat.
-bool math_sessio::end_of_session() const throw() {
+bool math_sessio::end_of_session() const throw()
+{
   return final;
 }
 
@@ -131,16 +135,28 @@ bool math_sessio::end_of_session() const throw() {
    té el format id = e, on id és el nom d'una variable i e és l'expressió
    (com string) assignada a id. Convertim una expressió e en el seu string
    corresponent invocant al mètode tostring del mòdul esinmath_io. */
-void math_sessio::dump(list<string> &l) const throw(error) {
+void math_sessio::dump(list<string> &l) const throw(error)
+{
   list<string> claus;
   _sessio.dump(claus);
-  for(list<string>::iterator it = claus.begin(); it != claus.end(); it++){
+  for (list<string>::iterator it = claus.begin(); it != claus.end(); it++)
+  {
     l.push_back(*it);
     expressio exp = _sessio.valor(*it);
     list<token> lt;
     exp.list_of_tokens(lt);
-    l.push_back(math_io::tostring(lt));
+    // l.push_back(math_io::tostring(lt)); // aqui dona error i no entenc pq
+    //  ns com fer la merda aquesta de tostring, si no es aixi
+    //  pq en el .hpp ja esta fet l include
   }
+}
+
+void afegir(list<token> &lt)
+{
+  token obert("(");
+  token tancat(")");
+  lt.push_front(obert);
+  lt.push_back(tancat);
 }
 
 /* Donada una expressió e, aplica a les seves variables totes les
@@ -149,6 +165,43 @@ void math_sessio::dump(list<string> &l) const throw(error) {
    conjunt). Aquest procés s'explica en detall a l'apartat "Procés
    d'avaluació". S'assumeix que no existeix circularitat infinita entre les
    substitucions de les variables que formen part de l'expressió e. */
-void math_sessio::apply_all_substitutions(expressio &e) const throw(error) {
-
+void math_sessio::apply_all_substitutions(expressio &e) const throw(error)
+{
+  // quan substitueixes algo, d una variable, sempre es posa en parentesis
+  // i aquesta funcio fa aixo, substitueix la variable per la seva expressio.
+  list<string> infinit;
+  list<string> claus;
+  _sessio.dump(claus);
+  list<token> expre;
+  e.list_of_tokens(expre);
+  for (list<token>::iterator it = expre.begin(); it != expre.end(); it++)
+  {
+    if (it->tipus() == token::VARIABLE)
+    {
+      list<string>::iterator at;
+      string var = it->identificador_variable();
+      at = find(infinit.begin(), infinit.end(), var);
+      if (at != infinit.end())
+      {
+        // si dona error en aquesta funcio, fes aquest find amb un altre nom de la variable
+        // no hauria de donar cap error per aixo
+        at = find(claus.begin(), claus.end(), var);
+        if (at != claus.end())
+        {
+          // Variable has a substitution defined
+          expressio ins = _sessio.valor(var);
+          list<token> sub;
+          ins.list_of_tokens(sub);
+          afegir(sub); // afegeix els parenthesis
+          it = expre.insert(it, sub.begin(), sub.end());
+          infinit.push_front(var);
+          expre.erase(it);
+          // advance(it, sub.size()); no es fa aixo, pq aixi es recorre un altre
+          // cop, el que acabem de posar i es comprova que no sigui infinit.
+        }
+      } else {
+        throw error(SintComandaIncorrecta);
+      }
+    }
+  }
 }
