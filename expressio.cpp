@@ -1,9 +1,259 @@
 #include "expressio.hpp"
-#include "token.hpp"
 #include <stack>
 #include <list>
+#include <cmath>
+#include <iostream>
 
 using namespace std;
+
+// oepradors, copies de nodes pels operadors, i elimina nodes
+// per utilitat (aquestes dues ultimes estan escrites al .rep)
+
+expressio &expressio::operator=(const expressio &a)
+{
+    // Make sure we're not self-assigning
+    if (this != &a)
+    {
+        // Copy the list and the tree
+        _lt = a._lt;
+        _arrel = copia_nodes(a._arrel);
+    }
+
+    return *this;
+}
+
+// operacions;
+
+token expressio::operacio_corrent(token op, token a, token b)
+{
+    if (op.tipus() == token::SUMA)
+    {
+        if (a.tipus() == token::CT_ENTERA)
+        {
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c + d);
+            return ret;
+        }
+        else if (a.tipus() == token::CT_RACIONAL)
+        {
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c + d);
+        }
+        else if (a.tipus() == token::CT_REAL)
+        {
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c + d);
+        }
+        else if (a.tipus() == token::VARIABLE)
+        {
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+        // en el cas que no sigui cap d aquestes, hauria de donar un error semantic
+        // pero l hauria de donar quan fessim l expressio, es a dir, que si els dos fills no son dle mateix tipsu,
+        // doni un error semantic que no es es pot fer l operacio.
+    }
+    else if (op.tipus() == token::RESTA)
+    {
+        if (a.tipus() == token::CT_ENTERA)
+        {
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c - d);
+            return ret;
+        }
+        else if (a.tipus() == token::CT_RACIONAL)
+        {
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c - d);
+        }
+        else if (a.tipus() == token::CT_REAL)
+        {
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c - d);
+        }
+        else if (a.tipus() == token::VARIABLE)
+        {
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    }
+    else if (op.tipus() == token::MULTIPLICACIO)
+    {
+        if (a.tipus() == token::CT_ENTERA)
+        {
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c * d);
+            return ret;
+        }
+        else if (a.tipus() == token::CT_RACIONAL)
+        {
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c * d);
+        }
+        else if (a.tipus() == token::CT_REAL)
+        {
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c * d);
+        }
+        else if (a.tipus() == token::VARIABLE)
+        {
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    }
+    else if (op.tipus() == token::DIVISIO)
+    {
+        if (a.tipus() == token::CT_ENTERA)
+        {
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c / d);
+            return ret;
+        }
+        else if (a.tipus() == token::CT_RACIONAL)
+        {
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            token ret(c / d);
+        }
+        else if (a.tipus() == token::CT_REAL)
+        {
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            token ret(c / d);
+        }
+        else if (a.tipus() == token::VARIABLE)
+        {
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    }
+    else if (op.tipus() == token::EXPONENCIACIO)
+    {
+        if (a.tipus() == token::CT_ENTERA)
+        {
+            int c, d;
+            c = a.valor_enter();
+            d = b.valor_enter();
+            token ret(c ^ d);
+            return ret;
+        }
+        else if (a.tipus() == token::CT_RACIONAL)
+        {
+            racional c, d;
+            c = a.valor_racional();
+            d = b.valor_racional();
+            // token ret(c^d); caldria fer una funcio extra a racional, per poder fer aquesta operacio.
+        }
+        else if (a.tipus() == token::CT_REAL)
+        {
+            double c, d;
+            c = a.valor_real();
+            d = b.valor_real();
+            // token ret(c^d); te sentit, s ha de mirar per internet a veure si es pot fer, i com fer ho.
+        }
+        else if (a.tipus() == token::VARIABLE)
+        {
+            // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+            // s ah de preguntar;
+        }
+    }
+    token buit;
+    return buit;
+}
+
+token expressio::logaritme(token op) throw(error)
+{
+    if (op.tipus() == token::CT_ENTERA)
+    {
+        token ret(log(op.valor_enter()));
+        return ret;
+    }
+    else if (op.tipus() == token::CT_RACIONAL)
+    {
+        // token ret(log(op.valor_racional())); no es pot fer un logaritme d un valor racional
+    }
+    else if (op.tipus() == token::CT_REAL)
+    {
+        token ret(log(op.valor_real()));
+    }
+    else if (op.tipus() == token::VARIABLE)
+    {
+        // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+        // s ah de preguntar;
+    }
+    token buit;
+    return buit;
+}
+
+token exponencial(token op) throw(error)
+{
+    if (op.tipus() == token::CT_ENTERA)
+    {
+        token ret(exp(op.valor_enter()));
+        return ret;
+    }
+    else if (op.tipus() == token::CT_RACIONAL)
+    {
+        // token ret(exp(op.valor_racional())); no es pot fer un logaritme d un valor racional
+    }
+    else if (op.tipus() == token::CT_REAL)
+    {
+        token ret(exp(op.valor_real()));
+    }
+    else if (op.tipus() == token::VARIABLE)
+    {
+        // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+        // s ah de preguntar;
+    }
+    token buit;
+    return buit;
+}
+
+token expressio::func_sqrt(token op) throw(error)
+{
+    if (op.tipus() == token::CT_ENTERA)
+    {
+        token ret(sqrt(op.valor_enter()));
+        return ret;
+    }
+    else if (op.tipus() == token::CT_RACIONAL)
+    {
+        // token ret(sqrt(op.valor_racional())); no es pot fer un logaritme d un valor racional
+    }
+    else if (op.tipus() == token::CT_REAL)
+    {
+        token ret(sqrt(op.valor_real()));
+    }
+    else if (op.tipus() == token::VARIABLE)
+    {
+        // la suma de variable, ns com es faria, suposu que es queda igual o algo ns
+        // s ah de preguntar;
+    }
+    token buit;
+    return buit;
+}
 
 /* Constructora d'una expressió formada per un sol token: un operand. Si
    s'utiliza el valor del token per defecte es construeix la que
@@ -12,148 +262,182 @@ using namespace std;
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
 expressio::expressio(const token t = token()) throw(error)
 {
-    if (t.tipus() != (t.NULLTOK and t.CT_ENTERA and t.CT_RACIONAL and t.CT_REAL and t.CT_E and t.VARIABLE and t.VAR_PERCENTATGE))
-        throw(31);
+    if (t.tipus() == token::NULLTOK)
+    {
+        _arrel = new node;
+        _arrel = NULL;
+        es_buit = true;
+    }
+    else if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    {
+        _arrel = new node;
+        _arrel->f_dret = NULL;
+        _arrel->f_esq = NULL;
+        _arrel->_info = t;
+        _lt.push_back(t);
+        es_buit = false;
+    }
     else
     {
-        _exp.push_back(t);
-        
+        throw error(ErrorSintactic);
     }
 }
 
-/* Constructora a partir d'una seqüència de tokens. Es produeix un error si
-   la seqüència és buida o si no es pot construir l'arbre d'expressió
-   corresponent(és a dir, si és sintàcticament incorrecta). */
+int operators(token op)
+{
+    if (op.tipus() == token::SUMA or op.tipus() == token::RESTA)
+        return 1;
+    if (op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO)
+        return 2;
+    return 0;
+}
+
+bool expressio::es_operand(token t)
+{
+    if (t.tipus() == token::CT_ENTERA or t.tipus() == token::CT_RACIONAL or t.tipus() == token::CT_REAL or t.tipus() == token::VARIABLE or t.tipus() == token::VAR_PERCENTATGE)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool expressio::es_operador(token op)
+{
+    return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
+}
+
+bool expressio::funcio(token t)
+{
+    return t.tipus() == token::LOG or t.tipus() == token::EXP or t.tipus() == token::SQRT;
+}
+
+bool is_parenthesis(token token){
+    return is_open_parenthesis(token) and is_close_parenthesis(token);
+}
+
+bool es_variable(token t){
+    if (!es_operador(t) and !is_parenthesis(t) and !funcio(t)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
+
+bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
+
+expressio expressio::constructora_op(token t, expressio a, expressio b)
+{
+    expressio ret;
+    if (es_operador(t))
+    {
+        ret._arrel = new node;
+        ret._arrel->_info = t;
+        ret._arrel->f_dret = a._arrel;
+        ret._arrel->f_esq = b._arrel;
+    }
+    ret.es_buit = false;
+    return ret;
+}
+
 expressio::expressio(const list<token> &l) throw(error)
 {
-    //Recorrer la llista l
-    stack<token> operador;
-    stack<arbreBin<token>> output;
-    token tok;
-    for(list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
+    _lt = l;
+    stack<expressio> expre;
+    stack<token> oops;
+    for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
     {
-        tok = *it;
-        //if (token == var/constant)
-        if(tok.tipus() == (tok.VARIABLE or tok.CT_ENTERA or tok.CT_RACIONAL or tok.CT_REAL or tok.CT_E or tok.COMA))
+        if (is_open_parenthesis(*it) or funcio(*it))
         {
-        //Guardar token a l'stack output
-            output.push(tok);
+            oops.push(*it);
         }
-        //else (token == operador)
-        else
+        else if (is_close_parenthesis(*it))
         {
-            //Mirar la prioritat dels operadors i guardar l'operador a l'stack operador 
-            if(operador.empty())
+            while (!oops.empty() and
+                   (operators(oops.top()) >= operators(*it)) and
+                   !is_open_parenthesis(oops.top()))
             {
-                operador.push(tok);
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
             }
-            else if(operador.top().tipus() != operador.top().OBRIR_PAR)
+            oops.pop();
+            if(funcio(oops.top())){
+                expressio aux;
+                expressio exp = constructora_op(oops.top(), aux, expre.top());
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
+            }
+        }
+        else if (es_operador(*it) or es_variable(*it))
+        {
+            while (!oops.empty() and
+                   (operators(*it) <= operators(oops.top())))
             {
-                if(tok.tipus() == tok.TANCAR_PAR)
-                {
-                    while(operador.top().tipus() != operador.top().OBRIR_PAR)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
-                }
-                else
-                {
-                    while(not operador.top() > tok)
-                    {
-                        output.push(operador.top());
-                        operador.pop();
-                    }
-                    operador.push(tok);
-                }
+                expressio aux = expre.top();
+                expre.pop();
+                expressio exp = constructora_op(oops.top(), expre.top(), aux);
+                expre.pop();
+                oops.pop();
+                expre.push(exp);
             }
-            else
-            {
-                operador.push(tok);
-            }
+            oops.push(*it);
+        }
+        else if (es_operand(*it))
+        {
+            expressio exp(*it);
+            expre.push(exp);
         }
     }
-    while(not operador.empty())
+    while (!oops.empty())
     {
-        if(operador.tipus() != (operador.OBRIR_PAR or operador.TANCAR_PAR))
-            output.push(operador.top());
-        operador.pop();
+        expressio aux = expre.top();
+        expre.pop();
+        expressio exp = constructora_op(oops.top(), expre.top(), aux);
+        expre.pop();
+        oops.pop();
+        expre.push(exp);
     }
-    //Recorrer la llista output des del final cap al principi i guardar-la a l'arbreBin
-}
-
-expressio::expressio(const list<token> &l) throw(error){
-    //jo primer faria obviant quin tipus de prioritat te,
-    //i despres ho faria mirant quin tipus de prioritat.
-    list<token> llista;
-    llista = l;
-    stack<token> operadors;
-    stack<token> expressions; // aquesta pila hauria de ser, una pila d 'arbres d'expressions
-    // pero ns pq, al .rep, no em deixa fer un arbre, dema ho miro
-    list<token>::iterator it;
-    token t;
-    for(it = llista.begin(); it != llista.end(); it++){
-        if(it->tipus() == t.OBRIR_PAR){
-            operadors.push(*it);
-        } else if(it->tipus() == t.TANCAR_PAR){
-            while(operadors.top().tipus() != t.OBRIR_PAR){
-                // crear la expressio amb una o dues expressions, i apilarla a les expressions 
-                // expressions.pop();
-                // expressions.pop();
-                // aquestes dos expressions s han de guardar i tal, per poder fer aquest mini arbreBin
-                // expressions.push(operador amb un o dos operands com a fill)
-                operadors.pop();
-            }
-        } else if(it->tipus() == t.VARIABLE or t.CT_ENTERA or t.CT_RACIONAL or t.CT_REAL or t.CT_E or t.COMA){
-            // s ha de crear l arbre amb aquest operand 
-            // expressions.push(aquest arbre);
-        } else if(it->tipus() == t.SUMA or t.RESTA or t.MULTIPLICACIO or t.DIVISIO or t.SQRT or t.CANVI_DE_SIGNE or t.LOG){
-            // assumim que la prioritat es d esquera a dreta, ja despres modifiquem aixo
-            // o fem una funcio auxiliar, per canviar ho, pero primer que funcioni be;
-            // expressio.pop();
-            // expressio.pop(); s han de guardar aquestes dues expressions, ja que seran els fills de la que crearem ara
-            // operadors.pop(); ja que com que l utilitzem, s ha de desapilar;
-            // aqui no entenc ven be el que s ha de fer; pero en si.
-        }
-        // despres s ha d acabar de desapilar tot, fent expressions mes grans, a partir de les que tenim ja a la pilla 
-        // d'expressions. Pero el que no em quadra es quan s ha de fer un push a la pila operadors.
-    }
+    es_buit = false;
+    *this = expre.top();
 }
 
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
 }
 expressio &expressio::operator=(const expressio &e) throw(error)
 {
-    _exp = e._exp;
+    *this = e;
     return *this;
 }
 expressio::~expressio() throw(error)
 {
-    list<token> buida;
-    _exp = buida;
+    esborra_nodes(_arrel);
+    es_buit = true;
 }
 
 // Retorna cert si i només si s'aplica a l'expressió buida.
 expressio::operator bool() const throw()
 {
-    list<token> buida;
-    if (_exp == buida)
-    {
-        return true;
-    }
-    else
-        return false;
+    return es_buit;
 }
 
 /* Operadors d'igualtat i desigualtat. Dues expressions es consideren
    iguals si i només si els seus arbres d'expressió són idèntics. */
 bool expressio::operator==(const expressio &e) const throw()
 {
-    if (_exp == e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -162,7 +446,7 @@ bool expressio::operator==(const expressio &e) const throw()
 }
 bool expressio::operator!=(const expressio &e) const throw()
 {
-    if (_exp != e._exp)
+    if (*this == e)
     {
         return true;
     }
@@ -178,19 +462,16 @@ void expressio::vars(list<string> &l) const throw(error)
         list <string>::iterator it ;
         //it = find(l.begin(), l.end(), elem.)
     } */
-    list<token> elem;
-    elem = _exp;
-    list<token>::iterator it;
-    for (it = elem.begin(); it != elem.end(); ++it)
+    l.sort();
+    l.unique();
+    for (list<token>::const_iterator it = _lt.begin(); it != _lt.end(); ++it)
     {
-        token t;
-        if (it->tipus() == t.VARIABLE)
+        if (it->tipus() == token::VARIABLE)
         {
             l.push_back(it->identificador_variable());
         }
     }
-    l.sort();
-    l.unique();
+    // return variables;
 }
 
 /* Substitueix totes les aparicions de la variable de nom v per
@@ -198,32 +479,6 @@ void expressio::vars(list<string> &l) const throw(error)
    que apliquem aquest mètode l'expressió no es modifica. */
 void expressio::apply_substitution(const string &v, const expressio &e) throw(error)
 {
-    list<token> elem;
-    elem = _exp;
-    list<token>::iterator it;
-    for (it = elem.begin(); it != elem.end(); ++it)
-    {
-        token t;
-        if (it->tipus() == t.VARIABLE)
-        {
-            if (it->identificador_variable() == v)
-            {
-                list<token> ins;
-                ins = e._exp;
-                list<token>::iterator in;
-                in = ins.begin();
-                *it = *in;
-                it++;
-                in++;
-                while (in != ins.end())
-                {
-                    _exp.insert(it, *in);
-                    in++;
-                }
-                return;
-            }
-        }
-    }
 }
 
 /* Aplica un pas de simplificació a l'expressió. La subexpressió a
@@ -232,10 +487,31 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
    errors semàntics que apareixen més avall numerats des del 32 al 35. */
 void expressio::simplify_one_step() throw(error)
 {
-    // sha de fer un arbre i tal, sino no entenc
-    // L'arbre el fem al constructor, quan ens passen la llista de tokens
-    // Aquí el que hem de fer és simplificar una sola cosa. Crec que el mètode simplify anirà cridant
-    // al mètode simplify_one_step fins que ja no es pugui simplificar més.
+    // s ha de baixar fins abaix a la dreta, que es la primera operacio,
+    // i modificar el fill dret, per una expressio amb fills dret i esquerra nullptr;
+    node *aux = _arrel;
+    node *ant = NULL;
+    while (aux->f_dret != NULL)
+    {
+        ant = aux;
+        aux = aux->f_dret;
+    }
+    if (ant->_info.tipus() == token::EXPONENCIACIO)
+    {
+        ant->_info = exponencial(ant->f_dret->_info);
+    }
+    else if (ant->_info.tipus() == token::LOG)
+    {
+        ant->_info = logaritme(ant->f_dret->_info);
+    }
+    else if (ant->_info.tipus() == token::SQRT)
+    {
+        ant->_info = func_sqrt(ant->f_dret->_info);
+    }
+    else
+    {
+        ant->_info = operacio_corrent(ant->_info, ant->f_esq->_info, ant->f_dret->_info);
+    }
 }
 
 /* Aplica successius passos de simplificació com l'anterior fins que
@@ -255,4 +531,38 @@ void expressio::simplify() throw(error)
 
 void expressio::list_of_tokens(list<token> &lt) throw(error)
 {
+    lt = _lt;
+}
+
+bool operand(token t) // es diferent que la de es_operand(), no borrar
+{
+    if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or token::DIVISIO or token::EXPONENCIACIO or token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or token::SQRT or token::LOG or token::EXP))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void printl(list<token> l)
+{
+    list<token>::iterator it = l.begin();
+    while (it != l.end())
+    {
+        // cout << *it;, dona erro ja que ejn la clase de token
+        // no hi ha un operador per poder fer un cout d un token
+        // pero com que aquesta funcio crec que no es del tot necessaria
+        // ho deixo en comentari.
+        it++;
+        if (it != l.end())
+        {
+            cout << " ";
+        }
+        else
+        {
+            cout << endl;
+        }
+    }
 }
