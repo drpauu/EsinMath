@@ -9,9 +9,17 @@ math_sessio::math_sessio() throw(error)
 }
 
 // Constructora per còpia, assignació i destructora.
-math_sessio::math_sessio(const math_sessio &es) throw(error) {}
-math_sessio &math_sessio::operator=(const math_sessio &es) throw(error) {}
-math_sessio::~math_sessio() throw(error) {}
+math_sessio::math_sessio(const math_sessio &es) throw(error) {
+  _sessio = es._sessio;
+}
+math_sessio &math_sessio::operator=(const math_sessio &es) throw(error) {
+  _sessio = es._sessio;
+  return *this;
+}
+math_sessio::~math_sessio() throw(error) {
+  list<expressio> buida = {};
+  _sessio = buida;
+}
 
 /* Aquest mètode rep una llista de tokens, lin, lèxicament correcta.
    Primerament analitza parcialment lin per verificar si la comanda és
@@ -46,6 +54,7 @@ math_sessio::~math_sessio() throw(error) {}
    l'apartat "Procés d'avaluació". */
 void math_sessio::execute(const list<token> &lin, list<token> &lout) throw(error)
 {
+    
 }
 
 // Retorna cert si i només si la sessió ha finalitzat.
