@@ -304,7 +304,7 @@ bool expressio::es_operand(token t)
     }
 }
 
-bool expressio::es_operador(token op)
+bool es_operador(token op)
 {
     return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
 }

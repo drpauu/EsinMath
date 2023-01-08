@@ -1,1 +1,3 @@
-expressio _sess;
+#include "math_sessio.hpp"
+
+list <expressio> _sessio;

@@ -57,7 +57,7 @@ bool funcio(token t);
 
 bool es_operand(token t); // here
 
-bool es_operador(token t); // here
+//bool es_operador(token t); // here
 
 void printl(list<token> l);
 
