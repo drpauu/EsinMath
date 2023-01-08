@@ -151,7 +151,8 @@ void math_sessio::dump(list<string> &l) const throw(error)
   }
 }
 
-void afegir(list<token> &lt)
+void afegir(list<token> &lt) // afegeix els parentesis al principi i al
+                              // al final de la expressio feta llista
 {
   token obert("(");
   token tancat(")");
