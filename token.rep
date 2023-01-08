@@ -14,6 +14,7 @@ union data { // per fer-ho eficient es millor amb el punter o amb l union
     racional _racional();
     double _real;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     string _variable;
     data(){};
     data(const data & d) throw(){};
@@ -23,6 +24,8 @@ union data { // per fer-ho eficient es millor amb el punter o amb l union
 
 //data _valor;
 =======
+=======
+>>>>>>> Stashed changes
     string _variable = "";
 };
 >>>>>>> Stashed changes
