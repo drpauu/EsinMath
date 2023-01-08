@@ -1,4 +1,9 @@
 #include "variables.hpp"
 #include <map>
 
-std::map<string, expressio> _var;
+struct node
+{
+  node *seg;
+  std::pair<string, expressio> info;
+};
+node *primer;
