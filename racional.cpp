@@ -13,8 +13,8 @@ racional::racional(int n, int d) throw(error)
     }
     else
     {
-        _d = d;
         _n = n;
+        _d = d;
         _part_entera = calcula_part_entera();
         _residu = calcula_residu();
         this->simplificar(_n, _d);
@@ -30,8 +30,8 @@ racional::racional(const racional &r) throw(error)
     }
     else
     {
+        _n = r._n;
         _d = r._d;
-        _n = r._d;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;
@@ -45,8 +45,8 @@ racional &racional::operator=(const racional &r) throw(error)
     }
     else
     {
-        _d = r._d;
         _n = r._n;
+        _d = r._d;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;
@@ -89,7 +89,7 @@ racional racional::operator+(const racional &r) const throw(error)
     {
         racional aux;
         pair<int, int> simplificat;
-        aux._n = _n * r._d - r._n * _d;
+        aux._n = _n * r._d + r._n * _d;
         aux._d = _d * r._d;
         simplificat = aux.simplificar(aux._n, aux._d);
         aux._n = simplificat.first;
@@ -99,14 +99,21 @@ racional racional::operator+(const racional &r) const throw(error)
 }
 racional racional::operator-(const racional &r) const throw(error)
 {
-    racional aux;
-    pair<int, int> simplificat;
-    aux._n = _n * r._d + r._n * _d;
-    aux._d = _d * r._d;
-    simplificat = aux.simplificar(aux._n, aux._d);
-    aux._n = simplificat.first;
-    aux._d = simplificat.second;
-    return aux;
+    if (r._d == 0)
+    {
+        throw error(DenominadorZero);
+    }
+    else
+    {
+        racional aux;
+        pair<int, int> simplificat;
+        aux._n = _n * r._d - r._n * _d;
+        aux._d = _d * r._d;
+        simplificat = aux.simplificar(aux._n, aux._d);
+        aux._n = simplificat.first;
+        aux._d = simplificat.second;
+        return aux;
+    }
 }
 racional racional::operator*(const racional &r) const throw(error)
 {
@@ -252,32 +259,20 @@ pair<int, int> racional::simplificar(int n, int d) throw(error)
     }
     else
     {
-        bool negatiu = false;
         if (d < 0)
         {
-            d = d * -1;
-            negatiu = true;
-        }
-        if (n < 0)// && !negatiu)
-        {
-            n = n * -1;
-            if(negatiu)
-                negatiu = false;
-            else negatiu = true;
+            n = -n;
+            d = -d;
         }
         int gcd = mcd(n, d);
         if (gcd != 0)
         {
-            n = n / gcd;
-            d = d / gcd;
-        }
-        if (negatiu)
-        {
-            n = n * -1;
+            n /= gcd;
+            d /= gcd;
         }
         if (n == 0)
         {
-            d = d / d;
+            d = 1;
         }
         pair<int, int> retorn;
         retorn.first = n;
@@ -306,12 +301,9 @@ pair<int, int> racional::calcula_residu() throw(error)
     else
     {
         pair<int, int> residu;
-        int num_residu, aux;
-        aux = _part_entera * _d;
-        aux *= - 1;
-        num_residu = aux + _n;
-        residu.first = num_residu;
-        residu.second = _d;
+        int num_residu;
+        num_residu = -1 * (_part_entera * _d) + _n;
+        residu = simplificar(num_residu, _d);
         return residu;
     }
 }
