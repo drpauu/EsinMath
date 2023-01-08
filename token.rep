@@ -6,9 +6,14 @@ token::codi _id;
 /*
 union data { // per fer-ho eficient es millor amb el punter o amb l union 
 // pero em dona un monton d errors, si ho acabem tot ja ho mirem de cambiar
+    data(){};
+    data(const data & d) throw(){};
+    data & operator=(const data & d) throw(){};
+    ~data() throw(){};
     int _enter;
-    racional _racional;
+    racional _racional();
     double _real;
+<<<<<<< Updated upstream
     string _variable;
     data(){};
     data(const data & d) throw(){};
@@ -17,6 +22,10 @@ union data { // per fer-ho eficient es millor amb el punter o amb l union
 }; */
 
 //data _valor;
+=======
+    string _variable = "";
+};
+>>>>>>> Stashed changes
 
 void* _valor;
 
