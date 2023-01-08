@@ -14,7 +14,7 @@ using namespace std;
 
 // RACIONAL:
 
-/*
+
 int main()
 {   
     int r1 = 0, r2 = 1;
@@ -25,11 +25,11 @@ int main()
     cout << "part entera: " << r.part_entera() << endl; 
     residu = r.residu();
     cout << "residu: " << residu.num() << '/' << residu.denom() << endl;
-}*/
+//}
 
 // TOKEN:
-int main()
-{
+//int main()
+//{
     //int n1 = 1;
     //int n2 = 2;
     //racional n3 = racional(1, 2);
@@ -46,17 +46,17 @@ int main()
     //token t6(token::CT_E);
     if(t2 == t3)
     {
-        cout << "son iguals" << endl;
+        cout << "t2 i t3 són iguals" << endl;
     }
     else
-        cout << "son diferents" << endl;
+        cout << "t2 i t3 són diferents" << endl;
     
     if(t4 < t5)
     {
-        cout << "és més petit" << endl;
+        cout << "t4 és més petit que t5" << endl;
     }
     else
-        cout << "és igual/més gran" << endl;
+        cout << "t4 és igual/més gran que t5" << endl;
     
     return 0;
     //cout << t6.numero_operadors() << endl;

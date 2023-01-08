@@ -302,8 +302,6 @@ bool token::operator<(const token &t) const throw(error)
   }
   else
   {
-    cout << "_id ÉS: " << _id << endl;
-    cout << "t._id ÉS: " << t._id << endl;
     throw error(PrecedenciaEntreNoOperadors);
   }
 }
