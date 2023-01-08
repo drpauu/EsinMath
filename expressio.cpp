@@ -309,7 +309,7 @@ bool es_operador(token op)
     return op.tipus() == token::MULTIPLICACIO or op.tipus() == token::DIVISIO or op.tipus() == token::SUMA or op.tipus() == token::RESTA;
 }
 
-bool expressio::funcio(token t)
+bool funcio(token t)
 {
     return t.tipus() == token::LOG or t.tipus() == token::EXP or t.tipus() == token::SQRT;
 }
@@ -330,13 +330,13 @@ bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR
 
 bool is_close_parenthesis(token token) { return token.tipus() == token::TANCAR_PAR; }
 
-expressio expressio::constructora_op(token t, expressio a, expressio b)
+expressio expressio::constructora_op(token t, expressio a, expressio b) // si esta malament mirar en l arxiu de lewandoski.cc
 {
-    expressio ret;
+    expressio ret(t);
     if (es_operador(t))
     {
-        ret._arrel = new node;
-        ret._arrel->_info = t;
+        //ret._arrel = new node;
+        //ret._arrel->_info = t;
         ret._arrel->f_dret = a._arrel;
         ret._arrel->f_esq = b._arrel;
     }

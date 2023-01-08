@@ -5,7 +5,8 @@ using std::map;
 // Construeix un conjunt de variables buit.
 variables::variables() throw(error)
 {
-    _var;
+    node v;
+    node
 }
 
 // Constructora per còpia, assignació i destructora.

@@ -53,7 +53,7 @@ static void esborra_nodes(node *m)
   delete m;
 };
 
-bool funcio(token t);
+//bool funcio(token t);
 
 bool es_operand(token t); // here
 
