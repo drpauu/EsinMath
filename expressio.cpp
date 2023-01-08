@@ -314,16 +314,21 @@ bool funcio(token t)
     return t.tipus() == token::LOG or t.tipus() == token::EXP or t.tipus() == token::SQRT;
 }
 
-bool is_parenthesis(token token){
+bool is_parenthesis(token token)
+{
     return is_open_parenthesis(token) and is_close_parenthesis(token);
 }
 
-bool es_variable(token t){
-    if (!es_operador(t) and !is_parenthesis(t) and !funcio(t)) {
-    return true;
-  } else {
-    return false;
-  }
+bool es_variable(token t)
+{
+    if (!es_operador(t) and !is_parenthesis(t) and !funcio(t))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool is_open_parenthesis(token token) { return token.tipus() == token::OBRIR_PAR; }
@@ -335,8 +340,8 @@ expressio expressio::constructora_op(token t, expressio a, expressio b) // si es
     expressio ret(t);
     if (es_operador(t))
     {
-        //ret._arrel = new node;
-        //ret._arrel->_info = t;
+        // ret._arrel = new node;
+        // ret._arrel->_info = t;
         ret._arrel->f_dret = a._arrel;
         ret._arrel->f_esq = b._arrel;
     }
@@ -369,7 +374,8 @@ expressio::expressio(const list<token> &l) throw(error)
                 expre.push(exp);
             }
             oops.pop();
-            if(funcio(oops.top())){
+            if (funcio(oops.top()))
+            {
                 expressio aux;
                 expressio exp = constructora_op(oops.top(), aux, expre.top());
                 expre.pop();
@@ -409,7 +415,6 @@ expressio::expressio(const list<token> &l) throw(error)
     es_buit = false;
     *this = expre.top();
 }
-
 
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error)
@@ -481,36 +486,58 @@ void expressio::apply_substitution(const string &v, const expressio &e) throw(er
 {
 }
 
+void expressio::set_left_child(node *n)
+{
+    _arrel->f_esq = n;
+}
+
+void expressio::set_right_child(node *n)
+{
+    _arrel->f_dret = n;
+}
+
 /* Aplica un pas de simplificació a l'expressió. La subexpressió a
    simplificar es busca seguint el recorregut "left to right" postordre
    explicat a l'apartat "Procés d'avaluació". Es pot produir qualsevol dels
    errors semàntics que apareixen més avall numerats des del 32 al 35. */
 void expressio::simplify_one_step() throw(error)
 {
-    // s ha de baixar fins abaix a la dreta, que es la primera operacio,
-    // i modificar el fill dret, per una expressio amb fills dret i esquerra nullptr;
-    node *aux = _arrel;
-    node *ant = NULL;
-    while (aux->f_dret != NULL)
+    // s ha de implementar tambe les funcions i fer les operacions correctament
+
+    // Check if the expression is already a leaf node (i.e., a single operand)
+    if (_arrel->f_esq == NULL && _arrel->f_dret == NULL)
     {
-        ant = aux;
-        aux = aux->f_dret;
+        return;
     }
-    if (ant->_info.tipus() == token::EXPONENCIACIO)
+
+    // Check if both children are operands
+
+    // en el cas que tingui fill dret pero no fill esquerra, es tractara com a
+    // una funcio
+    if (es_operand(_arrel->f_esq->_info) && es_operand(_arrel->f_dret->_info))
     {
-        ant->_info = exponencial(ant->f_dret->_info);
-    }
-    else if (ant->_info.tipus() == token::LOG)
-    {
-        ant->_info = logaritme(ant->f_dret->_info);
-    }
-    else if (ant->_info.tipus() == token::SQRT)
-    {
-        ant->_info = func_sqrt(ant->f_dret->_info);
+        // Perform the operation and replace the current node with the result
+        token result = operacio_corrent(_arrel->_info, _arrel->f_esq->_info, _arrel->f_dret->_info);
+        delete _arrel;
+        _arrel = new node;
+        _arrel->_info = result;
+        _arrel->f_esq = NULL;
+        _arrel->f_dret = NULL;
     }
     else
     {
-        ant->_info = operacio_corrent(ant->_info, ant->f_esq->_info, ant->f_dret->_info);
+        // Simplify the left and right children recursively
+        expressio left(_arrel->f_esq->_info);
+        left.set_left_child(_arrel->f_esq->f_esq);
+        left.set_right_child(_arrel->f_esq->f_dret);
+        left.simplify_one_step();
+        _arrel->f_esq = left._arrel;
+
+        expressio right(_arrel->f_dret->_info);
+        right.set_left_child(_arrel->f_dret->f_esq);
+        right.set_right_child(_arrel->f_dret->f_dret);
+        right.simplify_one_step();
+        _arrel->f_dret = right._arrel;
     }
 }
 
@@ -520,6 +547,17 @@ void expressio::simplify_one_step() throw(error)
    semàntics que apareixen més avall numerats des del 32 al 35. */
 void expressio::simplify() throw(error)
 {
+    bool simplified = false;
+
+    // Keep simplifying until the expression can't be simplified any further
+    while (!simplified)
+    {
+        simplify_one_step();
+        if (_arrel->f_esq == NULL && _arrel->f_dret == NULL)
+        {
+            simplified = true;
+        }
+    }
 }
 
 /* Converteix l'expressió en la seqüència de tokens lt corresponent: els
@@ -531,7 +569,47 @@ void expressio::simplify() throw(error)
 
 void expressio::list_of_tokens(list<token> &lt) throw(error)
 {
-    lt = _lt;
+    tree_to_list(_arrel, lt);
+}
+
+void expressio::tree_to_list(node *n, list<token> &l)
+{
+    if (n == NULL)
+        return;
+
+    if (es_operador(n->_info))
+    {
+        int priority = 0;
+        if (n->_info.tipus() == token::EXPONENCIACIO)
+        {
+            priority = 3;
+        }
+        else if (n->_info.tipus() == token::MULTIPLICACIO or n->_info.tipus() == token::DIVISIO)
+        {
+            priority = 2;
+        }
+        else if (n->_info.tipus() == token::SUMA or n->_info.tipus() == token::RESTA)
+        {
+            priority = 1;
+        }
+
+        if (l.empty() or operators(l.back()) < priority)
+        {
+            tree_to_list(n->f_esq, l);
+            tree_to_list(n->f_dret, l);
+            l.push_back(n->_info);
+            return;
+        }
+
+        l.push_back(n->_info);
+        tree_to_list(n->f_esq, l);
+        tree_to_list(n->f_dret, l);
+        return;
+    }
+
+    tree_to_list(n->f_esq, l);
+    l.push_back(n->_info);
+    tree_to_list(n->f_dret, l);
 }
 
 bool operand(token t) // es diferent que la de es_operand(), no borrar

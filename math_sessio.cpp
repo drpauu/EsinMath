@@ -1,4 +1,5 @@
 #include "math_sessio.hpp"
+#include "math_io.hpp"
 #include <algorithm>
 
 math_sessio::math_sessio() throw(error)

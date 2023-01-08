@@ -1,5 +1,6 @@
 #include "expressio.hpp"
 #include <iostream>
+#include "math_io.hpp"
 
 list<token> _lt;
 
@@ -40,6 +41,9 @@ static node *copia_nodes(node *m)
   return c;
 };
 
+void set_right_child(node *n);
+void set_left_child(node *n);
+
 static void esborra_nodes(node *m)
 {
   if (m == NULL)
@@ -64,3 +68,5 @@ void printl(list<token> l);
 // Abin<T> &operator=(const Abin<T> &a);
 
 bool es_buit;
+
+void tree_to_list(node *n, list<token> &l);
