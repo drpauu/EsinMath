@@ -231,17 +231,13 @@ bool token::operator!=(const token &t) const throw()
   dels tokens no és un operador es produeix un error.*/
 bool token::operator>(const token &t) const throw(error)
 {
-  if (_id != SUMA or _id != RESTA or _id != MULTIPLICACIO or _id != DIVISIO or
-     _id != CANVI_DE_SIGNE or _id != SIGNE_POSITIU or _id != EXPONENCIACIO or
-     _id != SQRT or _id != LOG or _id != EXP or _id != OBRIR_PAR or _id != TANCAR_PAR or
-     t._id != SUMA or t._id != RESTA or t._id != MULTIPLICACIO or t._id != DIVISIO or
-     t._id != CANVI_DE_SIGNE or t._id != SIGNE_POSITIU or t._id != EXPONENCIACIO or
-     t._id != SQRT or t._id != LOG or t._id != EXP or t._id != OBRIR_PAR or t._id != TANCAR_PAR)
+  if ((_id == SUMA or _id == RESTA or _id == MULTIPLICACIO or _id == DIVISIO or
+     _id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU or _id == EXPONENCIACIO or
+     _id == SQRT or _id == LOG or _id == EXP or _id == OBRIR_PAR or _id == TANCAR_PAR) and
+     (t._id == SUMA or t._id == RESTA or t._id == MULTIPLICACIO or t._id == DIVISIO or
+     t._id == CANVI_DE_SIGNE or t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or
+     t._id == SQRT or t._id == LOG or t._id == EXP or t._id == OBRIR_PAR or t._id == TANCAR_PAR))
   { 
-    throw error(PrecedenciaEntreNoOperadors);
-  }
-  else
-  {
     if (_id == SUMA or _id == RESTA)
       return false;
     else if ((_id == MULTIPLICACIO or _id == DIVISIO) and
@@ -264,19 +260,19 @@ bool token::operator>(const token &t) const throw(error)
       return true;
     else return false;
   }
+  else
+  {
+    throw error(PrecedenciaEntreNoOperadors);
+  }
 }
 bool token::operator<(const token &t) const throw(error)
 {
-  if (_id != SUMA or _id != RESTA or _id != MULTIPLICACIO or _id != DIVISIO or
-     _id != CANVI_DE_SIGNE or _id != SIGNE_POSITIU or _id != EXPONENCIACIO or
-     _id != SQRT or _id != LOG or _id != EXP or _id != OBRIR_PAR or _id != TANCAR_PAR or
-     t._id != SUMA or t._id != RESTA or t._id != MULTIPLICACIO or t._id != DIVISIO or
-     t._id != CANVI_DE_SIGNE or t._id != SIGNE_POSITIU or t._id != EXPONENCIACIO or
-     t._id != SQRT or t._id != LOG or t._id != EXP or t._id != OBRIR_PAR or t._id != TANCAR_PAR)
-  { 
-    throw error(PrecedenciaEntreNoOperadors);
-  }
-  else
+  if ((_id == SUMA or _id == RESTA or _id == MULTIPLICACIO or _id == DIVISIO or
+     _id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU or _id == EXPONENCIACIO or
+     _id == SQRT or _id == LOG or _id == EXP or _id == OBRIR_PAR or _id == TANCAR_PAR) and
+     (t._id == SUMA or t._id == RESTA or t._id == MULTIPLICACIO or t._id == DIVISIO or
+     t._id == CANVI_DE_SIGNE or t._id == SIGNE_POSITIU or t._id == EXPONENCIACIO or
+     t._id == SQRT or t._id == LOG or t._id == EXP or t._id == OBRIR_PAR or t._id == TANCAR_PAR))
   {
     if ((_id == SUMA or _id == RESTA) and
        (t._id != SUMA and t._id != RESTA))
@@ -299,7 +295,16 @@ bool token::operator<(const token &t) const throw(error)
     else if ((_id == EXPONENCIACIO or _id == SQRT or _id == LOG or _id == EXP) and
             (t._id == OBRIR_PAR or t._id == TANCAR_PAR))
       return true;
-    else return false;
+    else 
+    {
+      return false;
+    }
+  }
+  else
+  {
+    cout << "_id ÉS: " << _id << endl;
+    cout << "t._id ÉS: " << t._id << endl;
+    throw error(PrecedenciaEntreNoOperadors);
   }
 }
 
@@ -350,6 +355,9 @@ int token::prioritat_operacio()
         return 0;
 }*/
 
+
+//AQUESTA FUNCIÓ S'HAURÀ D'IMPLEMENTAR DIRECTAMENT A LA CLASSE EXPRESSIÓ PERQUÈ AL SER
+//UN MÈTODE PRIVAT NO PERMET ACCEDIR-HI SI NO ESTEM DINS LA CLASSE TOKEN 
 int token::numero_operadors()
 // Pre: El token ha de ser un operador
 // Post: Retorna un enter que representa el nombre d'operands sobre el que l'operador
