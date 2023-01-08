@@ -43,7 +43,7 @@ int main()
     token t3(t2);
     token t4(token::SUMA);
     token t5(token::MULTIPLICACIO);
-    token t6(token::CT_E);
+    //token t6(token::CT_E);
     if(t2 == t3)
     {
         cout << "son iguals" << endl;
@@ -59,5 +59,5 @@ int main()
         cout << "és igual/més gran" << endl;
     
     return 0;
-    cout << t6.numero_operadors() << endl;
+    //cout << t6.numero_operadors() << endl;
 }
