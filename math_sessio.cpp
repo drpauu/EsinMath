@@ -1,24 +1,35 @@
 #include "math_sessio.hpp"
+#include <algorithm>
 
 math_sessio::math_sessio() throw(error)
 {
-    string tok = "%";
-    token t(tok);
-    expressio especial(t);
-    _sessio.insert(_sessio.begin(), especial);
+  expressio buida;
+  _sessio.assign("%", buida);
+  final = false;
 }
 
 // Constructora per còpia, assignació i destructora.
-math_sessio::math_sessio(const math_sessio &es) throw(error) {
+math_sessio::math_sessio(const math_sessio &es) throw(error)
+{
   _sessio = es._sessio;
 }
-math_sessio &math_sessio::operator=(const math_sessio &es) throw(error) {
+math_sessio &math_sessio::operator=(const math_sessio &es) throw(error)
+{
+  if (this == &es)
+  {
+    return *this;
+  }
+
   _sessio = es._sessio;
+  final = es.final;
   return *this;
 }
-math_sessio::~math_sessio() throw(error) {
-  list<expressio> buida = {};
-  _sessio = buida;
+
+math_sessio::~math_sessio() throw(error)
+{
+  math_sessio buida;
+  _sessio = buida._sessio;
+  final = false;
 }
 
 /* Aquest mètode rep una llista de tokens, lin, lèxicament correcta.
@@ -54,18 +65,82 @@ math_sessio::~math_sessio() throw(error) {
    l'apartat "Procés d'avaluació". */
 void math_sessio::execute(const list<token> &lin, list<token> &lout) throw(error)
 {
-    
+  if (lin.empty())
+    return;
+  list<token> llista = lin;
+  list<token>::iterator it = llista.begin();
+  if (it->tipus() == token::DESASSIGNACIO)
+  {
+    if (llista.size() != 2)
+    {
+      throw error(SintComandaIncorrecta);
+    }
+    it++;
+    if (it->tipus() != token::VARIABLE)
+    {
+      throw error(SintComandaIncorrecta);
+    }
+    _sessio.unassign(it->identificador_variable());
+  }
+  else if (it->tipus() == token::BYEBYE)
+  {
+    if (llista.size() != 1)
+    {
+      throw error(SintComandaIncorrecta);
+    }
+    final = true;
+    // no se com finalitzar la sessio
+  }
+  else if (it->tipus() == token::VARIABLE)
+  {
+    token var = *it;
+    it++;
+    if ((llista.size() < 2) or (it->tipus() == token::ASSIGNACIO))
+    {
+      throw error(SintComandaIncorrecta);
+    }
+    it++;
+    expressio eavaluar = *it;
+    // primer s ha d avaluar evauluar, i despres s ha d assignar la variable.
+    list<token> infinit;
+    eavaluar.list_of_tokens(infinit);
+    list<token>::iterator id;
+    id = std::find(infinit.begin(), infinit.end(), *it);
+    if(it == infinit.end()){
+      throw error(AssigAmbCirculInfinita);
+    }
+    _sessio.assign(it->identificador_variable(), eavaluar);
+  }
+  else if (it->tipus() == token::EVALF)
+  {
+    it++;
+    // no tinc ni puta idea com collons s avalua;
+  } else {
+    throw error(SintComandaIncorrecta);
+  }
 }
 
 // Retorna cert si i només si la sessió ha finalitzat.
-bool math_sessio::end_of_session() const throw() {}
+bool math_sessio::end_of_session() const throw() {
+  return final;
+}
 
 /* Retorna en forma de llista d'strings, en un ordre qualsevol, la llista de
    variables juntament amb el seu valor assignat. Cada string de la llista
    té el format id = e, on id és el nom d'una variable i e és l'expressió
    (com string) assignada a id. Convertim una expressió e en el seu string
    corresponent invocant al mètode tostring del mòdul esinmath_io. */
-void math_sessio::dump(list<string> &l) const throw(error) {}
+void math_sessio::dump(list<string> &l) const throw(error) {
+  list<string> claus;
+  _sessio.dump(claus);
+  for(list<string>::iterator it = claus.begin(); it != claus.end(); it++){
+    l.push_back(*it);
+    expressio exp = _sessio.valor(*it);
+    list<token> lt;
+    exp.list_of_tokens(lt);
+    l.push_back(math_io::tostring(lt));
+  }
+}
 
 /* Donada una expressió e, aplica a les seves variables totes les
    substitucions definides per elles. L'expressió resultant només contindrà
@@ -73,4 +148,6 @@ void math_sessio::dump(list<string> &l) const throw(error) {}
    conjunt). Aquest procés s'explica en detall a l'apartat "Procés
    d'avaluació". S'assumeix que no existeix circularitat infinita entre les
    substitucions de les variables que formen part de l'expressió e. */
-void math_sessio::apply_all_substitutions(expressio &e) const throw(error) {}
+void math_sessio::apply_all_substitutions(expressio &e) const throw(error) {
+
+}
