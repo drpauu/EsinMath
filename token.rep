@@ -23,12 +23,6 @@ union data { // per fer-ho eficient es millor amb el punter o amb l union
 }; */
 
 //data _valor;
-=======
-=======
->>>>>>> Stashed changes
-    string _variable = "";
-};
->>>>>>> Stashed changes
 
 void* _valor;
 
