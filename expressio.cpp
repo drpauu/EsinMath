@@ -313,9 +313,12 @@ bool funcio(token t)
          t.tipus() == token::SQRT;
 }
 
+bool canvi_de_signe(token t) { return t.tipus() == token::CANVI_DE_SIGNE; }
+
 bool parenter(token token)
 {
-  return token.tipus() == token::OBRIR_PAR and token.tipus() == token::TANCAR_PAR;
+  return token.tipus() == token::OBRIR_PAR and
+         token.tipus() == token::TANCAR_PAR;
 }
 
 bool es_variable(token t)
@@ -346,13 +349,140 @@ expressio expressio::constructora_op(
   return ret;
 }
 
+int expressio::morfosintactico(list<token> &lt)
+{
+  stack<token> stk;
+  for (list<token>::iterator it = lt.begin(); it != lt.end(); it++)
+  {
+    if (it->tipus() == token::OBRIR_PAR || it->tipus() == token::SUMA ||
+        it->tipus() == token::RESTA || it->tipus() == token::MULTIPLICACIO ||
+        it->tipus() == token::DIVISIO || it->tipus() == token::EXPONENCIACIO ||
+        it->tipus() == token::LOG || it->tipus() == token::EXP ||
+        it->tipus() == token::SQRT)
+    {
+      stk.push(*it);
+    }
+    else if (it->tipus() == token::TANCAR_PAR)
+    {
+      if (stk.empty() || stk.top().tipus() == token::OBRIR_PAR)
+      {
+        return 31;
+      }
+      if (it->tipus() == token::SUMA || it->tipus() == token::RESTA ||
+          it->tipus() == token::MULTIPLICACIO ||
+          it->tipus() == token::DIVISIO ||
+          it->tipus() == token::EXPONENCIACIO || it->tipus() == token::LOG ||
+          it->tipus() == token::EXP || it->tipus() == token::SQRT)
+      {
+        return 31;
+      }
+      stk.pop();
+    }
+    else if (it->tipus() == token::RESTA)
+    {
+      if (stk.empty() || (stk.top().tipus() != token::SUMA &&
+                          stk.top().tipus() != token::RESTA &&
+                          stk.top().tipus() != token::MULTIPLICACIO &&
+                          stk.top().tipus() != token::DIVISIO &&
+                          stk.top().tipus() != token::EXPONENCIACIO &&
+                          stk.top().tipus() != token::LOG &&
+                          stk.top().tipus() != token::EXPONENCIACIO &&
+                          stk.top().tipus() != token::SQRT))
+      {
+        stk.push(*it);
+      }
+      else
+      {
+        stk.pop();
+      }
+    }
+    else
+    {
+      if (stk.empty() || (stk.top().tipus() != token::SUMA &&
+                          stk.top().tipus() != token::RESTA &&
+                          stk.top().tipus() != token::MULTIPLICACIO &&
+                          stk.top().tipus() != token::DIVISIO &&
+                          stk.top().tipus() != token::EXPONENCIACIO &&
+                          stk.top().tipus() != token::LOG &&
+                          stk.top().tipus() != token::EXPONENCIACIO &&
+                          stk.top().tipus() != token::SQRT))
+      {
+        return 31;
+      }
+
+      if (stk.top().tipus() == token::EXPONENCIACIO)
+      {
+        if (it->tipus() != token::CT_ENTERA)
+        {
+          return 32;
+        }
+      }
+
+      // check for division by zero
+      if (stk.top().tipus() == token::DIVISIO)
+      {
+        if (it->valor_enter() == 0) // she de comprovar amb racional i real tambe, pq enter no es le unic que potser 0
+        {
+          return 33;
+        }
+      }
+
+      // check for log of non-positive numbers
+      if (stk.top().tipus() == token::LOG)
+      {
+        if (it->valor_enter() <= 0) // el mateix que a dalt
+        {
+          return 34;
+        }
+      }
+      // check for sqrt of negative numbers
+      if (stk.top().tipus() == token::SQRT)
+      {
+        if (it->valor_enter() < 0) // el mateix
+        {
+          return 35;
+        }
+      }
+
+      stk.pop();
+    }
+  }
+  if (!stk.empty())
+  {
+    if (stk.top().tipus() != token::SUMA or
+                          stk.top().tipus() != token::RESTA or
+                          stk.top().tipus() != token::MULTIPLICACIO or
+                          stk.top().tipus() != token::DIVISIO or
+                          stk.top().tipus() != token::EXPONENCIACIO or
+                          stk.top().tipus() != token::LOG or
+                          stk.top().tipus() != token::EXPONENCIACIO or
+                          stk.top().tipus() != token::SQRT)
+    {
+      return 31;
+    }
+    else
+    {
+      return 31;
+    }
+  }
+  return 0;
+}
+
 expressio::expressio(const list<token> &l) throw(error)
 {
+  list<token> llista_de_tokens = l;
+  int errors_sintactics = morfosintactico(llista_de_tokens);
+  if(errors_sintactics != 0){
+    if(errors_sintactics == 31) throw error(ErrorSintactic);
+    if(errors_sintactics == 32) throw error(NegatElevNoEnter);
+    if(errors_sintactics == 33) throw error(LogDeNoPositiu);
+    if(errors_sintactics == 34) throw error(SqrtDeNegatiu);
+  }
   stack<expressio> expre;
   stack<token> oops;
   for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it)
   {
-    if (is_open_parenthesis(*it) or funcio(*it))
+    if (is_open_parenthesis(*it) or funcio(*it) or canvi_de_signe(*it))
     {
       oops.push(*it);
     }
@@ -598,10 +728,11 @@ void expressio::tree_to_list(node *n, list<token> &l)
 
 bool operand(token t) // es diferent que la de es_operand(), no borrar
 {
-  if (t.tipus() == token::SUMA or t.tipus() == token::RESTA or t.tipus() == token::MULTIPLICACIO or
-      t.tipus() == token::DIVISIO or t.tipus() == token::EXPONENCIACIO or
-      t.tipus() == token::CANVI_DE_SIGNE or t.tipus() == token::SIGNE_POSITIU or
-      t.tipus() == token::SQRT or t.tipus() == token::LOG or t.tipus() == token::EXP)
+  if (t.tipus() == token::SUMA or t.tipus() == token::RESTA or
+      t.tipus() == token::MULTIPLICACIO or t.tipus() == token::DIVISIO or
+      t.tipus() == token::EXPONENCIACIO or t.tipus() == token::CANVI_DE_SIGNE or
+      t.tipus() == token::SIGNE_POSITIU or t.tipus() == token::SQRT or
+      t.tipus() == token::LOG or t.tipus() == token::EXP)
   {
     return true;
   }
