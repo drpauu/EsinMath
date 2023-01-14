@@ -1,6 +1,7 @@
-token::codi _id;
 #include <list>
-#include <string>
+
+token::codi _id;
+
 
 
 //void *ptrv; // punter void, el qual podem modificar el tipus;
