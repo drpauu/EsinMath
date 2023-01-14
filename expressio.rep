@@ -1,6 +1,6 @@
 #include "expressio.hpp"
 #include <iostream>
-#include "math_io.hpp"
+//#include "math_io.hpp"
 
 list<token> _lt;
 
@@ -57,9 +57,17 @@ static void esborra_nodes(node *m)
   delete m;
 };
 
+static bool is_open_parenthesis(token token) {
+  return token.tipus() == token::OBRIR_PAR;
+}
+
+static bool is_close_parenthesis(token token) {
+  return token.tipus() == token::TANCAR_PAR;
+}
+
 //bool funcio(token t);
 
-bool es_operand(token t); // here
+static bool es_operand(token t); // here
 
 //bool es_operador(token t); // here
 
@@ -69,4 +77,4 @@ void printl(list<token> l);
 
 bool es_buit;
 
-void tree_to_list(node *n, list<token> &l);
+static void tree_to_list(node *n, list<token> &l);

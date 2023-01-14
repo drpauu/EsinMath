@@ -9,16 +9,6 @@ using namespace std;
 // oepradors, copies de nodes pels operadors, i elimina nodes
 // per utilitat (aquestes dues ultimes estan escrites al .rep)
 
-expressio &expressio::operator=(const expressio &a) {
-  // Make sure we're not self-assigning
-  if (this != &a) {
-    // Copy the list and the tree
-    _arrel = copia_nodes(a._arrel);
-  }
-
-  return *this;
-}
-
 // operacions;
 
 token expressio::operacio_corrent(token op, token a, token b) {
@@ -118,15 +108,15 @@ token expressio::operacio_corrent(token op, token a, token b) {
       token ret(c ^ d);
       return ret;
     } else if (a.tipus() == token::CT_RACIONAL) {
-      racional c, d;
-      c = a.valor_racional();
-      d = b.valor_racional();
+      // racional c, d;
+      // c = a.valor_racional();
+      // d = b.valor_racional();
       // token ret(c^d); caldria fer una funcio extra a racional, per poder fer
       // aquesta operacio.
     } else if (a.tipus() == token::CT_REAL) {
-      double c, d;
-      c = a.valor_real();
-      d = b.valor_real();
+      // double c, d;
+      // c = a.valor_real();
+      // d = b.valor_real();
       // token ret(c^d); te sentit, s ha de mirar per internet a veure si es pot
       // fer, i com fer ho.
     } else if (a.tipus() == token::VARIABLE) {
@@ -194,7 +184,7 @@ token expressio::func_sqrt(token op) throw(error) {
    anomenem "expressió buida". Si el tipus del token no és el del token
    per defecte (NULLTOK), ni el d'una CT_ENTERA, CT_RACIONAL, CT_REAL,
    CT_E, VARIABLE o VAR_PERCENTAtGE es produeix un error sintàctic. */
-expressio::expressio(const token t = token()) throw(error) {
+expressio::expressio(const token t) throw(error) {
   if (t.tipus() == token::NULLTOK) {
     _arrel = new node;
     _arrel = NULL;
@@ -241,24 +231,16 @@ bool funcio(token t) {
          t.tipus() == token::SQRT;
 }
 
-bool is_parenthesis(token token) {
-  return is_open_parenthesis(token) and is_close_parenthesis(token);
+bool parenter(token token) {
+  return token.tipus() == token::OBRIR_PAR and token.tipus() == token::TANCAR_PAR;
 }
 
 bool es_variable(token t) {
-  if (!es_operador(t) and !is_parenthesis(t) and !funcio(t)) {
+  if (!es_operador(t) and !parenter(t) and !funcio(t)) {
     return true;
   } else {
     return false;
   }
-}
-
-bool is_open_parenthesis(token token) {
-  return token.tipus() == token::OBRIR_PAR;
-}
-
-bool is_close_parenthesis(token token) {
-  return token.tipus() == token::TANCAR_PAR;
 }
 
 expressio expressio::constructora_op(
@@ -277,7 +259,6 @@ expressio expressio::constructora_op(
 }
 
 expressio::expressio(const list<token> &l) throw(error) {
-  _lt = l;
   stack<expressio> expre;
   stack<token> oops;
   for (list<token>::const_iterator it = l.begin(); it != l.end(); ++it) {
@@ -327,7 +308,6 @@ expressio::expressio(const list<token> &l) throw(error) {
   es_buit = false;
   *this = expre.top();
 }
-
 // Constructora per còpia, assignació i destructora.
 expressio::expressio(const expressio &e) throw(error) { *this = e; }
 expressio &expressio::operator=(const expressio &e) throw(error) {
@@ -488,10 +468,10 @@ void expressio::tree_to_list(node *n, list<token> &l) {
 
 bool operand(token t) // es diferent que la de es_operand(), no borrar
 {
-  if (t.tipus() == (token::SUMA or token::RESTA or token::MULTIPLICACIO or
-                    token::DIVISIO or token::EXPONENCIACIO or
-                    token::CANVI_DE_SIGNE or token::SIGNE_POSITIU or
-                    token::SQRT or token::LOG or token::EXP)) {
+  if (t.tipus() == token::SUMA or t.tipus() == token::RESTA or t.tipus() == token::MULTIPLICACIO or
+                    t.tipus() == token::DIVISIO or t.tipus() == token::EXPONENCIACIO or
+                    t.tipus() == token::CANVI_DE_SIGNE or t.tipus() == token::SIGNE_POSITIU or
+                    t.tipus() == token::SQRT or t.tipus() == token::LOG or t.tipus() == token::EXP) {
     return true;
   } else {
     return false;
