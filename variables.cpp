@@ -7,7 +7,7 @@ variables::variables() throw(error)
 {
     node *v;
     v = new node;
-    v->seg = nullptr;
+    v->seg = NULL;
     primer = v;
 }
 
@@ -16,14 +16,14 @@ variables::variables(const variables &v) throw(error)
 {
     // Create a new node to serve as the head of the new list
     node *new_head = new node;
-    new_head->seg = nullptr;
+    new_head->seg = NULL;
     primer = new_head;
 
     // Create a pointer to traverse the list
     node *current = v.primer;
 
     // Copy each node in the list
-    while (current != nullptr)
+    while (current != NULL)
     {
         primer->seg = new node;
         primer->seg->info = current->info;
@@ -43,7 +43,7 @@ variables &variables::operator=(const variables &v) throw(error)
 
     // Clear the current list
     node *current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         node *temp = current;
         current = current->seg;
@@ -52,12 +52,12 @@ variables &variables::operator=(const variables &v) throw(error)
 
     // Create a new head node
     node *new_head = new node;
-    new_head->seg = nullptr;
+    new_head->seg = NULL;
     primer = new_head;
 
     // Copy each node in the list
     current = v.primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         primer->seg = new node;
         primer->seg->info = current->info;
@@ -73,7 +73,7 @@ variables::~variables() throw(error)
 {
     // Delete each node in the list
     node *current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         node *temp = current;
         current = current->seg;
@@ -88,7 +88,7 @@ void variables::assign(const string &v, const expressio &e) throw(error)
 {
     // Check if the variable already exists
     node* current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         if (current->info.first == v)
         {
@@ -101,12 +101,12 @@ void variables::assign(const string &v, const expressio &e) throw(error)
 
     // If the variable does not exist, create a new node and add it to the list
     node* new_node = new node;
-    new_node->seg = nullptr;
+    new_node->seg = NULL;
     new_node->info = std::make_pair(v, e);
 
     // Add the new node to the end of the list
     current = primer;
-    while (current->seg != nullptr)
+    while (current->seg != NULL)
     {
         current = current->seg;
     }
@@ -119,7 +119,7 @@ void variables::unassign(const string &v) throw()
 {
     // Check if the variable exists
     node* current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         if (current->info.first == v)
         {
@@ -139,7 +139,7 @@ expressio variables::valor(const string &lv) const throw(error)
 {
     // Search for the variable
     node* current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         if (current->info.first == lv)
         {
@@ -159,7 +159,7 @@ expressio variables::valor(const string &lv) const throw(error)
 void variables::dump(list<string> &l) const throw(error)
 {
     node* current = primer;
-    while (current != nullptr)
+    while (current != NULL)
     {
         l.push_back(current->info.first);
         current = current->seg;
