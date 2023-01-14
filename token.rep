@@ -1,4 +1,7 @@
 token::codi _id;
+#include <list>
+#include <string>
+
 
 //void *ptrv; // punter void, el qual podem modificar el tipus;
 // per poder guardar els valors que siguin necessaris, 
