@@ -310,7 +310,7 @@ bool es_operador(token op)
 bool funcio(token t)
 {
   return t.tipus() == token::LOG or t.tipus() == token::EXP or
-         t.tipus() == token::SQRT;
+         t.tipus() == token::SQRT or t.tipus() == token::CANVI_DE_SIGNE;
 }
 
 bool canvi_de_signe(token t) { return t.tipus() == token::CANVI_DE_SIGNE; }

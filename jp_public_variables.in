@@ -1,0 +1,716 @@
+##!--------------------------------------------
+##! CLASSE VARIABLES
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##0 Tokens i expressions inicials
+##!--------------------------------------------
+##!
+init tok1 token 57
+init tok2 token 35
+init tok3 token a
+##!
+init ex1 expressio tok1
+init ex2 expressio tok2
+init ex3 expressio tok3
+##!
+##!
+##!
+##!--------------------------------------------
+##1 Conjunt de variables buit
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##1.1 Inicializacio del conjunt
+##!--------------------------------------------
+##!
+init c1 variables
+##!
+##!
+##!--------------------------------------------
+##1.2 Llista de variables
+##!--------------------------------------------
+##!
+dumpp
+#
+##!
+##!
+##!
+##!--------------------------------------------
+##2 Conjunt de variables no buit
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##2.1 Insercio de variables amb expressio
+##!--------------------------------------------
+##!
+assign var2 ex1
+valorp var2
+#57
+assign var3 ex2
+valorp var3
+#35
+##!
+##!
+##!--------------------------------------------
+##2.2 Insercio de variable ja existent (reassignacio)
+##!--------------------------------------------
+##!
+assign var1 ex3
+valorp var1
+#a
+assign var3 ex1
+valorp var3
+#57
+##!
+##!
+##!--------------------------------------------
+##2.3 Consulta de variable inexistent
+##!--------------------------------------------
+##!
+valorp variableinexistent
+#NULLTOK
+##!
+##!
+##!--------------------------------------------
+##2.4 Eliminacio de variable inexistent
+##!--------------------------------------------
+##!
+unassign variableinexistent
+dumpp
+#var1 var2 var3
+##!
+##!
+##!--------------------------------------------
+##2.5 Consulta de variable provant sensibilitat a les majuscules
+##!--------------------------------------------
+##!
+valorp VAR1
+#NULLTOK
+##!
+##!
+##!--------------------------------------------
+##2.6 Variables valides
+##!--------------------------------------------
+##!
+assign sqrt ex1
+assign e ex2
+assign assign ex3
+dumpp
+#assign e sqrt var1 var2 var3
+unassign sqrt
+unassign e
+unassign assign
+dumpp
+#var1 var2 var3
+##!
+##!
+##!--------------------------------------------
+##2.7 Eliminacio de variable i destruccio
+##!--------------------------------------------
+##!
+unassign var1
+valorp var1
+#NULLTOK
+valorp var3
+#57
+dumpp
+#var2 var3
+unassign var2
+dumpp
+#var3
+unassign var3
+dumpp
+#
+destroy
+##!
+##!
+##!
+##!--------------------------------------------
+##3 Constructora por copia
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##3.1 Constructora ordinaria
+##!--------------------------------------------
+##!
+init c1 variables
+c1 assign v ex1
+c1 assign w ex2
+initcopy c2 = c1
+c1 destroy
+c2 valorp v
+#57
+c2 valorp w
+#35
+c2 dumpp 
+#v w
+c2 destroy
+##!
+##!
+##!--------------------------------------------
+##3.2 Constructora per copia de conjunts buits
+##!--------------------------------------------
+##!
+init c1 variables
+initcopy c2 = c1
+c1 destroy
+c2 dumpp
+#
+c2 destroy
+##!
+##!
+##!
+##!--------------------------------------------
+##4 Copia
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##4.1 Copia ordinaria
+##!--------------------------------------------
+##!
+init c1 variables
+init c2 variables
+c1 assign v ex1
+c2 assign w ex2
+c1 = c2
+c1 dumpp 
+#w
+c2 dumpp
+#w
+c1 valorp v
+#NULLTOK
+c2 valorp v
+#NULLTOK
+c2 valorp w
+#35
+c1 valorp w
+#35
+c1 destroy
+c2 valorp w
+#35
+c2 destroy
+##!
+##!
+##!--------------------------------------------
+##4.2 Copia amb conjunts buits
+##!--------------------------------------------
+##!
+init c1 variables
+init c2 variables
+c1 destroy 
+init c1 variables
+c1 = c2
+c1 dumpp
+#
+c2 dumpp
+#
+c1 destroy
+c2 destroy
+##!
+##!
+##!
+##!--------------------------------------------
+##5 Multiples insercions i eliminacions (rendiment)
+##!--------------------------------------------
+##!
+##!--------------------------------------------
+##5.1 Insercions
+##!--------------------------------------------
+##!
+init c1 variables
+assign V0.177740 ex1
+assign V0.773461 ex1
+assign V0.229377 ex1
+assign V0.116764 ex1
+assign V0.753746 ex1
+assign V0.618793 ex1
+assign V0.465590 ex1
+assign V0.971160 ex1
+assign V0.107852 ex1
+assign V0.484359 ex1
+assign V0.649190 ex1
+assign V0.365795 ex1
+assign V0.822016 ex1
+assign V0.681692 ex1
+assign V0.264473 ex1
+assign V0.842036 ex1
+assign V0.301157 ex1
+assign V0.539079 ex1
+assign V0.403119 ex1
+assign V0.708029 ex1
+assign V0.983795 ex1
+assign V0.139744 ex1
+assign V0.785730 ex1
+assign V0.733024 ex1
+assign V0.073458 ex1
+assign V0.901700 ex1
+assign V0.539689 ex1
+assign V0.230323 ex1
+assign V0.636158 ex1
+assign V0.968230 ex1
+assign V0.326487 ex1
+assign V0.247536 ex1
+assign V0.405988 ex1
+assign V0.877834 ex1
+assign V0.912412 ex1
+assign V0.082980 ex1
+assign V0.144261 ex1
+assign V0.481979 ex1
+assign V0.776147 ex1
+assign V0.847316 ex1
+assign V0.894559 ex1
+assign V0.579760 ex1
+assign V0.847713 ex1
+assign V0.288278 ex1
+assign V0.978210 ex1
+assign V0.238014 ex1
+assign V0.971557 ex1
+assign V0.598468 ex1
+assign V0.073824 ex1
+assign V0.265999 ex1
+assign V0.188147 ex1
+assign V0.423872 ex1
+assign V0.224555 ex1
+assign V0.812708 ex1
+assign V0.427839 ex1
+assign V0.792535 ex1
+assign V0.116581 ex1
+assign V0.556352 ex1
+assign V0.710227 ex1
+assign V0.181677 ex1
+assign V0.473251 ex1
+assign V0.454176 ex1
+assign V0.443617 ex1
+assign V0.442610 ex1
+assign V0.907865 ex1
+assign V0.521653 ex1
+assign V0.917325 ex1
+assign V0.801355 ex1
+assign V0.079226 ex1
+assign V0.609668 ex1
+assign V0.581530 ex1
+assign V0.654530 ex1
+assign V0.494095 ex1
+assign V0.648610 ex1
+assign V0.207709 ex1
+assign V0.378826 ex1
+assign V0.799158 ex1
+assign V0.327830 ex1
+assign V0.523759 ex1
+assign V0.872799 ex1
+assign V0.907620 ex1
+assign V0.679678 ex1
+assign V0.417554 ex1
+assign V0.049928 ex1
+assign V0.803125 ex1
+assign V0.536149 ex1
+assign V0.302469 ex1
+assign V0.001679 ex1
+assign V0.365520 ex1
+assign V0.327891 ex1
+assign V0.738914 ex1
+assign V0.049043 ex1
+assign V0.061434 ex1
+assign V0.193182 ex1
+assign V0.905271 ex1
+assign V0.401593 ex1
+assign V0.844203 ex1
+assign V0.866756 ex1
+assign V0.012482 ex1
+assign V0.642689 ex1
+dumpp
+#V0.001679 V0.012482 V0.049043 V0.049928 V0.061434 V0.073458 V0.073824 V0.079226 V0.082980 V0.107852 V0.116581 V0.116764 V0.139744 V0.144261 V0.177740 V0.181677 V0.188147 V0.193182 V0.207709 V0.224555 V0.229377 V0.230323 V0.238014 V0.247536 V0.264473 V0.265999 V0.288278 V0.301157 V0.302469 V0.326487 V0.327830 V0.327891 V0.365520 V0.365795 V0.378826 V0.401593 V0.403119 V0.405988 V0.417554 V0.423872 V0.427839 V0.442610 V0.443617 V0.454176 V0.465590 V0.473251 V0.481979 V0.484359 V0.494095 V0.521653 V0.523759 V0.536149 V0.539079 V0.539689 V0.556352 V0.579760 V0.581530 V0.598468 V0.609668 V0.618793 V0.636158 V0.642689 V0.648610 V0.649190 V0.654530 V0.679678 V0.681692 V0.708029 V0.710227 V0.733024 V0.738914 V0.753746 V0.773461 V0.776147 V0.785730 V0.792535 V0.799158 V0.801355 V0.803125 V0.812708 V0.822016 V0.842036 V0.844203 V0.847316 V0.847713 V0.866756 V0.872799 V0.877834 V0.894559 V0.901700 V0.905271 V0.907620 V0.907865 V0.912412 V0.917325 V0.968230 V0.971160 V0.971557 V0.978210 V0.983795
+##!
+##!
+##!--------------------------------------------
+##5.2 desassignacions
+##!--------------------------------------------
+##!
+unassign V0.116764
+unassign V0.618793
+unassign V0.822016
+unassign V0.681692
+unassign V0.539079
+unassign V0.708029
+unassign V0.785730
+unassign V0.733024
+unassign V0.073458
+unassign V0.968230
+unassign V0.326487
+unassign V0.247536
+unassign V0.405988
+unassign V0.481979
+unassign V0.847713
+unassign V0.288278
+unassign V0.238014
+unassign V0.971557
+unassign V0.598468
+unassign V0.073824
+unassign V0.427839
+unassign V0.116581
+unassign V0.454176
+unassign V0.443617
+unassign V0.907865
+unassign V0.917325
+unassign V0.581530
+unassign V0.654530
+unassign V0.494095
+unassign V0.648610
+unassign V0.207709
+unassign V0.523759
+unassign V0.679678
+unassign V0.049928
+unassign V0.803125
+unassign V0.536149
+unassign V0.302469
+unassign V0.001679
+unassign V0.327891
+unassign V0.738914
+unassign V0.061434
+unassign V0.193182
+unassign V0.905271
+unassign V0.866756
+unassign V0.106265
+unassign V0.028321
+unassign V0.395917
+unassign V0.882534
+unassign V0.568377
+unassign V0.836634
+unassign V0.635212
+unassign V0.566424
+dumpp
+#V0.012482 V0.049043 V0.079226 V0.082980 V0.107852 V0.139744 V0.144261 V0.177740 V0.181677 V0.188147 V0.224555 V0.229377 V0.230323 V0.264473 V0.265999 V0.301157 V0.327830 V0.365520 V0.365795 V0.378826 V0.401593 V0.403119 V0.417554 V0.423872 V0.442610 V0.465590 V0.473251 V0.484359 V0.521653 V0.539689 V0.556352 V0.579760 V0.609668 V0.636158 V0.642689 V0.649190 V0.710227 V0.753746 V0.773461 V0.776147 V0.792535 V0.799158 V0.801355 V0.812708 V0.842036 V0.844203 V0.847316 V0.872799 V0.877834 V0.894559 V0.901700 V0.907620 V0.912412 V0.971160 V0.978210 V0.983795
+##!
+##!
+##!--------------------------------------------
+##5.3 Mes assignacions...
+##!--------------------------------------------
+##!
+assign V0.326426 ex1
+assign V0.843348 ex1
+assign V0.038209 ex1
+assign V0.324381 ex1
+assign V0.262856 ex1
+assign V0.197272 ex1
+assign V0.063051 ex1
+assign V0.708762 ex1
+assign V0.475143 ex1
+assign V0.899350 ex1
+assign V0.161718 ex1
+assign V0.259285 ex1
+assign V0.320292 ex1
+assign V0.111148 ex1
+assign V0.076052 ex1
+assign V0.725974 ex1
+assign V0.702475 ex1
+assign V0.739555 ex1
+assign V0.112522 ex1
+assign V0.294412 ex1
+assign V0.523362 ex1
+assign V0.360088 ex1
+assign V0.388653 ex1
+assign V0.762719 ex1
+assign V0.998230 ex1
+assign V0.451491 ex1
+assign V0.929075 ex1
+assign V0.325266 ex1
+assign V0.180395 ex1
+assign V0.408979 ex1
+assign V0.704917 ex1
+assign V0.183142 ex1
+assign V0.539079 ex1
+assign V0.306070 ex1
+assign V0.210517 ex1
+assign V0.699271 ex1
+dumpp
+#V0.012482 V0.038209 V0.049043 V0.063051 V0.076052 V0.079226 V0.082980 V0.107852 V0.111148 V0.112522 V0.139744 V0.144261 V0.161718 V0.177740 V0.180395 V0.181677 V0.183142 V0.188147 V0.197272 V0.210517 V0.224555 V0.229377 V0.230323 V0.259285 V0.262856 V0.264473 V0.265999 V0.294412 V0.301157 V0.306070 V0.320292 V0.324381 V0.325266 V0.326426 V0.327830 V0.360088 V0.365520 V0.365795 V0.378826 V0.388653 V0.401593 V0.403119 V0.408979 V0.417554 V0.423872 V0.442610 V0.451491 V0.465590 V0.473251 V0.475143 V0.484359 V0.521653 V0.523362 V0.539079 V0.539689 V0.556352 V0.579760 V0.609668 V0.636158 V0.642689 V0.649190 V0.699271 V0.702475 V0.704917 V0.708762 V0.710227 V0.725974 V0.739555 V0.753746 V0.762719 V0.773461 V0.776147 V0.792535 V0.799158 V0.801355 V0.812708 V0.842036 V0.843348 V0.844203 V0.847316 V0.872799 V0.877834 V0.894559 V0.899350 V0.901700 V0.907620 V0.912412 V0.929075 V0.971160 V0.978210 V0.983795 V0.998230
+##!
+##!
+##!--------------------------------------------
+##5.4 Mes desassignacions
+##!--------------------------------------------
+##!
+unassign V0.326426
+unassign V0.038209
+unassign V0.324381
+unassign V0.262856
+unassign V0.197272
+unassign V0.063051
+unassign V0.475143
+unassign V0.161718
+unassign V0.320292
+unassign V0.111148
+unassign V0.739555
+unassign V0.762719
+unassign V0.998230
+unassign V0.539079
+unassign V0.306070
+unassign V0.210517
+dumpp
+#V0.012482 V0.049043 V0.076052 V0.079226 V0.082980 V0.107852 V0.112522 V0.139744 V0.144261 V0.177740 V0.180395 V0.181677 V0.183142 V0.188147 V0.224555 V0.229377 V0.230323 V0.259285 V0.264473 V0.265999 V0.294412 V0.301157 V0.325266 V0.327830 V0.360088 V0.365520 V0.365795 V0.378826 V0.388653 V0.401593 V0.403119 V0.408979 V0.417554 V0.423872 V0.442610 V0.451491 V0.465590 V0.473251 V0.484359 V0.521653 V0.523362 V0.539689 V0.556352 V0.579760 V0.609668 V0.636158 V0.642689 V0.649190 V0.699271 V0.702475 V0.704917 V0.708762 V0.710227 V0.725974 V0.753746 V0.773461 V0.776147 V0.792535 V0.799158 V0.801355 V0.812708 V0.842036 V0.843348 V0.844203 V0.847316 V0.872799 V0.877834 V0.894559 V0.899350 V0.901700 V0.907620 V0.912412 V0.929075 V0.971160 V0.978210 V0.983795
+##!
+##!
+##!--------------------------------------------
+##5.5 Assignacio de nou
+##!--------------------------------------------
+##!
+assign V0.378338 ex1
+assign V0.890255 ex1
+assign V0.606128 ex1
+assign V0.541246 ex1
+assign V0.710074 ex1
+assign V0.161229 ex1
+assign V0.522660 ex1
+assign V0.054598 ex1
+assign V0.948332 ex1
+assign V0.371227 ex1
+assign V0.199774 ex1
+assign V0.740501 ex1
+assign V0.787194 ex1
+assign V0.509476 ex1
+assign V0.382244 ex1
+assign V0.095920 ex1
+assign V0.827326 ex1
+assign V0.933103 ex1
+assign V0.939055 ex1
+assign V0.997711 ex1
+assign V0.747215 ex1
+assign V0.847285 ex1
+assign V0.783776 ex1
+assign V0.326090 ex1
+assign V0.370952 ex1
+assign V0.502518 ex1
+assign V0.925810 ex1
+assign V0.852657 ex1
+assign V0.476241 ex1
+assign V0.077303 ex1
+assign V0.245888 ex1
+assign V0.110019 ex1
+assign V0.686239 ex1
+assign V0.715049 ex1
+assign V0.090457 ex1
+assign V0.463210 ex1
+assign V0.289377 ex1
+assign V0.684164 ex1
+assign V0.277749 ex1
+assign V0.100620 ex1
+assign V0.330576 ex1
+assign V0.129887 ex1
+assign V0.609912 ex1
+assign V0.163823 ex1
+assign V0.817591 ex1
+assign V0.386670 ex1
+assign V0.484664 ex1
+assign V0.734825 ex1
+assign V0.386334 ex1
+assign V0.319834 ex1
+assign V0.700430 ex1
+assign V0.899228 ex1
+assign V0.269265 ex1
+assign V0.665273 ex1
+assign V0.048372 ex1
+assign V0.604694 ex1
+assign V0.909787 ex1
+assign V0.836055 ex1
+assign V0.785669 ex1
+assign V0.532884 ex1
+assign V0.067110 ex1
+assign V0.164312 ex1
+assign V0.582751 ex1
+assign V0.703635 ex1
+assign V0.755364 ex1
+assign V0.047914 ex1
+assign V0.039705 ex1
+assign V0.030732 ex1
+assign V0.859828 ex1
+assign V0.969543 ex1
+assign V0.364055 ex1
+assign V0.547288 ex1
+assign V0.775109 ex1
+assign V0.857997 ex1
+assign V0.304941 ex1
+assign V0.519791 ex1
+assign V0.908597 ex1
+assign V0.760125 ex1
+assign V0.936522 ex1
+assign V0.169774 ex1
+assign V0.392560 ex1
+assign V0.291635 ex1
+assign V0.385052 ex1
+assign V0.221564 ex1
+assign V0.849208 ex1
+assign V0.836390 ex1
+assign V0.092776 ex1
+dumpp
+#V0.012482 V0.030732 V0.039705 V0.047914 V0.048372 V0.049043 V0.054598 V0.067110 V0.076052 V0.077303 V0.079226 V0.082980 V0.090457 V0.092776 V0.095920 V0.100620 V0.107852 V0.110019 V0.112522 V0.129887 V0.139744 V0.144261 V0.161229 V0.163823 V0.164312 V0.169774 V0.177740 V0.180395 V0.181677 V0.183142 V0.188147 V0.199774 V0.221564 V0.224555 V0.229377 V0.230323 V0.245888 V0.259285 V0.264473 V0.265999 V0.269265 V0.277749 V0.289377 V0.291635 V0.294412 V0.301157 V0.304941 V0.319834 V0.325266 V0.326090 V0.327830 V0.330576 V0.360088 V0.364055 V0.365520 V0.365795 V0.370952 V0.371227 V0.378338 V0.378826 V0.382244 V0.385052 V0.386334 V0.386670 V0.388653 V0.392560 V0.401593 V0.403119 V0.408979 V0.417554 V0.423872 V0.442610 V0.451491 V0.463210 V0.465590 V0.473251 V0.476241 V0.484359 V0.484664 V0.502518 V0.509476 V0.519791 V0.521653 V0.522660 V0.523362 V0.532884 V0.539689 V0.541246 V0.547288 V0.556352 V0.579760 V0.582751 V0.604694 V0.606128 V0.609668 V0.609912 V0.636158 V0.642689 V0.649190 V0.665273 V0.684164 V0.686239 V0.699271 V0.700430 V0.702475 V0.703635 V0.704917 V0.708762 V0.710074 V0.710227 V0.715049 V0.725974 V0.734825 V0.740501 V0.747215 V0.753746 V0.755364 V0.760125 V0.773461 V0.775109 V0.776147 V0.783776 V0.785669 V0.787194 V0.792535 V0.799158 V0.801355 V0.812708 V0.817591 V0.827326 V0.836055 V0.836390 V0.842036 V0.843348 V0.844203 V0.847285 V0.847316 V0.849208 V0.852657 V0.857997 V0.859828 V0.872799 V0.877834 V0.890255 V0.894559 V0.899228 V0.899350 V0.901700 V0.907620 V0.908597 V0.909787 V0.912412 V0.925810 V0.929075 V0.933103 V0.936522 V0.939055 V0.948332 V0.969543 V0.971160 V0.978210 V0.983795 V0.997711
+##!
+##!
+##!------------------------------------------
+##5.6 Constructor per copia d'un conjunt gran
+##!------------------------------------------
+##!
+initcopy c2 = c1
+c2 dumpp
+#V0.012482 V0.030732 V0.039705 V0.047914 V0.048372 V0.049043 V0.054598 V0.067110 V0.076052 V0.077303 V0.079226 V0.082980 V0.090457 V0.092776 V0.095920 V0.100620 V0.107852 V0.110019 V0.112522 V0.129887 V0.139744 V0.144261 V0.161229 V0.163823 V0.164312 V0.169774 V0.177740 V0.180395 V0.181677 V0.183142 V0.188147 V0.199774 V0.221564 V0.224555 V0.229377 V0.230323 V0.245888 V0.259285 V0.264473 V0.265999 V0.269265 V0.277749 V0.289377 V0.291635 V0.294412 V0.301157 V0.304941 V0.319834 V0.325266 V0.326090 V0.327830 V0.330576 V0.360088 V0.364055 V0.365520 V0.365795 V0.370952 V0.371227 V0.378338 V0.378826 V0.382244 V0.385052 V0.386334 V0.386670 V0.388653 V0.392560 V0.401593 V0.403119 V0.408979 V0.417554 V0.423872 V0.442610 V0.451491 V0.463210 V0.465590 V0.473251 V0.476241 V0.484359 V0.484664 V0.502518 V0.509476 V0.519791 V0.521653 V0.522660 V0.523362 V0.532884 V0.539689 V0.541246 V0.547288 V0.556352 V0.579760 V0.582751 V0.604694 V0.606128 V0.609668 V0.609912 V0.636158 V0.642689 V0.649190 V0.665273 V0.684164 V0.686239 V0.699271 V0.700430 V0.702475 V0.703635 V0.704917 V0.708762 V0.710074 V0.710227 V0.715049 V0.725974 V0.734825 V0.740501 V0.747215 V0.753746 V0.755364 V0.760125 V0.773461 V0.775109 V0.776147 V0.783776 V0.785669 V0.787194 V0.792535 V0.799158 V0.801355 V0.812708 V0.817591 V0.827326 V0.836055 V0.836390 V0.842036 V0.843348 V0.844203 V0.847285 V0.847316 V0.849208 V0.852657 V0.857997 V0.859828 V0.872799 V0.877834 V0.890255 V0.894559 V0.899228 V0.899350 V0.901700 V0.907620 V0.908597 V0.909787 V0.912412 V0.925810 V0.929075 V0.933103 V0.936522 V0.939055 V0.948332 V0.969543 V0.971160 V0.978210 V0.983795 V0.997711
+##!-------------
+##!Es destrueix un dels conjunts
+##!-------------
+c2 destroy
+##!
+##!
+##!--------------------------------------------
+##5.7 desassignar uns quants mes
+##!--------------------------------------------
+##!
+##! Canvi del current object
+##!
+sel_curr_obj c1
+##!
+##!
+##!--------------------------------------------
+##5.8 desassignar
+##!--------------------------------------------
+##!
+unassign V0.116764
+unassign V0.618793
+unassign V0.971160
+unassign V0.484359
+unassign V0.822016
+unassign V0.681692
+unassign V0.842036
+unassign V0.301157
+unassign V0.539079
+unassign V0.403119
+unassign V0.708029
+unassign V0.983795
+unassign V0.139744
+unassign V0.073458
+unassign V0.539689
+unassign V0.326487
+unassign V0.405988
+unassign V0.912412
+unassign V0.082980
+unassign V0.776147
+unassign V0.579760
+unassign V0.847713
+unassign V0.978210
+unassign V0.971557
+unassign V0.265999
+unassign V0.423872
+unassign V0.812708
+unassign V0.427839
+unassign V0.556352
+unassign V0.181677
+unassign V0.454176
+unassign V0.443617
+unassign V0.907865
+unassign V0.801355
+unassign V0.079226
+unassign V0.609668
+unassign V0.581530
+unassign V0.327830
+unassign V0.872799
+unassign V0.907620
+unassign V0.679678
+unassign V0.417554
+unassign V0.536149
+unassign V0.001679
+unassign V0.327891
+unassign V0.049043
+unassign V0.401593
+unassign V0.844203
+unassign V0.866756
+unassign V0.316019
+unassign V0.759758
+unassign V0.395917
+unassign V0.937986
+unassign V0.168401
+unassign V0.882534
+unassign V0.836634
+unassign V0.176336
+unassign V0.566424
+unassign V0.688986
+unassign V0.038209
+unassign V0.708762
+unassign V0.475143
+unassign V0.899350
+unassign V0.259285
+unassign V0.111148
+unassign V0.739555
+unassign V0.112522
+unassign V0.294412
+unassign V0.523362
+unassign V0.762719
+unassign V0.325266
+unassign V0.180395
+unassign V0.408979
+unassign V0.704917
+unassign V0.306070
+unassign V0.699271
+unassign V0.378338
+unassign V0.710074
+unassign V0.161229
+unassign V0.522660
+unassign V0.948332
+unassign V0.199774
+unassign V0.509476
+unassign V0.382244
+unassign V0.827326
+unassign V0.933103
+unassign V0.939055
+unassign V0.997711
+unassign V0.847285
+unassign V0.370952
+unassign V0.925810
+unassign V0.476241
+unassign V0.077303
+unassign V0.245888
+unassign V0.110019
+unassign V0.090457
+unassign V0.463210
+unassign V0.289377
+unassign V0.684164
+unassign V0.277749
+unassign V0.330576
+unassign V0.129887
+unassign V0.817591
+unassign V0.484664
+unassign V0.734825
+unassign V0.319834
+unassign V0.700430
+unassign V0.899228
+unassign V0.269265
+unassign V0.665273
+unassign V0.048372
+unassign V0.604694
+unassign V0.909787
+unassign V0.836055
+unassign V0.785669
+unassign V0.703635
+unassign V0.030732
+unassign V0.859828
+unassign V0.364055
+unassign V0.547288
+unassign V0.519791
+unassign V0.760125
+unassign V0.392560
+unassign V0.385052
+unassign V0.221564
+dumpp
+#V0.012482 V0.039705 V0.047914 V0.054598 V0.067110 V0.076052 V0.092776 V0.095920 V0.100620 V0.107852 V0.144261 V0.163823 V0.164312 V0.169774 V0.177740 V0.183142 V0.188147 V0.224555 V0.229377 V0.230323 V0.264473 V0.291635 V0.304941 V0.326090 V0.360088 V0.365520 V0.365795 V0.371227 V0.378826 V0.386334 V0.386670 V0.388653 V0.442610 V0.451491 V0.465590 V0.473251 V0.502518 V0.521653 V0.532884 V0.541246 V0.582751 V0.606128 V0.609912 V0.636158 V0.642689 V0.649190 V0.686239 V0.702475 V0.710227 V0.715049 V0.725974 V0.740501 V0.747215 V0.753746 V0.755364 V0.773461 V0.775109 V0.783776 V0.787194 V0.792535 V0.799158 V0.836390 V0.843348 V0.847316 V0.849208 V0.852657 V0.857997 V0.877834 V0.890255 V0.894559 V0.901700 V0.908597 V0.929075 V0.936522 V0.969543
+##!
+##!
+##!
+##!------------------------------------------
+##6 Destruir tots els objectes
+##!-------------------------------------------
+##!
+c1 destroy
+ex1 destroy
+ex2 destroy
+ex3 destroy
+tok3 destroy
+tok2 destroy
+tok1 destroy
+##!

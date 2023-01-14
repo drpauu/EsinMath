@@ -1,0 +1,205 @@
+##!----------------------------------------------------------
+##!Tests per comprovar que es mostrin els ( ) imprescindibles
+##!----------------------------------------------------------
+init L list<token>
+scan "x+(y-z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x-(y+z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x-(y-z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x*(y/z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x/(y*z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x/(y/z)" L
+init E expressio L
+lotp
+L destroy
+E destroy
+##!
+##!------------------------------------------------------------------------
+##!Tests per comprovar l'associativitat dreta a esquerra de l'exponenciació 
+##!------------------------------------------------------------------------
+init L list<token>
+scan "variable_a^variable_b^variable_c" L
+init E expressio L
+lotp
+sosp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(variable_a^variable_b)^variable_c" L
+init E expressio L
+lotp
+sosp
+L destroy
+E destroy
+##!
+##!----------------------------------------------------------
+##!Tests per comprovar l'ordre en les simplificacions
+##!----------------------------------------------------------
+init L list<token>
+scan "(3 * 2 + 3.141592 * sqrt (5))/(3*log(log(5)))" L
+init E expressio L
+lotp
+sosp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(3 * 2 + 3.141592 * sqrt (5))/(3*log(log(5.0)))" L
+init E expressio L
+lotp
+sosp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(3/2 + 1/3 * sqrt (2/5))/(3*log(log(5.0)))" L
+init E expressio L
+lotp
+sosp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+##!-----------------------------------------------------------------
+##!Tests per comprovar l'exponenciació amb exponents 0, 1 o negatius
+##!-----------------------------------------------------------------
+init L list<token>
+scan "x^y^(z-z)" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "x^y^(z/z)" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "3^2^-1" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(3^2)^-1" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(1/3)^(1/2)^-1" L
+init E expressio L
+lotp
+sosp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "3.0^2.0^-1" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(3.0^2.0)^-1" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "3.0^2.0^-1.0" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
+##!
+init L list<token>
+scan "(3.0^2.0)^-1.0" L
+init E expressio L
+lotp
+sosp
+sosp
+simpp
+lotp
+L destroy
+E destroy
