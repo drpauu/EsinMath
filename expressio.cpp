@@ -716,7 +716,7 @@ expressio expressio::logaritme(expressio op)
   return buit;
 }
 
-expressio expressio::exp_funct(expressio op) throw(error)
+expressio expressio::exp_funct(expressio op)
 {
   if (op._arrel->_info.tipus() == token::CT_ENTERA)
   {
