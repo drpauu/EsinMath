@@ -141,6 +141,7 @@ token::~token() throw()
   variables). Es produeix un error si apliquem una consultora inadequada
   sobre un token, p.e. si apliquem _valor_enter sobre un token que no sigui
   una CT_ENTERA.*/
+  // La complejidad temporal es O(1) ya que solo realizan una asignación y un retorno.
 token::codi token::tipus() const throw()
 {
   return _id;
@@ -289,6 +290,7 @@ bool token::operator<(const token &t) const throw(error)
   }
 }
 
+// Método para comprobar si un nombre de variable es válido, la complejidad temporal es O(n) ya que recorre una cadena de caracteres.
 bool token::check_variables(string var)
 {
   char lletra;
