@@ -85,10 +85,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init bn racional -1 2
 #num
-1
+-1
 ##-1
 #denom
--2
+2
 ##2
 #part_entera
 -1
@@ -120,10 +120,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init cn racional 8 -5
 #num
-8
+-8
 ##-8
 #denom
--5
+5
 ##5
 #part_entera
 -2
@@ -190,10 +190,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init en racional 9 -9
 #num
-1
+-1
 ##-1
 #denom
--1
+1
 ##1
 #part_entera
 -1
@@ -260,10 +260,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init gn racional 14 -6
 #num
-7
+-7
 ##-7
 #denom
--3
+3
 ##3
 #part_entera
 -3
@@ -296,10 +296,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init hn racional -56356431 242543678
 #num
-56356431
+-56356431
 ##-56356431
 #denom
--242543678
+242543678
 ##242543678
 #part_entera
 -1
@@ -374,10 +374,10 @@ Error::racional:21:El denominador es zero.
 ###!
 #init k racional -132189545 63532211
 #num
-132189545
+-132189545
 ##-132189545
 #denom
--63532211
+63532211
 ##63532211
 #part_entera
 -3
@@ -432,7 +432,7 @@ Error::racional:21:El denominador es zero.
 ##5/4
 ###!
 #b + dn
-1/-4
+-1/4
 ##-1/4
 ###!
 ###!
@@ -446,7 +446,7 @@ Error::racional:21:El denominador es zero.
 ##11/10
 ###!
 #b + cn
-11/-10
+-11/10
 ##-11/10
 ###!
 ###!
@@ -456,7 +456,7 @@ Error::racional:21:El denominador es zero.
 ###!------------------------------
 ###!
 #fn + cn
-23/-5
+-23/5
 ##-23/5
 ###!
 ###!
@@ -551,7 +551,7 @@ Error::racional:21:El denominador es zero.
 ##17/20
 ###!
 #cn - d
-47/-20
+-47/20
 ##-47/20
 ###!
 ###!
@@ -562,7 +562,7 @@ Error::racional:21:El denominador es zero.
 ###!------------------------------
 ###!
 #b - d
-1/-4
+-1/4
 ##-1/4
 ###!
 #b - dn
@@ -580,7 +580,7 @@ Error::racional:21:El denominador es zero.
 ##21/10
 ###!
 #cn - b
-21/-10
+-21/10
 ##-21/10
 ###!
 ###!
@@ -699,7 +699,7 @@ Error::racional:21:El denominador es zero.
 ###!------------------------------
 ###!
 #bn * f
-3/-2
+-3/2
 ##-3/2
 ###!
 ###!------------------------------
@@ -729,7 +729,7 @@ Error::racional:21:El denominador es zero.
 ###!------------------------------
 ###!
 #z * u
-50477312/-455742875
+-50477312/455742875
 ##-50477312/455742875
 ###!
 ###!
@@ -825,7 +825,7 @@ Error::racional:21:El denominador es zero.
 ###!------------------------------
 ###!
 #u / z
-13560500/-4868631
+-13560500/4868631
 ##-13560500/4868631
 ###!
 #z / u
@@ -991,18 +991,18 @@ false
 ###!
 ###! 6/8 != 14/6
 #d != f
-false
+true
 ##true
 #f != d
-false
+true
 ##true
 ###!
 ###! 1/2 != (-1/2)
 #b != bn
-false
+true
 ##true
 #bn != b
-false
+true
 ##true
 ###!
 ###! (-56/13) != 8/5
@@ -1097,82 +1097,82 @@ false
 ###!
 ###! 0/1 < 8/5
 #a < c
-false
+true
 ##true
 #c < a
-true
+false
 ##false
 ###!
 ###! 1/2 < (-1/2)
 #b < bn
-true
+false
 ##false
 #bn < b
-false
+true
 ##true
 ###!
 ###! (-1/2) < 14/6
 #bn < f
-false
+true
 ##true
 #f < bn
-true
+false
 ##false
 ###!
 ###! (-56/13) < (-1/2)
 #m < bn
-false
+true
 ##true
 #bn < m
-true
+false
 ##false
 ###!
 ###! 3242/6475 < 53899/42334
 #y < x
-false
+true
 ##true
 #x < y
-true
+false
 ##false
 ###!
 ###! 53899/42334 < (-13398/1677)
 #x < w
-true
+false
 ##false
 #w < x
-false
+true
 ##true
 ###!
 ###! (-23456/42231) < 3398/5677
 #u < v
-false
+true
 ##true
 #v < u
-true
+false
 ##false
 ###!
 ###! (-13398/1677) < (-23456/42231)
 #w < u
-false
+true
 ##true
 #u < w
-true
+false
 ##false
 ###!
 ###! (-504/117) < (-4/117)
 #o < p
-false
+true
 ##true
 #p < o
-true
+false
 ##false
 ###!
 ###! (-504/117) < (-504/23)
 #o < q
-true
+false
 ##false
 #q < o
-false
+true
 ##true
 ###!
 ###!
@@ -1186,23 +1186,23 @@ false
 ###!
 ###! 0/1 > 0/1
 #a > a
-true
+false
 ##false
 ###!
 ###! 8/5 > 8/5
 #c > c
-true
+false
 ##false
 #c > c
-true
+false
 ##false
 ###!
 ###! (-38316767/244737827) > (-76633534/489475654)
 #n > j
-true
+false
 ##false
 #j > n
-true
+false
 ##false
 ###!
 ###!------------------------------
@@ -1211,81 +1211,81 @@ true
 ###!
 ###! 0/1 > 8/5
 #a > c
-true
+false
 ##false
 #c > a
-false
+true
 ##true
 ###! 1/2 > (-1/2)
 #b > bn
-false
+true
 ##true
 #bn > b
-true
+false
 ##false
 ###!
 ###! (-1/2) > 14/6
 #bn > f
-true
+false
 ##false
 #f > bn
-false
+true
 ##true
 ###!
 ###! (-56/13) > (-1/2)
 #m > bn
-true
+false
 ##false
 #bn > m
-false
+true
 ##true
 ###!
 ###! 3242/6475 > 53899/42334
 #y > x
-true
+false
 ##false
 #x > y
-false
+true
 ##true
 ###!
 ###! 53899/42334 > (-13398/1677)
 #x > w
-false
+true
 ##true
 #w > x
-true
+false
 ##false
 ###!
 ###! (-23456/42231) > 3398/5677
 #u > v
-true
+false
 ##false
 #v > u
-false
+true
 ##true
 ###!
 ###! (-13398/1677) > (-23456/42231)
 #w > u
-true
+false
 ##false
 #u > w
-false
+true
 ##true
 ###!
 ###! (-504/117) > (-4/117)
 #o > p
-true
+false
 ##false
 #p > o
-false
+true
 ##true
 ###!
 ###! (-504/117) > (-504/23)
 #o > q
-false
+true
 ##true
 #q > o
-true
+false
 ##false
 ###!
 ###!
@@ -1324,10 +1324,10 @@ true
 ###!
 #initcopy gnaux = gn
 #gnaux num
-7
+-7
 ##-7
 #gnaux denom
--3
+3
 ##3
 #gnaux part_entera
 -3
@@ -1374,10 +1374,10 @@ true
 #init t racional
 #t = gn
 #t num
-7
+-7
 ##-7
 #t denom
--3
+3
 ##3
 #t part_entera
 -3

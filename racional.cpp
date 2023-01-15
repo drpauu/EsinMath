@@ -18,7 +18,6 @@ racional::racional(int n, int d) throw(error)
         _d = simplificat.second;
         _part_entera = calcula_part_entera();
         _residu = calcula_residu();
-        this->simplificar(_n, _d);
     }
 }
 
@@ -158,79 +157,43 @@ racional racional::operator/(const racional &r) const throw(error)
    el racional sobre el que s'aplica el mètode és igual (==), diferent
    (!=), menor (<), menor o igual (<=), major (>) o major o igual(>=)
    que el racional r.*/
-bool racional::operator==(const racional &r) const throw()
+bool racional::operator==(const racional & r) const throw()
 {
-    if (r.denom() == _d && r.num() == _n)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d == _d * r._n;
 }
-bool racional::operator!=(const racional &r) const throw()
+
+bool racional::operator!=(const racional & r) const throw()
 {
-    if (r.denom() != _d && r.num() != _n)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d != _d * r._n;
 }
-bool racional::operator<(const racional &r) const throw()
+
+bool racional::operator<(const racional & r) const throw()
 {
-    int p_entera = part_entera();
-    if (r.part_entera() < p_entera)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d < _d * r._n;
 }
-bool racional::operator<=(const racional &r) const throw()
+
+bool racional::operator<=(const racional & r) const throw()
 {
-    int p_entera = part_entera();
-    if (r.part_entera() <= p_entera)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d <= _d * r._n;
 }
-bool racional::operator>(const racional &r) const throw()
+
+bool racional::operator>(const racional & r) const throw()
 {
-    int p_entera = part_entera();
-    if (r.part_entera() >= p_entera)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d > _d * r._n;
 }
-bool racional::operator>=(const racional &r) const throw()
+
+bool racional::operator>=(const racional & r) const throw()
 {
-    int p_entera = part_entera();
-    if (r.part_entera() >= p_entera)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return _n * r._d >= _d * r._n;
 }
+
 
 int racional::mcd(int n1, int n2) throw()
 {
+    if(n1 < 0)
+        n1 *= -1;
+    if(n2 < 0)
+        n2 *= -1;
     if (n2 > n1)
     {
         int temp = n2;
