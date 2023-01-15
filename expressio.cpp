@@ -168,9 +168,8 @@ int expressio::que_eres(token t)
   return 0;
 }
 
-expressio
-expressio::suma(expressio a,
-                expressio b)
+expressio expressio::suma(expressio a,
+                          expressio b)
 { // revisar comentaris, pero ja estan fetes
   if (a._arrel->_info.tipus() == token::VARIABLE or
       b._arrel->_info.tipus() == token::VARIABLE)
@@ -216,14 +215,11 @@ expressio::suma(expressio a,
       return resta(a, b);
     }
   }
-  // 5 6 7 8 shan de posar be les operacions de suma IMPORTANT
 
-  if ((a._arrel->_info.tipus() and b._arrel->_info.tipus()) ==
-      token::MULTIPLICACIO)
+  if (a._arrel->_info.tipus() == token::MULTIPLICACIO and b._arrel->_info.tipus() == token::MULTIPLICACIO)
   {
-    if ((a._arrel->f_dret->_info.tipus() and a._arrel->f_esq->_info.tipus() and
-         b._arrel->f_dret->_info.tipus() and a._arrel->f_esq->_info.tipus()) ==
-        token::VARIABLE)
+    if (a._arrel->f_dret->_info.tipus() == token::VARIABLE and a._arrel->f_esq->_info.tipus() == token::VARIABLE and
+        b._arrel->f_dret->_info.tipus() == token::VARIABLE and a._arrel->f_esq->_info.tipus() == token::VARIABLE)
     {
       token mult("*");
       token r("+");
@@ -261,10 +257,7 @@ expressio::suma(expressio a,
       }
     }
 
-    // llegir comentari d amunt
-
-    if (a._arrel->_info.tipus() == b._arrel->_info.tipus() ==
-        token::CT_RACIONAL)
+    if (a._arrel->_info.tipus() == token::CT_RACIONAL and b._arrel->_info.tipus() == token::CT_RACIONAL)
     {
       token sum("+");
       token div("/");
@@ -316,6 +309,10 @@ expressio::suma(expressio a,
       }
     }
   }
+
+  expressio buida;
+  return buida;
+  // falta fer la regla 1
 }
 
 expressio expressio::resta(expressio a, expressio b)
@@ -351,29 +348,25 @@ expressio expressio::resta(expressio a, expressio b)
       return t;
     }
   }
-  // 4 i 5
+
   if (que_eres(a._arrel->_info) == 5 or que_eres(b._arrel->_info) == 5)
   {
-    expressio ret;
     if (que_eres(b._arrel->_info) == 5)
     {
       return suma(a, b);
     }
   }
-  // 5 6 7 8 shan de posar be les operacions de suma IMPORTANT
 
-  if ((a._arrel->_info.tipus() == b._arrel->_info.tipus()) ==
-      token::MULTIPLICACIO)
+  if (a._arrel->_info.tipus() == token::MULTIPLICACIO and b._arrel->_info.tipus() == token::MULTIPLICACIO)
   {
-    if ((a._arrel->f_dret->_info.tipus() and
-         a._arrel->f_esq->_info.tipus() and
-         b._arrel->f_dret->_info.tipus() and
-         a._arrel->f_esq->_info.tipus()) == token::VARIABLE)
+    if (a._arrel->f_dret->_info.tipus() == token::VARIABLE and
+        a._arrel->f_esq->_info.tipus() == token::VARIABLE and
+        b._arrel->f_dret->_info.tipus() == token::VARIABLE and
+        a._arrel->f_esq->_info.tipus() == token::VARIABLE)
     {
       token mult("*");
       token r("-");
-      if (a._arrel->f_dret->_info.identificador_variable() ==
-          b._arrel->f_dret->_info.identificador_variable())
+      if (a._arrel->f_dret->_info.identificador_variable() == b._arrel->f_dret->_info.identificador_variable())
       {
         expressio fact = constructora_op(r, a._arrel->f_esq->_info, b._arrel->f_esq->_info);
         expressio ret = constructora_op(mult, a._arrel->f_dret->_info, fact);
@@ -391,8 +384,7 @@ expressio expressio::resta(expressio a, expressio b)
         expressio ret = constructora_op(mult, a._arrel->f_esq->_info, fact);
         return ret;
       }
-      if (a._arrel->f_esq->_info.identificador_variable() ==
-          b._arrel->f_esq->_info.identificador_variable())
+      if (a._arrel->f_esq->_info.identificador_variable() == b._arrel->f_esq->_info.identificador_variable())
       {
         expressio fact = constructora_op(r, a._arrel->f_dret->_info,
                                          b._arrel->f_dret->_info);
@@ -402,8 +394,7 @@ expressio expressio::resta(expressio a, expressio b)
     }
   }
 
-  if (a._arrel->_info.tipus() == b._arrel->_info.tipus() ==
-      token::CT_RACIONAL)
+  if (a._arrel->_info.tipus() == token::CT_RACIONAL and b._arrel->_info.tipus() == token::CT_RACIONAL)
   {
     token r("-");
     token div("/");
@@ -453,11 +444,239 @@ expressio expressio::resta(expressio a, expressio b)
       return addi;
     }
   }
+  expressio buida;
+  return buida;
+  // falta fer la regla 1
 }
 
-// expressio expressio::multiplicacio(expressio a, expressio b) {}
+expressio expressio::multiplicacio(expressio a, expressio b)
+{
+  if (a._arrel->_info.tipus() == token::VARIABLE or
+      b._arrel->_info.tipus() == token::VARIABLE)
+  {
+    if (que_eres(a._arrel->_info) == 1)
+    {
+      if (a._arrel->_info.valor_enter() == 0)
+      {
+        token zero("0");
+        expressio t(zero);
+        return t;
+      }
+    }
+    else if (b._arrel->_info.valor_enter() == 0)
+    {
+      if (b._arrel->_info.valor_enter() == 0)
+      {
+        token zero("0");
+        expressio t(zero);
+        return t;
+      }
+    }
+    else if (a._arrel->_info.valor_enter() == 1)
+    {
+      return b;
+    }
+    else if (a._arrel->_info.valor_enter() == 1)
+    {
+      return a;
+    }
+  }
+  // 3
+  if (que_eres(a._arrel->_info) == 4 and que_eres(b._arrel->_info) == 4)
+  {
+    if (a._arrel->_info.identificador_variable() ==
+        b._arrel->_info.identificador_variable())
+    {
+      token dos("2");
+      return exponenciacio(a, dos);
+    }
+  }
 
-// expressio expressio::divisio(expressio a, expressio b) {}
+  // revisar aquesta regla
+  if (que_eres(a._arrel->_info) == 5 or que_eres(b._arrel->_info) == 5)
+  {
+    if (que_eres(a._arrel->_info) == 5)
+    {
+      return canvi_de_signe(multiplicacio(canvi_de_signe(a._arrel->_info), b._arrel->_info));
+    }
+    else
+    {
+      return canvi_de_signe(multiplicacio(canvi_de_signe(b._arrel->_info), a._arrel->_info));
+    }
+  }
+  // falta fer la regla 1
+  if (que_eres(a._arrel->_info) == 2 or que_eres(b._arrel->_info) == 2)
+  {
+    if (que_eres(a._arrel->_info) == 2)
+    {
+      if (a._arrel->_info.valor_racional().num() == 1)
+      {
+        if (que_eres(b._arrel->_info) == 1)
+        {
+          token un(b._arrel->_info.valor_enter());
+          token dos("/");
+          token tres(a._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+        else if (que_eres(b._arrel->_info) == 3)
+        {
+          token un(b._arrel->_info.valor_real());
+          token dos("/");
+          token tres(a._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+        else if (que_eres(b._arrel->_info) == 4)
+        {
+          token un(b._arrel->_info.identificador_variable());
+          token dos("/");
+          token tres(a._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+      }
+    } else if (que_eres(b._arrel->_info) == 2)
+    {
+      if (b._arrel->_info.valor_racional().num() == 1)
+      {
+        if (que_eres(a._arrel->_info) == 1)
+        {
+          token un(a._arrel->_info.valor_enter());
+          token dos("/");
+          token tres(b._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+        else if (que_eres(a._arrel->_info) == 3)
+        {
+          token un(a._arrel->_info.valor_real());
+          token dos("/");
+          token tres(b._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+        else if (que_eres(a._arrel->_info) == 4)
+        {
+          token un(a._arrel->_info.identificador_variable());
+          token dos("/");
+          token tres(b._arrel->_info.valor_racional().denom());
+          list<token> racion;
+          racion.push_back(un);
+          racion.push_back(dos);
+          racion.push_back(tres);
+          expressio ret(racion);
+          return ret;
+        }
+      }
+    }
+  }
+    if (a._arrel->_info.tipus() == token::EXPONENCIACIO and b._arrel->_info.tipus() == token::EXPONENCIACIO)
+  {
+    if (a._arrel->f_dret->_info.tipus() == token::VARIABLE and
+         a._arrel->f_esq->_info.tipus() == token::VARIABLE and
+         b._arrel->f_dret->_info.tipus()== token::VARIABLE and
+         a._arrel->f_esq->_info.tipus() == token::VARIABLE)
+    {
+      token mult("^");
+      token r("*");
+      if (a._arrel->f_dret->_info.identificador_variable() == b._arrel->f_dret->_info.identificador_variable())
+      {
+        expressio fact = constructora_op(r, a._arrel->f_esq->_info, b._arrel->f_esq->_info);
+        expressio ret = constructora_op(mult, a._arrel->f_dret->_info, fact);
+        return ret;
+      }
+      if (a._arrel->f_esq->_info.identificador_variable() == b._arrel->f_esq->_info.identificador_variable())
+      {
+        expressio fact = constructora_op(r, a._arrel->f_dret->_info, b._arrel->f_dret->_info);
+        expressio ret = constructora_op(mult, a._arrel->f_esq->_info, fact);
+        return ret;
+      }
+    }
+  }
+  if (que_eres(a._arrel->f_dret->_info) ==
+      que_eres(a._arrel->f_dret->_info))
+  {
+    if (que_eres(a._arrel->f_dret->_info) == 1)
+    {
+      int ret = a._arrel->f_dret->_info.valor_enter() *
+                b._arrel->f_dret->_info.valor_enter();
+      token resultat(ret);
+      expressio addi(resultat);
+      return addi;
+    }
+    if (que_eres(a._arrel->f_dret->_info) == 2)
+    {
+      racional ret = a._arrel->f_dret->_info.valor_racional() * b._arrel->f_dret->_info.valor_racional();
+      token resultat(ret);
+      expressio addi(resultat);
+      return addi;
+    }
+    if (que_eres(a._arrel->f_dret->_info) == 3)
+    {
+      double ret = a._arrel->f_dret->_info.valor_real() * b._arrel->f_dret->_info.valor_real();
+      token resultat(ret);
+      expressio addi(resultat);
+      return addi;
+    }
+    if (que_eres(a._arrel->f_dret->_info) == 4)
+    {
+      token sum("*");
+      expressio addi = constructora_op(sum, a._arrel->f_dret->_info, b._arrel->f_dret->_info);
+      return addi;
+    }
+  }
+  expressio buida;
+  return buida;
+  // falta regla1;
+}
+
+expressio expressio::divisio(expressio a, expressio b) throw (error)
+{
+  if(que_eres(b._arrel->_info) == 1){
+    if(b._arrel->_info.valor_enter() == 0){
+      throw error(DivPerZero);
+    } else if (b._arrel->_info.valor_enter() == 1){
+      return a;
+    }
+  }
+  if(que_eres(a._arrel->_info) == 1){
+    if(a._arrel->_info.valor_enter() == 0){
+      token zero("0");
+        expressio t(zero);
+        return t;
+    }
+  }
+  expressio buida;
+  return buida;
+  // falta regla1;
+}
+
+expressio expressio::exponenciacio(expressio a, expressio b)
+{
+  expressio buida;
+  return buida;
+}
 
 expressio expressio::c_racional(expressio a)
 {
@@ -467,82 +686,83 @@ expressio expressio::c_racional(expressio a)
   return regla0;
 }
 
-expressio expressio::canvi_de_signe(expressio a){
+expressio expressio::canvi_de_signe(expressio a)
+{
   return a;
 }
 
-token expressio::logaritme(token op)
+expressio expressio::logaritme(expressio op)
 {
-  if (op.tipus() == token::CT_ENTERA)
+  if (op._arrel->_info.tipus() == token::CT_ENTERA)
   {
-    token ret(log(op.valor_enter()));
+    token ret(log(op._arrel->_info.valor_enter()));
     return ret;
   }
-  else if (op.tipus() == token::CT_RACIONAL)
+  else if (op._arrel->_info.tipus() == token::CT_RACIONAL)
   {
     // token ret(log(op.valor_racional())); no es pot fer un logaritme d un
     // valor racional
   }
-  else if (op.tipus() == token::CT_REAL)
+  else if (op._arrel->_info.tipus() == token::CT_REAL)
   {
-    token ret(log(op.valor_real()));
+    token ret(log(op._arrel->_info.valor_real()));
   }
-  else if (op.tipus() == token::VARIABLE)
+  else if (op._arrel->_info.tipus() == token::VARIABLE)
   {
     // la suma de variable, ns com es faria, suposu que es queda igual o algo
     // ns s ah de preguntar;
   }
-  token buit;
+  expressio buit;
   return buit;
 }
 
-token exponencial(token op) throw(error)
+expressio expressio::exp_funct(expressio op) throw(error)
 {
-  if (op.tipus() == token::CT_ENTERA)
+  if (op._arrel->_info.tipus() == token::CT_ENTERA)
   {
-    token ret(exp(op.valor_enter()));
+    token ret(exp(op._arrel->_info.valor_enter()));
     return ret;
   }
-  else if (op.tipus() == token::CT_RACIONAL)
+  else if (op._arrel->_info.tipus() == token::CT_RACIONAL)
   {
     // token ret(exp(op.valor_racional())); no es pot fer un logaritme d un
     // valor racional
   }
-  else if (op.tipus() == token::CT_REAL)
+  else if (op._arrel->_info.tipus() == token::CT_REAL)
   {
-    token ret(exp(op.valor_real()));
+    token ret(exp(op._arrel->_info.valor_real()));
   }
-  else if (op.tipus() == token::VARIABLE)
+  else if (op._arrel->_info.tipus() == token::VARIABLE)
   {
     // la suma de variable, ns com es faria, suposu que es queda igual o algo
     // ns s ah de preguntar;
   }
-  token buit;
+  expressio buit;
   return buit;
 }
 
-token expressio::func_sqrt(token op)
+expressio expressio::func_sqrt(expressio op)
 {
-  if (op.tipus() == token::CT_ENTERA)
+  if (op._arrel->_info.tipus() == token::CT_ENTERA)
   {
-    token ret(sqrt(op.valor_enter()));
+    token ret(sqrt(op._arrel->_info.valor_enter()));
     return ret;
   }
-  else if (op.tipus() == token::CT_RACIONAL)
+  else if (op._arrel->_info.tipus() == token::CT_RACIONAL)
   {
     // token ret(sqrt(op.valor_racional())); no es pot fer un logaritme d un
     // valor racional
   }
-  else if (op.tipus() == token::CT_REAL)
+  else if (op._arrel->_info.tipus() == token::CT_REAL)
   {
-    token ret(sqrt(op.valor_real()));
+    token ret(sqrt(op._arrel->_info.valor_real()));
   }
-  else if (op.tipus() == token::VARIABLE)
+  else if (op._arrel->_info.tipus() == token::VARIABLE)
   {
     // la suma de variable, ns com es faria, suposu que es queda igual o algo
     // ns s ah de preguntar;
   }
-  token buit;
+  expressio buit;
   return buit;
 }
 

@@ -18,11 +18,11 @@ token operacio_corrent(token op, token a, token b);
 
 // en aquestes operacions s ha de posar error, pq no es por fer l arrel d un nombre negatiu per exemple
 
-token logaritme(token op);
+expressio logaritme(expressio op);
 
-token exp_funct(token op);
+expressio exp_funct(expressio op);
 
-token func_sqrt(token op);
+expressio func_sqrt(expressio op);
 
 expressio constructora_op(token t, expressio a, expressio b); // here
 
@@ -55,7 +55,7 @@ expressio resta(expressio a, expressio b); // mirar warnings
 
 expressio multiplicacio(expressio a, expressio b);
 
-expressio divisio(expressio a, expressio b);
+expressio divisio(expressio a, expressio b) throw (error);
 
 expressio exponenciacio(expressio a, expressio b);
 
