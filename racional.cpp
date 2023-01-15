@@ -189,6 +189,11 @@ bool racional::operator>=(const racional & r) const throw()
 
 
 int racional::mcd(int n1, int n2) throw()
+//Pre: Els paràmetres a i b són enters vàlids.
+//Post: Retorna el valor del màxim comú divisor (mcd) dels dos nombres passats com a paràmetres.
+//      Si els nombres són negatius, els converteix en positius abans de calcular el mcd.
+//Cost: El cost d'aquesta funció és O(log min(a,b)), això és degut a que utilitza l'algorisme d'Euclides
+//      per calcular el mcd. El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
 {
     if(n1 < 0)
         n1 *= -1;
@@ -211,6 +216,13 @@ int racional::mcd(int n1, int n2) throw()
 
 
 pair<int, int> racional::simplificar(int n, int d) throw(error)
+//Pre: Els paràmetres n i d són enters vàlids.
+//Post: Retorna un parell d'enters on el primer element és el numerador simplificat i el segon element 
+//      és el denominador simplificat del nombre racional (n/d) passat com a paràmetre.
+//      El nombre retornat estarà simplificat al màxim. Si el denominador és 0, es genera un error.
+//Cost: El cost d'aquesta funció és O(log min(n,d)), això es degut a que utilitza la funció mcd per calcular
+//      el mcd entre el numerador i denominador per simplificar el nombre racional.
+//      El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
 {
     if (d == 0)
     {
@@ -244,17 +256,36 @@ pair<int, int> racional::simplificar(int n, int d) throw(error)
 }
 
 int racional::mcm(int a, int b) throw()
+//Pre: Els paràmetres a i b són enters vàlids
+//Post: Retorna el valor del mínim comú múltiple (mcm) dels dos nombres passats com a paràmetres.
+//      Utilitza la funció mcd per calcular el mcm.
+//Cost: El cost d'aquesta funció és O(1) ja que només es realitzen operacions aritmètiques bàsiques
+//      (multiplicació i divisió) i una crida a la funció mcd que té un cost logarítmic.
 {
     return (a * b) / mcd(a, b);
 }
 
 int racional::calcula_part_entera() throw ()
+//Pre: Els atributs _n i _d són enters vàlids i privats de la classe racional i
+//     contenen el numerador i denominador d'un nombre racional.
+//Post: Retorna el valor de la part entera del nombre racional (n/_d) utilitzant la funció
+//      floor de la biblioteca cmath.
+//Cost: El cost d'aquesta funció és O(1) només es realitza una divisió i una crida a la funció floor.
 {
     int divisio = floor(float(_n) / float(_d));
     return divisio;
 }
 
 pair<int, int> racional::calcula_residu() throw(error)
+//Pre: Els atributs _n i _d són enters vàlids i privats de la classe racional i contenen el numerador i
+//     denominador d'un nombre racional respectivament. El paràmetre _part_entera és un enter privat de la classe
+//     racional i conté la part entera del nombre racional (n/_d).
+//Post: Retorna un parell d'enters on el primer element és el numerador simplificat i el segon element és el
+//      denominador simplificat del residu del nombre racional (n/_d) passat com a paràmetre.
+//      El nombre retornat estarà simplificat al màxim. Si el denominador és 0, es genera un error.
+//Cost: El cost d'aquesta funció és O(log min(num_residu, _d)), això es degut a que utilitza la funció
+//      simplificar per calcular el mcd entre el numerador i denominador del residu per simplificar-lo.
+//      El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
 {
     if (_d == 0)
     {
