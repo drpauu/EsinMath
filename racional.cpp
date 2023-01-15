@@ -13,8 +13,9 @@ racional::racional(int n, int d) throw(error)
     }
     else
     {
-        _n = n;
-        _d = d;
+        pair<int, int> simplificat = simplificar(n, d);
+        _n = simplificat.first;
+        _d = simplificat.second;
         _part_entera = calcula_part_entera();
         _residu = calcula_residu();
         this->simplificar(_n, _d);
@@ -29,9 +30,9 @@ racional::racional(const racional &r) throw(error)
         throw error(DenominadorZero);
     }
     else
-    {
-        _n = r._n;
-        _d = r._d;
+    {   pair<int, int> simplificat = simplificar(r._n, r._d);
+        _n = simplificat.first;
+        _d = simplificat.second;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;
@@ -45,8 +46,9 @@ racional &racional::operator=(const racional &r) throw(error)
     }
     else
     {
-        _n = r._n;
-        _d = r._d;
+        pair<int, int> simplificat = simplificar(r._n, r._d);
+        _n = simplificat.first;
+        _d = simplificat.second;
         _part_entera = r.part_entera();
         _residu.first = r._residu.first;
         _residu.second = r._residu.second;
@@ -229,27 +231,21 @@ bool racional::operator>=(const racional &r) const throw()
 
 int racional::mcd(int n1, int n2) throw()
 {
-    int hcf;
     if (n2 > n1)
     {
         int temp = n2;
         n2 = n1;
         n1 = temp;
     }
-
-    for (int i = 1; i <= n2; ++i)
+    while (n1 % n2 != 0)
     {
-        if (n1 % i == 0 && n2 % i == 0)
-        {
-            hcf = i;
-        }
+        int temp = n1;
+        n1 = n2;
+        n2 = temp % n2;
     }
-    if (hcf == 0)
-    {
-        hcf = n1 * n2;
-    }
-    return hcf;
+    return n2;
 }
+
 
 pair<int, int> racional::simplificar(int n, int d) throw(error)
 {
@@ -259,20 +255,23 @@ pair<int, int> racional::simplificar(int n, int d) throw(error)
     }
     else
     {
-        if (d < 0)
-        {
-            n = -n;
-            d = -d;
-        }
-        int gcd = mcd(n, d);
-        if (gcd != 0)
-        {
-            n /= gcd;
-            d /= gcd;
-        }
         if (n == 0)
         {
             d = 1;
+        }
+        else
+        {
+            if (d < 0)
+            {
+                n = -n;
+                d = -d;
+            }
+            int gcd = mcd(n, d);
+            if (gcd != 0)
+            {
+                n /= gcd;
+                d /= gcd;
+            }
         }
         pair<int, int> retorn;
         retorn.first = n;

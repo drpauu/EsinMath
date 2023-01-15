@@ -56,6 +56,31 @@ clean:
 	rm *.exe
 	rm *.gch
 
+#-g -O0 -ansi -Wall -lesin -Wno-deprecated
+
+
+# #DRIVER
+# Driver_ej.exe: racional.o
+# 	g++ -o Driver_ej.exe driver.o racional.o -lesin
+# 	rm *.o
+
+# driver.o: driver_esinmath.cpp
+# 	g++ -c  driver_esinmath.cpp $(OPCIONS)
+
+#	++ -o driver.exe racional.cpp taken.cpp ...... -lesin
+#	->dona un executable driver.exe
+#	s'executa; ./driver.e
+#	escriure help: escriu totes les comandes que taken
+#	posar variables: init =>  init v1 racional 3 0--> ha de donar error + sortir a pantalla que hi ha un error
+#	#help amb una classe-- llista de totes les comandes de la classe
+# 	EX: init a racional 3 2
+#	EX: init b racional 48 21 ==> num 16 denom 7
+#	EX: init c racional 48 -21 ==> num -16 denom 7
+#
+#	//OPCIONS = -D_JUDGE_ -D_GLIBCXX_DEBUG -O2 -Wall -Wno-sign-compare -std=c++11
+#	//-g -O0 -std=c++03 -Wall -lesin -Wno-deprecated
+
+
 #OPCIONS = -g -O0 -ansi -Wall -Wextra -Werror -lesin -Wno-deprecated
 
 #programa_racional1.exe: main_cesco.o token.o racional.o
