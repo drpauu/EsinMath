@@ -117,22 +117,22 @@ token &token::operator=(const token &t) throw(error)
 }
 token::~token() throw()
 {
-  /*if (_id == CT_ENTERA)
+  if (_id == CT_ENTERA)
   {
-    delete *(int *)_valor;
+    delete (int *)_valor;
   }
   else if (_id == CT_RACIONAL)
   {
-    delete *(racional *)_valor;
+    delete (racional *)_valor;
   }
   else if (_id == CT_REAL)
   {
-    delete *(double *)_valor;
+    delete (double *)_valor;
   }
   else if (_id == VARIABLE)
   {
-    delete *(string *)_valor;
-  }*/
+    delete (string *)_valor;
+  }
   _id = NULLTOK;
 }
 

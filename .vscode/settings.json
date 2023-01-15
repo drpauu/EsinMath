@@ -53,6 +53,7 @@
         "memory_resource": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "util": "cpp"
+        "util": "cpp",
+        "optional": "cpp"
     }
 }
