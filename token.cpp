@@ -2,41 +2,6 @@
 
 using namespace std;
 
-// funciona
-
-/*Constructores: Construeixen tokens pels operadors, les constants enteres,
-  les constants racionals, les constants reals i les variables(el seu
-  identificador), respectivament.
-
-  La primera constructora s'utiliza para aquells tokens que són operadors,
-  funcions predefinides, noms de comandes o símbols de ``puntuació''; per
-  tant es produeix un error si el codi és CT_ENTERA, CT_RACIONAL, CT_REAL o
-  VARIABLE.
-
-  L'última constructora torna un error si l'string donat no és un
-  identificador vàlid per una variable: ha d'estar format exclusivament per
-  lletres majúscules, minúscules o caràcters de subratllat _. Dit d'una altra
-  forma, només conté caràcters els codis ASCII dels quals estan entre 65
-  ('A') i 90('Z'), entre 97 ('a') i 122 ('z') o el 95 ('_') i no pot
-  coincidir amb un nom reservat: unassign, e, sqrt, log, exp i evalf.*/
-
-
-/*token::data::data()
-{
-}
-
-token::data::data(const data & d) throw()
-{
-}
-
-data & token::data::operator=(const data & d) throw();
-{
-}
-
-token::data::~data() throw();
-{
-}*/
-
 token::token(codi cod /*= NULLTOK*/) throw(error)
 {
   if(cod == CT_ENTERA or cod == CT_RACIONAL or cod == CT_REAL or cod == VARIABLE)
@@ -47,36 +12,54 @@ token::token(codi cod /*= NULLTOK*/) throw(error)
 token::token(int n) throw(error)
 {
   _id = CT_ENTERA;
-  //_valor._enter = n;
-  _valor = new int;
+  try
+  {
+    _valor = new int;
+  }
+  catch(...)
+  {
+    throw error(ConstructoraInadequada);
+  }
   *(int *)_valor = n;
 }
 token::token(const racional &r) throw(error)
 {
   _id = CT_RACIONAL;
-  //_valor._racional = r;
-  _valor = new racional;
+  try
+  {
+    _valor = new racional;
+  }
+  catch(...)
+  {
+    throw error(ConstructoraInadequada);
+  }
   racional rac = r;
   *(racional *)_valor = rac;
 }
 token::token(double x) throw(error)
 {
   _id = CT_REAL;
-  //_valor._real = x;
-  _valor = new double;
+  try
+  {
+    _valor = new double;
+  }
+  catch(...)
+  {
+    throw error(ConstructoraInadequada);
+  }
   *(double *)_valor = x;
 }
 token::token(const string &var_name) throw(error)
 {
   string s = var_name;
+  _id = VARIABLE;
   if (check_variables(var_name))
   {
+    cout << _id << endl;
     throw error(IdentificadorIncorrecte);
   }
   else
   {
-    _id = VARIABLE;
-    //_valor._variable = var_name;
     _valor = new string;
     *(string *)_valor = s;
   }
@@ -85,62 +68,71 @@ token::token(const string &var_name) throw(error)
 // Constructora por còpia, assignació i destructora.
 token::token(const token &t) throw(error)
 {
-  //Fer per tots els codis
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    //_valor._enter = t._valor._enter;
     _valor = new int;
     _valor = t._valor;
   }
   else if (_id == CT_RACIONAL)
   {
-    //_valor._racional = t._valor._racional;
     _valor = new racional;
     _valor = t._valor;
   }
   else if (_id == CT_REAL)
   {
-    //_valor._real = t._valor._real;
     _valor = new double;
     _valor = t._valor;
   }
   else if (_id == VARIABLE)
   {
-    //_valor._variable = t._valor._variable;
     _valor = new string;
     _valor = t._valor;
   }
+  else
+    throw error(ConstructoraInadequada);
 }
 token &token::operator=(const token &t) throw(error)
 {
   _id = t._id;
   if (_id == CT_ENTERA)
   {
-    //Guardar en un int 
-    //_valor._enter = t._valor._enter;
     _valor = t._valor;
   }
   else if (_id == CT_RACIONAL)
   {
-    //_valor._racional = t._valor._racional;
     _valor = t._valor;
   }
   else if (_id == CT_REAL)
   {
-    //_valor._real = t._valor._real;
     _valor = t._valor;
   }
   else if (_id == VARIABLE)
   {
-    // valor._variable = t._valor._variable;
     _valor = t._valor;
-  } // s'ha d'eliminar el _valor que te, en el cas que en tingui
-
+  }
+  else
+    throw error(ConstructoraInadequada);
   return *this;
 }
 token::~token() throw()
 {
+  /*if (_id == CT_ENTERA)
+  {
+    delete *(int *)_valor;
+  }
+  else if (_id == CT_RACIONAL)
+  {
+    delete *(racional *)_valor;
+  }
+  else if (_id == CT_REAL)
+  {
+    delete *(double *)_valor;
+  }
+  else if (_id == VARIABLE)
+  {
+    delete *(string *)_valor;
+  }*/
   _id = NULLTOK;
 }
 
@@ -161,7 +153,6 @@ int token::valor_enter() const throw(error)
   }
   else
   {
-    //return _valor._enter;
     return *(int *)_valor;
   }
 }
@@ -173,7 +164,6 @@ racional token::valor_racional() const throw(error)
   }
   else
   {
-    //return _valor._racional;
     return *(racional *)_valor;
   }
 }
@@ -185,7 +175,6 @@ double token::valor_real() const throw(error)
   }
   else
   {
-    //return _valor._real;
     return *(double *)_valor;
   }
 }
@@ -197,7 +186,6 @@ string token::identificador_variable() const throw(error)
   }
   else
   {
-    //return _valor._variable;
     return *(string *)_valor;
   }
 }
@@ -208,11 +196,6 @@ string token::identificador_variable() const throw(error)
   nom. */
 bool token::operator==(const token &t) const throw()
 {
-  //cout << "valor enter1: " << *(int *)_valor << " valor enter2: " << *(int *)t._valor << endl;
-  //racional r = *(racional *)_valor;
-  //cout << "valor racional: " << r.num() << '/' << r.denom() << endl;
-  //cout << "valor float: " << *(double *)_valor << endl;
-  //cout << "valor string: " << *(string *)_valor << endl;
   if (_id != t._id) return false;
   else if(_id != CT_ENTERA and _id != CT_RACIONAL and _id != CT_REAL and _id != VARIABLE) return true;
   if (_id == CT_ENTERA) return *(int *)_valor == *(int *)t._valor;
@@ -334,40 +317,4 @@ bool token::check_variables(string var)
       incorrecte = true;
   }
   return incorrecte;
-}
-/*
-int token::prioritat_operacio()
-// Pre: El token ha de ser un operador
-// Post: Retorna del 1 al 4 un enter que representa la prioritat de l'operador.
-//       Si el token no és cap operador retornarà un 0(error).
-{
-    if (_id == (SUMA or RESTA))
-        return 1;
-    else if (_id == (MULTIPLICACIO or DIVISIO))
-        return 2;
-    else if (_id == (CANVI_DE_SIGNE or SIGNE_POSITIU))
-        return 3;
-    else if (_id == (EXPONENCIACIO or SQRT or LOG or EXP))
-        return 4;
-    else
-        return 0;
-}*/
-
-
-//AQUESTA FUNCIÓ S'HAURÀ D'IMPLEMENTAR DIRECTAMENT A LA CLASSE EXPRESSIÓ PERQUÈ AL SER
-//UN MÈTODE PRIVAT NO PERMET ACCEDIR-HI SI NO ESTEM DINS LA CLASSE TOKEN 
-int token::numero_operadors()
-// Pre: El token ha de ser un operador
-// Post: Retorna un enter que representa el nombre d'operands sobre el que l'operador
-//       actua. Si el token no és cap operador retornarà un 0, per exemple en el cas
-//       de les constants o variables. Si el token no és vàlid en una expressió retorna -1.
-{
-  if (_id == CANVI_DE_SIGNE or _id == SIGNE_POSITIU or _id == SQRT or _id == LOG or _id == EXP)
-    return 1;
-  else if (_id == SUMA or _id == RESTA or _id == MULTIPLICACIO or _id == DIVISIO or _id == EXPONENCIACIO)
-    return 2;
-  else if (_id == CT_ENTERA or _id == CT_RACIONAL or _id == CT_REAL or _id == CT_E or _id == VARIABLE)
-    return 0;
-  else
-    return -1;
 }
