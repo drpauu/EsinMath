@@ -57,7 +57,7 @@ expressio multiplicacio(expressio a, expressio b);
 
 expressio divisio(expressio a, expressio b) throw (error);
 
-expressio exponenciacio(expressio a, expressio b);
+expressio exponenciacio(expressio a, expressio b) throw (error);
 
 expressio canvi_de_signe(expressio a);
 
