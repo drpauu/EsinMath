@@ -194,6 +194,7 @@ void math_sessio::apply_all_substitutions(expressio &e) const throw(error)
           list<token> sub;
           ins.list_of_tokens(sub);
           afegir(sub); // afegeix els parenthesis
+          list<token>::iterator it;
           it = expre.insert(it, sub.begin(), sub.end());
           infinit.push_front(var);
           expre.erase(it);

@@ -14,19 +14,23 @@ node *_arrel;
 
 // totes les operacions que es necessiten:
 
-token operacio_corrent(token op, token a, token b);
-
 // en aquestes operacions s ha de posar error, pq no es por fer l arrel d un nombre negatiu per exemple
 
-expressio logaritme(expressio op);
+expressio operacio_corrent(token op, expressio a, expressio b);
 
-expressio exp_funct(expressio op);
+bool regla1(expressio a);
 
-expressio func_sqrt(expressio op);
+expressio logaritme(expressio op) throw (error);
+
+expressio exp_funct(expressio op) throw (error);
+
+expressio func_sqrt(expressio op) throw (error);
 
 expressio constructora_op(token t, expressio a, expressio b); // here
 
 expressio constructor_especial(token t, expressio e); // here
+
+expressio evalf(expressio b);
 
 static node *copia_nodes(node *m)
 {
