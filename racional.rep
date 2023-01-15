@@ -5,12 +5,46 @@ std::pair<int, int> _residu;
 
 
 std::pair<int, int> simplificar(int n, int d) throw(error);
-    //simplifica al màxim un nombre racional
+//Pre: Els paràmetres n i d són enters vàlids.
+//Post: Retorna un parell d'enters on el primer element és el numerador simplificat i el segon element 
+//      és el denominador simplificat del nombre racional (n/d) passat com a paràmetre.
+//      El nombre retornat estarà simplificat al màxim. Si el denominador és 0, es genera un error.
+//Cost: El cost d'aquesta funció és O(log min(n,d)), això es degut a que utilitza la funció mcd per calcular
+//      el mcd entre el numerador i denominador per simplificar el nombre racional.
+//      El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
+
 int mcd(int a, int b) throw();
-    //fa el mcd de a i b
+//Pre: Els paràmetres a i b són enters vàlids.
+//Post: Retorna el valor del màxim comú divisor (mcd) dels dos nombres passats com a paràmetres.
+//      Si els nombres són negatius, els converteix en positius abans de calcular el mcd.
+//Cost: El cost d'aquesta funció és O(log min(a,b)), això és degut a que utilitza l'algorisme d'Euclides
+//      per calcular el mcd. El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
+
 int mcm(int a, int b) throw();
-    //fa el mcm de a i b
+//Pre: Els paràmetres a i b són enters vàlids
+//Post: Retorna el valor del mínim comú múltiple (mcm) dels dos nombres passats com a paràmetres.
+//      Utilitza la funció mcd per calcular el mcm.
+//Cost: El cost d'aquesta funció és O(1) ja que només es realitzen operacions aritmètiques bàsiques
+//      (multiplicació i divisió) i una crida a la funció mcd que té un cost logarítmic.
+
+
+
 int calcula_part_entera() throw();
-    //calcula la part entera del racional
+//Pre: Els atributs _n i _d són enters vàlids i privats de la classe racional i
+//     contenen el numerador i denominador d'un nombre racional.
+//Post: Retorna el valor de la part entera del nombre racional (n/_d) utilitzant la funció
+//      floor de la biblioteca cmath.
+//Cost: El cost d'aquesta funció és O(1) només es realitza una divisió i una crida a la funció floor.
+
+
 std::pair<int, int> calcula_residu() throw(error);
-    //calcula el residu del racional
+//Pre: Els atributs _n i _d són enters vàlids i privats de la classe racional i contenen el numerador i
+//     denominador d'un nombre racional respectivament. El paràmetre _part_entera és un enter privat de la classe
+//     racional i conté la part entera del nombre racional (n/_d).
+//Post: Retorna un parell d'enters on el primer element és el numerador simplificat i el segon element és el
+//      denominador simplificat del residu del nombre racional (n/_d) passat com a paràmetre.
+//      El nombre retornat estarà simplificat al màxim. Si el denominador és 0, es genera un error.
+//Cost: El cost d'aquesta funció és O(log min(num_residu, _d)), això es degut a que utilitza la funció
+//      simplificar per calcular el mcd entre el numerador i denominador del residu per simplificar-lo.
+//      El cost és logarítmic perquè l'algorisme d'Euclides utilitza divisió per calcular el mcd.
+
